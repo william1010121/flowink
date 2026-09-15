@@ -1,0 +1,66 @@
+{
+  "name": "flowink",
+  "version": "0.1.0",
+  "description": "Render Mermaid flowcharts as ASCII and Unicode diagrams in Node.js and browsers",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "vendor/mermaid",
+    "LICENSE",
+    "NOTICE.md",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "generate": "node scripts/generate-parser.js",
+    "build": "npm run generate && node scripts/build.js",
+    "test": "node --test test/*.test.js",
+    "prepack": "npm run build",
+    "test:browser:build": "npm run build && node scripts/browser-smoke.js",
+    "test:types": "tsc --noEmit --skipLibCheck --module NodeNext --moduleResolution NodeNext --target ES2022 test/types.mts",
+    "test:package": "npm run build && node scripts/package-smoke.js"
+  },
+  "dependencies": {
+    "elkjs": "0.12.0",
+    "entities": "^6.0.1",
+    "js-yaml": "^4.1.0",
+    "marked": "^16.3.0",
+    "string-width": "^7.2.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "jison": "0.4.18",
+    "jsdom": "^26.1.0",
+    "mermaid": "12.0.0",
+    "typescript": "^5.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/william1010121/flowink.git"
+  },
+  "homepage": "https://github.com/william1010121/flowink#readme",
+  "bugs": {
+    "url": "https://github.com/william1010121/flowink/issues"
+  },
+  "keywords": [
+    "mermaid",
+    "flowchart",
+    "ascii",
+    "unicode",
+    "diagram",
+    "text"
+  ]
+}

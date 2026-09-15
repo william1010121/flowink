@@ -1,0 +1,3715 @@
+{
+  "baseline": {
+    "tag": "mermaid@12.0.0",
+    "commit": "98a0945418c76238f15df2afaddbba4272656c3b"
+  },
+  "cases": [
+    {
+      "id": "flow-arrows.spec.js:16:35",
+      "source": "graph TD;\nA-->B;",
+      "upstream": "flow-arrows.spec.js",
+      "line": 16,
+      "column": 35,
+      "index": 0
+    },
+    {
+      "id": "flow-arrows.spec.js:33:35",
+      "source": "graph >;A-->B;",
+      "upstream": "flow-arrows.spec.js",
+      "line": 33,
+      "column": 35,
+      "index": 1
+    },
+    {
+      "id": "flow-arrows.spec.js:53:35",
+      "source": "graph <;A-->B;",
+      "upstream": "flow-arrows.spec.js",
+      "line": 53,
+      "column": 35,
+      "index": 2
+    },
+    {
+      "id": "flow-arrows.spec.js:73:35",
+      "source": "graph ^;A-->B;",
+      "upstream": "flow-arrows.spec.js",
+      "line": 73,
+      "column": 35,
+      "index": 3
+    },
+    {
+      "id": "flow-arrows.spec.js:94:35",
+      "source": "graph v;A-->B;",
+      "upstream": "flow-arrows.spec.js",
+      "line": 94,
+      "column": 35,
+      "index": 4
+    },
+    {
+      "id": "flow-arrows.spec.js:114:35",
+      "source": "graph TD;A --> B;",
+      "upstream": "flow-arrows.spec.js",
+      "line": 114,
+      "column": 35,
+      "index": 5
+    },
+    {
+      "id": "flow-arrows.spec.js:131:35",
+      "source": "graph TD\nA --> B\n style e red",
+      "upstream": "flow-arrows.spec.js",
+      "line": 131,
+      "column": 35,
+      "index": 6
+    },
+    {
+      "id": "flow-arrows.spec.js:148:35",
+      "source": "graph TD\nA-->B\nB-->C",
+      "upstream": "flow-arrows.spec.js",
+      "line": 148,
+      "column": 35,
+      "index": 7
+    },
+    {
+      "id": "flow-arrows.spec.js:167:39",
+      "source": "graph TD;\nA<-->B;",
+      "upstream": "flow-arrows.spec.js",
+      "line": 167,
+      "column": 39,
+      "index": 8
+    },
+    {
+      "id": "flow-arrows.spec.js:184:39",
+      "source": "graph TD;\nA<-- text -->B;",
+      "upstream": "flow-arrows.spec.js",
+      "line": 184,
+      "column": 39,
+      "index": 9
+    },
+    {
+      "id": "flow-arrows.spec.js:201:39",
+      "source": "graph TD;\nA<==>B;",
+      "upstream": "flow-arrows.spec.js",
+      "line": 201,
+      "column": 39,
+      "index": 10
+    },
+    {
+      "id": "flow-arrows.spec.js:218:39",
+      "source": "graph TD;\nA<== text ==>B;",
+      "upstream": "flow-arrows.spec.js",
+      "line": 218,
+      "column": 39,
+      "index": 11
+    },
+    {
+      "id": "flow-arrows.spec.js:235:39",
+      "source": "graph TD;\nA<-.->B;",
+      "upstream": "flow-arrows.spec.js",
+      "line": 235,
+      "column": 39,
+      "index": 12
+    },
+    {
+      "id": "flow-arrows.spec.js:252:39",
+      "source": "graph TD;\nA<-. text .->B;",
+      "upstream": "flow-arrows.spec.js",
+      "line": 252,
+      "column": 39,
+      "index": 13
+    },
+    {
+      "id": "flow-comments.spec.js:17:35",
+      "source": "graph TD;\n A-->B;",
+      "upstream": "flow-comments.spec.js",
+      "line": 17,
+      "column": 35,
+      "index": 14
+    },
+    {
+      "id": "flow-comments.spec.js:47:35",
+      "source": "graph TD;\n A-->B\n",
+      "upstream": "flow-comments.spec.js",
+      "line": 47,
+      "column": 35,
+      "index": 15
+    },
+    {
+      "id": "flow-comments.spec.js:77:35",
+      "source": "graph TD;\n A-->B\n\n\n",
+      "upstream": "flow-comments.spec.js",
+      "line": 77,
+      "column": 35,
+      "index": 16
+    },
+    {
+      "id": "flow-comments.spec.js:92:35",
+      "source": "graph TD;\n A-->B",
+      "upstream": "flow-comments.spec.js",
+      "line": 92,
+      "column": 35,
+      "index": 17
+    },
+    {
+      "id": "flow-comments.spec.js:107:35",
+      "source": "graph TD;\n A-->B\n\n",
+      "upstream": "flow-comments.spec.js",
+      "line": 107,
+      "column": 35,
+      "index": 18
+    },
+    {
+      "id": "flow-direction.spec.js:17:35",
+      "source": "flowchart TB\n    subgraph A\n      a --> b\n    end",
+      "upstream": "flow-direction.spec.js",
+      "line": 17,
+      "column": 35,
+      "index": 19
+    },
+    {
+      "id": "flow-direction.spec.js:32:35",
+      "source": "flowchart TB\n    subgraph A\n      direction BT\n      a --> b\n    end",
+      "upstream": "flow-direction.spec.js",
+      "line": 32,
+      "column": 35,
+      "index": 20
+    },
+    {
+      "id": "flow-direction.spec.js:48:35",
+      "source": "flowchart TB\n    subgraph A\n      direction BT\n      a --> b\n      direction RL\n    end",
+      "upstream": "flow-direction.spec.js",
+      "line": 48,
+      "column": 35,
+      "index": 21
+    },
+    {
+      "id": "flow-direction.spec.js:66:35",
+      "source": "flowchart TB\n    subgraph A\n      direction RL\n      b-->B\n      a\n    end\n    a-->c\n    subgraph B\n      direction LR\n      c\n    end",
+      "upstream": "flow-direction.spec.js",
+      "line": 66,
+      "column": 35,
+      "index": 22
+    },
+    {
+      "id": "flow-edges.spec.js:71:35",
+      "source": "graph TD;A---B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 71,
+      "column": 35,
+      "index": 23
+    },
+    {
+      "id": "flow-edges.spec.js:78:35",
+      "source": "graph TD;A--xB;",
+      "upstream": "flow-edges.spec.js",
+      "line": 78,
+      "column": 35,
+      "index": 24
+    },
+    {
+      "id": "flow-edges.spec.js:85:35",
+      "source": "graph TD;A--oB;",
+      "upstream": "flow-edges.spec.js",
+      "line": 85,
+      "column": 35,
+      "index": 25
+    },
+    {
+      "id": "flow-edges.spec.js:128:39",
+      "source": "flowchart LR\nA id1@-->B\nA@{ shape: 'rect' }\n",
+      "upstream": "flow-edges.spec.js",
+      "line": 128,
+      "column": 39,
+      "index": 26
+    },
+    {
+      "id": "flow-edges.spec.js:220:7",
+      "source": "graph TD;A---|This is the 123 s text|B;\nA---|This is the second edge|B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 220,
+      "column": 7,
+      "index": 27
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_cross",
+      "source": "flowchart TD;\nA e1@----x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 28
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_cross",
+      "source": "flowchart TD;\nA e1@====x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 29
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_cross",
+      "source": "flowchart TD;\nA e1@-..-x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 30
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_circle",
+      "source": "flowchart TD;\nA e1@----o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 31
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_circle",
+      "source": "flowchart TD;\nA e1@====o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 32
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_circle",
+      "source": "flowchart TD;\nA e1@-..-o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 33
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_point",
+      "source": "flowchart TD;\nA e1@----> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 34
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_point",
+      "source": "flowchart TD;\nA e1@====> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 35
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_point",
+      "source": "flowchart TD;\nA e1@-..-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 36
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_cross",
+      "source": "flowchart TD;\nA e1@------x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 37
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_cross",
+      "source": "flowchart TD;\nA e1@======x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 38
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_cross",
+      "source": "flowchart TD;\nA e1@-....-x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 39
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_circle",
+      "source": "flowchart TD;\nA e1@------o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 40
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_circle",
+      "source": "flowchart TD;\nA e1@======o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 41
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_circle",
+      "source": "flowchart TD;\nA e1@-....-o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 42
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_point",
+      "source": "flowchart TD;\nA e1@------> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 43
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_point",
+      "source": "flowchart TD;\nA e1@======> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 44
+    },
+    {
+      "id": "flow-edges.spec.js:96:13:derived:regularEdges=arrow_point",
+      "source": "flowchart TD;\nA e1@-....-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 96,
+      "column": 13,
+      "derived": true,
+      "index": 45
+    },
+    {
+      "id": "flow-edges.spec.js:141:13:derived:doubleEndedEdges=double_arrow_cross",
+      "source": "flowchart TD;\nA e1@x-- label --x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 141,
+      "column": 13,
+      "derived": true,
+      "index": 46
+    },
+    {
+      "id": "flow-edges.spec.js:141:13:derived:doubleEndedEdges=double_arrow_cross",
+      "source": "flowchart TD;\nA e1@x== label ==x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 141,
+      "column": 13,
+      "derived": true,
+      "index": 47
+    },
+    {
+      "id": "flow-edges.spec.js:141:13:derived:doubleEndedEdges=double_arrow_cross",
+      "source": "flowchart TD;\nA e1@x-. label .-x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 141,
+      "column": 13,
+      "derived": true,
+      "index": 48
+    },
+    {
+      "id": "flow-edges.spec.js:141:13:derived:doubleEndedEdges=double_arrow_circle",
+      "source": "flowchart TD;\nA e1@o-- label --o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 141,
+      "column": 13,
+      "derived": true,
+      "index": 49
+    },
+    {
+      "id": "flow-edges.spec.js:141:13:derived:doubleEndedEdges=double_arrow_circle",
+      "source": "flowchart TD;\nA e1@o== label ==o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 141,
+      "column": 13,
+      "derived": true,
+      "index": 50
+    },
+    {
+      "id": "flow-edges.spec.js:141:13:derived:doubleEndedEdges=double_arrow_circle",
+      "source": "flowchart TD;\nA e1@o-. label .-o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 141,
+      "column": 13,
+      "derived": true,
+      "index": 51
+    },
+    {
+      "id": "flow-edges.spec.js:141:13:derived:doubleEndedEdges=double_arrow_point",
+      "source": "flowchart TD;\nA e1@<-- label --> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 141,
+      "column": 13,
+      "derived": true,
+      "index": 52
+    },
+    {
+      "id": "flow-edges.spec.js:141:13:derived:doubleEndedEdges=double_arrow_point",
+      "source": "flowchart TD;\nA e1@<== label ==> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 141,
+      "column": 13,
+      "derived": true,
+      "index": 53
+    },
+    {
+      "id": "flow-edges.spec.js:141:13:derived:doubleEndedEdges=double_arrow_point",
+      "source": "flowchart TD;\nA e1@<-. label .-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 141,
+      "column": 13,
+      "derived": true,
+      "index": 54
+    },
+    {
+      "id": "flow-edges.spec.js:162:39:derived:doubleEndedEdges=double_arrow_cross",
+      "source": "graph TD;\nA x----x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 162,
+      "column": 39,
+      "derived": true,
+      "index": 55
+    },
+    {
+      "id": "flow-edges.spec.js:162:39:derived:doubleEndedEdges=double_arrow_cross",
+      "source": "graph TD;\nA x====x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 162,
+      "column": 39,
+      "derived": true,
+      "index": 56
+    },
+    {
+      "id": "flow-edges.spec.js:162:39:derived:doubleEndedEdges=double_arrow_cross",
+      "source": "graph TD;\nA x-..-x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 162,
+      "column": 39,
+      "derived": true,
+      "index": 57
+    },
+    {
+      "id": "flow-edges.spec.js:162:39:derived:doubleEndedEdges=double_arrow_circle",
+      "source": "graph TD;\nA o----o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 162,
+      "column": 39,
+      "derived": true,
+      "index": 58
+    },
+    {
+      "id": "flow-edges.spec.js:162:39:derived:doubleEndedEdges=double_arrow_circle",
+      "source": "graph TD;\nA o====o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 162,
+      "column": 39,
+      "derived": true,
+      "index": 59
+    },
+    {
+      "id": "flow-edges.spec.js:162:39:derived:doubleEndedEdges=double_arrow_circle",
+      "source": "graph TD;\nA o-..-o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 162,
+      "column": 39,
+      "derived": true,
+      "index": 60
+    },
+    {
+      "id": "flow-edges.spec.js:162:39:derived:doubleEndedEdges=double_arrow_point",
+      "source": "graph TD;\nA <----> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 162,
+      "column": 39,
+      "derived": true,
+      "index": 61
+    },
+    {
+      "id": "flow-edges.spec.js:162:39:derived:doubleEndedEdges=double_arrow_point",
+      "source": "graph TD;\nA <====> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 162,
+      "column": 39,
+      "derived": true,
+      "index": 62
+    },
+    {
+      "id": "flow-edges.spec.js:162:39:derived:doubleEndedEdges=double_arrow_point",
+      "source": "graph TD;\nA <-..-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 162,
+      "column": 39,
+      "derived": true,
+      "index": 63
+    },
+    {
+      "id": "flow-edges.spec.js:179:11:derived:doubleEndedEdges=double_arrow_cross",
+      "source": "graph TD;\nA x-- text --x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 179,
+      "column": 11,
+      "derived": true,
+      "index": 64
+    },
+    {
+      "id": "flow-edges.spec.js:179:11:derived:doubleEndedEdges=double_arrow_cross",
+      "source": "graph TD;\nA x== text ==x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 179,
+      "column": 11,
+      "derived": true,
+      "index": 65
+    },
+    {
+      "id": "flow-edges.spec.js:179:11:derived:doubleEndedEdges=double_arrow_cross",
+      "source": "graph TD;\nA x-. text .-x B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 179,
+      "column": 11,
+      "derived": true,
+      "index": 66
+    },
+    {
+      "id": "flow-edges.spec.js:179:11:derived:doubleEndedEdges=double_arrow_circle",
+      "source": "graph TD;\nA o-- text --o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 179,
+      "column": 11,
+      "derived": true,
+      "index": 67
+    },
+    {
+      "id": "flow-edges.spec.js:179:11:derived:doubleEndedEdges=double_arrow_circle",
+      "source": "graph TD;\nA o== text ==o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 179,
+      "column": 11,
+      "derived": true,
+      "index": 68
+    },
+    {
+      "id": "flow-edges.spec.js:179:11:derived:doubleEndedEdges=double_arrow_circle",
+      "source": "graph TD;\nA o-. text .-o B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 179,
+      "column": 11,
+      "derived": true,
+      "index": 69
+    },
+    {
+      "id": "flow-edges.spec.js:179:11:derived:doubleEndedEdges=double_arrow_point",
+      "source": "graph TD;\nA <-- text --> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 179,
+      "column": 11,
+      "derived": true,
+      "index": 70
+    },
+    {
+      "id": "flow-edges.spec.js:179:11:derived:doubleEndedEdges=double_arrow_point",
+      "source": "graph TD;\nA <== text ==> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 179,
+      "column": 11,
+      "derived": true,
+      "index": 71
+    },
+    {
+      "id": "flow-edges.spec.js:179:11:derived:doubleEndedEdges=double_arrow_point",
+      "source": "graph TD;\nA <-. text .-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 179,
+      "column": 11,
+      "derived": true,
+      "index": 72
+    },
+    {
+      "id": "flow-edges.spec.js:245:39:derived:length=1",
+      "source": "graph TD;\nA --- B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 245,
+      "column": 39,
+      "derived": true,
+      "index": 73
+    },
+    {
+      "id": "flow-edges.spec.js:245:39:derived:length=2",
+      "source": "graph TD;\nA ---- B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 245,
+      "column": 39,
+      "derived": true,
+      "index": 74
+    },
+    {
+      "id": "flow-edges.spec.js:245:39:derived:length=3",
+      "source": "graph TD;\nA ----- B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 245,
+      "column": 39,
+      "derived": true,
+      "index": 75
+    },
+    {
+      "id": "flow-edges.spec.js:264:39:derived:length=1",
+      "source": "graph TD;\nA -- Label --- B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 264,
+      "column": 39,
+      "derived": true,
+      "index": 76
+    },
+    {
+      "id": "flow-edges.spec.js:264:39:derived:length=2",
+      "source": "graph TD;\nA -- Label ---- B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 264,
+      "column": 39,
+      "derived": true,
+      "index": 77
+    },
+    {
+      "id": "flow-edges.spec.js:264:39:derived:length=3",
+      "source": "graph TD;\nA -- Label ----- B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 264,
+      "column": 39,
+      "derived": true,
+      "index": 78
+    },
+    {
+      "id": "flow-edges.spec.js:283:39:derived:length=1",
+      "source": "graph TD;\nA --> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 283,
+      "column": 39,
+      "derived": true,
+      "index": 79
+    },
+    {
+      "id": "flow-edges.spec.js:283:39:derived:length=2",
+      "source": "graph TD;\nA ---> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 283,
+      "column": 39,
+      "derived": true,
+      "index": 80
+    },
+    {
+      "id": "flow-edges.spec.js:283:39:derived:length=3",
+      "source": "graph TD;\nA ----> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 283,
+      "column": 39,
+      "derived": true,
+      "index": 81
+    },
+    {
+      "id": "flow-edges.spec.js:302:39:derived:length=1",
+      "source": "graph TD;\nA -- Label --> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 302,
+      "column": 39,
+      "derived": true,
+      "index": 82
+    },
+    {
+      "id": "flow-edges.spec.js:302:39:derived:length=2",
+      "source": "graph TD;\nA -- Label ---> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 302,
+      "column": 39,
+      "derived": true,
+      "index": 83
+    },
+    {
+      "id": "flow-edges.spec.js:302:39:derived:length=3",
+      "source": "graph TD;\nA -- Label ----> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 302,
+      "column": 39,
+      "derived": true,
+      "index": 84
+    },
+    {
+      "id": "flow-edges.spec.js:321:39:derived:length=1",
+      "source": "graph TD;\nA <--> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 321,
+      "column": 39,
+      "derived": true,
+      "index": 85
+    },
+    {
+      "id": "flow-edges.spec.js:321:39:derived:length=2",
+      "source": "graph TD;\nA <---> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 321,
+      "column": 39,
+      "derived": true,
+      "index": 86
+    },
+    {
+      "id": "flow-edges.spec.js:340:39:derived:length=1",
+      "source": "graph TD;\nA <-- Label --> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 340,
+      "column": 39,
+      "derived": true,
+      "index": 87
+    },
+    {
+      "id": "flow-edges.spec.js:340:39:derived:length=2",
+      "source": "graph TD;\nA <-- Label ---> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 340,
+      "column": 39,
+      "derived": true,
+      "index": 88
+    },
+    {
+      "id": "flow-edges.spec.js:340:39:derived:length=3",
+      "source": "graph TD;\nA <-- Label ----> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 340,
+      "column": 39,
+      "derived": true,
+      "index": 89
+    },
+    {
+      "id": "flow-edges.spec.js:359:39:derived:length=1",
+      "source": "graph TD;\nA === B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 359,
+      "column": 39,
+      "derived": true,
+      "index": 90
+    },
+    {
+      "id": "flow-edges.spec.js:359:39:derived:length=2",
+      "source": "graph TD;\nA ==== B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 359,
+      "column": 39,
+      "derived": true,
+      "index": 91
+    },
+    {
+      "id": "flow-edges.spec.js:359:39:derived:length=3",
+      "source": "graph TD;\nA ===== B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 359,
+      "column": 39,
+      "derived": true,
+      "index": 92
+    },
+    {
+      "id": "flow-edges.spec.js:378:39:derived:length=1",
+      "source": "graph TD;\nA == Label === B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 378,
+      "column": 39,
+      "derived": true,
+      "index": 93
+    },
+    {
+      "id": "flow-edges.spec.js:378:39:derived:length=2",
+      "source": "graph TD;\nA == Label ==== B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 378,
+      "column": 39,
+      "derived": true,
+      "index": 94
+    },
+    {
+      "id": "flow-edges.spec.js:378:39:derived:length=3",
+      "source": "graph TD;\nA == Label ===== B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 378,
+      "column": 39,
+      "derived": true,
+      "index": 95
+    },
+    {
+      "id": "flow-edges.spec.js:397:39:derived:length=1",
+      "source": "graph TD;\nA ==> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 397,
+      "column": 39,
+      "derived": true,
+      "index": 96
+    },
+    {
+      "id": "flow-edges.spec.js:397:39:derived:length=2",
+      "source": "graph TD;\nA ===> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 397,
+      "column": 39,
+      "derived": true,
+      "index": 97
+    },
+    {
+      "id": "flow-edges.spec.js:397:39:derived:length=3",
+      "source": "graph TD;\nA ====> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 397,
+      "column": 39,
+      "derived": true,
+      "index": 98
+    },
+    {
+      "id": "flow-edges.spec.js:416:39:derived:length=1",
+      "source": "graph TD;\nA == Label ==> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 416,
+      "column": 39,
+      "derived": true,
+      "index": 99
+    },
+    {
+      "id": "flow-edges.spec.js:416:39:derived:length=2",
+      "source": "graph TD;\nA == Label ===> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 416,
+      "column": 39,
+      "derived": true,
+      "index": 100
+    },
+    {
+      "id": "flow-edges.spec.js:416:39:derived:length=3",
+      "source": "graph TD;\nA == Label ====> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 416,
+      "column": 39,
+      "derived": true,
+      "index": 101
+    },
+    {
+      "id": "flow-edges.spec.js:435:39:derived:length=1",
+      "source": "graph TD;\nA <==> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 435,
+      "column": 39,
+      "derived": true,
+      "index": 102
+    },
+    {
+      "id": "flow-edges.spec.js:435:39:derived:length=2",
+      "source": "graph TD;\nA <===> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 435,
+      "column": 39,
+      "derived": true,
+      "index": 103
+    },
+    {
+      "id": "flow-edges.spec.js:454:39:derived:length=1",
+      "source": "graph TD;\nA <== Label ==> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 454,
+      "column": 39,
+      "derived": true,
+      "index": 104
+    },
+    {
+      "id": "flow-edges.spec.js:454:39:derived:length=2",
+      "source": "graph TD;\nA <== Label ===> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 454,
+      "column": 39,
+      "derived": true,
+      "index": 105
+    },
+    {
+      "id": "flow-edges.spec.js:454:39:derived:length=3",
+      "source": "graph TD;\nA <== Label ====> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 454,
+      "column": 39,
+      "derived": true,
+      "index": 106
+    },
+    {
+      "id": "flow-edges.spec.js:473:39:derived:length=1",
+      "source": "graph TD;\nA -.- B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 473,
+      "column": 39,
+      "derived": true,
+      "index": 107
+    },
+    {
+      "id": "flow-edges.spec.js:473:39:derived:length=2",
+      "source": "graph TD;\nA -..- B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 473,
+      "column": 39,
+      "derived": true,
+      "index": 108
+    },
+    {
+      "id": "flow-edges.spec.js:473:39:derived:length=3",
+      "source": "graph TD;\nA -...- B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 473,
+      "column": 39,
+      "derived": true,
+      "index": 109
+    },
+    {
+      "id": "flow-edges.spec.js:492:39:derived:length=1",
+      "source": "graph TD;\nA -. Label .- B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 492,
+      "column": 39,
+      "derived": true,
+      "index": 110
+    },
+    {
+      "id": "flow-edges.spec.js:492:39:derived:length=2",
+      "source": "graph TD;\nA -. Label ..- B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 492,
+      "column": 39,
+      "derived": true,
+      "index": 111
+    },
+    {
+      "id": "flow-edges.spec.js:492:39:derived:length=3",
+      "source": "graph TD;\nA -. Label ...- B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 492,
+      "column": 39,
+      "derived": true,
+      "index": 112
+    },
+    {
+      "id": "flow-edges.spec.js:511:39:derived:length=1",
+      "source": "graph TD;\nA -.-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 511,
+      "column": 39,
+      "derived": true,
+      "index": 113
+    },
+    {
+      "id": "flow-edges.spec.js:511:39:derived:length=2",
+      "source": "graph TD;\nA -..-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 511,
+      "column": 39,
+      "derived": true,
+      "index": 114
+    },
+    {
+      "id": "flow-edges.spec.js:511:39:derived:length=3",
+      "source": "graph TD;\nA -...-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 511,
+      "column": 39,
+      "derived": true,
+      "index": 115
+    },
+    {
+      "id": "flow-edges.spec.js:530:39:derived:length=1",
+      "source": "graph TD;\nA -. Label .-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 530,
+      "column": 39,
+      "derived": true,
+      "index": 116
+    },
+    {
+      "id": "flow-edges.spec.js:530:39:derived:length=2",
+      "source": "graph TD;\nA -. Label ..-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 530,
+      "column": 39,
+      "derived": true,
+      "index": 117
+    },
+    {
+      "id": "flow-edges.spec.js:530:39:derived:length=3",
+      "source": "graph TD;\nA -. Label ...-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 530,
+      "column": 39,
+      "derived": true,
+      "index": 118
+    },
+    {
+      "id": "flow-edges.spec.js:549:39:derived:length=1",
+      "source": "graph TD;\nA <-.-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 549,
+      "column": 39,
+      "derived": true,
+      "index": 119
+    },
+    {
+      "id": "flow-edges.spec.js:549:39:derived:length=3",
+      "source": "graph TD;\nA <-...-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 549,
+      "column": 39,
+      "derived": true,
+      "index": 120
+    },
+    {
+      "id": "flow-edges.spec.js:568:39:derived:length=1",
+      "source": "graph TD;\nA <-. Label .-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 568,
+      "column": 39,
+      "derived": true,
+      "index": 121
+    },
+    {
+      "id": "flow-edges.spec.js:568:39:derived:length=2",
+      "source": "graph TD;\nA <-. Label ..-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 568,
+      "column": 39,
+      "derived": true,
+      "index": 122
+    },
+    {
+      "id": "flow-edges.spec.js:568:39:derived:length=3",
+      "source": "graph TD;\nA <-. Label ...-> B;",
+      "upstream": "flow-edges.spec.js",
+      "line": 568,
+      "column": 39,
+      "derived": true,
+      "index": 123
+    },
+    {
+      "id": "flow-interactions.spec.js:21:35",
+      "source": "graph TD\nA-->B\nclick A callback",
+      "upstream": "flow-interactions.spec.js",
+      "line": 21,
+      "column": 35,
+      "index": 124
+    },
+    {
+      "id": "flow-interactions.spec.js:31:35",
+      "source": "graph TD\nA-->B\nclick A call callback()",
+      "upstream": "flow-interactions.spec.js",
+      "line": 31,
+      "column": 35,
+      "index": 125
+    },
+    {
+      "id": "flow-interactions.spec.js:42:35",
+      "source": "graph TD\nA-->B\nclick A callback \"tooltip\"",
+      "upstream": "flow-interactions.spec.js",
+      "line": 42,
+      "column": 35,
+      "index": 126
+    },
+    {
+      "id": "flow-interactions.spec.js:54:35",
+      "source": "graph TD\nA-->B\nclick A call callback() \"tooltip\"",
+      "upstream": "flow-interactions.spec.js",
+      "line": 54,
+      "column": 35,
+      "index": 127
+    },
+    {
+      "id": "flow-interactions.spec.js:65:35",
+      "source": "graph TD\nA-->B\nclick A call callback(\"test0\", test1, test2)",
+      "upstream": "flow-interactions.spec.js",
+      "line": 65,
+      "column": 35,
+      "index": 128
+    },
+    {
+      "id": "flow-interactions.spec.js:75:35",
+      "source": "graph TD\nA-->B\nclick A \"click.html\"",
+      "upstream": "flow-interactions.spec.js",
+      "line": 75,
+      "column": 35,
+      "index": 129
+    },
+    {
+      "id": "flow-interactions.spec.js:85:35",
+      "source": "graph TD\nA-->B\nclick A href \"click.html\"",
+      "upstream": "flow-interactions.spec.js",
+      "line": 85,
+      "column": 35,
+      "index": 130
+    },
+    {
+      "id": "flow-interactions.spec.js:96:35",
+      "source": "graph TD\nA-->B\nclick A \"click.html\" \"tooltip\"",
+      "upstream": "flow-interactions.spec.js",
+      "line": 96,
+      "column": 35,
+      "index": 131
+    },
+    {
+      "id": "flow-interactions.spec.js:108:35",
+      "source": "graph TD\nA-->B\nclick A href \"click.html\" \"tooltip\"",
+      "upstream": "flow-interactions.spec.js",
+      "line": 108,
+      "column": 35,
+      "index": 132
+    },
+    {
+      "id": "flow-interactions.spec.js:119:35",
+      "source": "graph TD\nA-->B\nclick A \"click.html\" _blank",
+      "upstream": "flow-interactions.spec.js",
+      "line": 119,
+      "column": 35,
+      "index": 133
+    },
+    {
+      "id": "flow-interactions.spec.js:129:35",
+      "source": "graph TD\nA-->B\nclick A href \"click.html\" _blank",
+      "upstream": "flow-interactions.spec.js",
+      "line": 129,
+      "column": 35,
+      "index": 134
+    },
+    {
+      "id": "flow-interactions.spec.js:140:35",
+      "source": "graph TD\nA-->B\nclick A \"click.html\" \"tooltip\" _blank",
+      "upstream": "flow-interactions.spec.js",
+      "line": 140,
+      "column": 35,
+      "index": 135
+    },
+    {
+      "id": "flow-interactions.spec.js:152:35",
+      "source": "graph TD\nA-->B\nclick A href \"click.html\" \"tooltip\" _blank",
+      "upstream": "flow-interactions.spec.js",
+      "line": 152,
+      "column": 35,
+      "index": 136
+    },
+    {
+      "id": "flow-lines.spec.js:16:35",
+      "source": "graph TD\nA-->B\nlinkStyle default interpolate basis",
+      "upstream": "flow-lines.spec.js",
+      "line": 16,
+      "column": 35,
+      "index": 137
+    },
+    {
+      "id": "flow-lines.spec.js:26:7",
+      "source": "graph TD\nA-->B\nA-->C\nlinkStyle 0 interpolate basis\nlinkStyle 1 interpolate cardinal",
+      "upstream": "flow-lines.spec.js",
+      "line": 26,
+      "column": 7,
+      "index": 138
+    },
+    {
+      "id": "flow-lines.spec.js:42:7",
+      "source": "graph TD\nA e1@-->B\nA uniqueName@-->C\ne1@{curve: basis}\nuniqueName@{curve: cardinal}",
+      "upstream": "flow-lines.spec.js",
+      "line": 42,
+      "column": 7,
+      "index": 139
+    },
+    {
+      "id": "flow-lines.spec.js:58:7",
+      "source": "graph TD\nA e1@-->B\nA-->C\nlinkStyle default interpolate linear\ne1@{curve: stepAfter}",
+      "upstream": "flow-lines.spec.js",
+      "line": 58,
+      "column": 7,
+      "index": 140
+    },
+    {
+      "id": "flow-lines.spec.js:74:7",
+      "source": "graph TD\nA e1@-->B-->D\nA-->C e4@-->D-->E\nlinkStyle default interpolate linear\nlinkStyle 1 interpolate basis\ne1@{curve: monotoneX}\ne4@{curve: stepBefore}",
+      "upstream": "flow-lines.spec.js",
+      "line": 74,
+      "column": 7,
+      "index": 141
+    },
+    {
+      "id": "flow-lines.spec.js:95:7",
+      "source": "graph TD\nA-->B\nA-->C\nlinkStyle 0,1 interpolate basis",
+      "upstream": "flow-lines.spec.js",
+      "line": 95,
+      "column": 7,
+      "index": 142
+    },
+    {
+      "id": "flow-lines.spec.js:107:7",
+      "source": "graph TD\nA-->B\nlinkStyle default interpolate basis stroke-width:1px;",
+      "upstream": "flow-lines.spec.js",
+      "line": 107,
+      "column": 7,
+      "index": 143
+    },
+    {
+      "id": "flow-lines.spec.js:118:7",
+      "source": "graph TD\nA-->B\nA-->C\nlinkStyle 0 interpolate basis stroke-width:1px;\nlinkStyle 1 interpolate cardinal stroke-width:1px;",
+      "upstream": "flow-lines.spec.js",
+      "line": 118,
+      "column": 7,
+      "index": 144
+    },
+    {
+      "id": "flow-lines.spec.js:134:7",
+      "source": "graph TD\nA-->B\nA-->C\nlinkStyle 0,1 interpolate basis stroke-width:1px;",
+      "upstream": "flow-lines.spec.js",
+      "line": 134,
+      "column": 7,
+      "index": 145
+    },
+    {
+      "id": "flow-lines.spec.js:146:37",
+      "source": "graph TD;A-->B;",
+      "upstream": "flow-lines.spec.js",
+      "line": 146,
+      "column": 37,
+      "index": 146
+    },
+    {
+      "id": "flow-lines.spec.js:155:37",
+      "source": "graph TD;A-.->B;",
+      "upstream": "flow-lines.spec.js",
+      "line": 155,
+      "column": 37,
+      "index": 147
+    },
+    {
+      "id": "flow-lines.spec.js:164:37",
+      "source": "graph TD;A==>B;",
+      "upstream": "flow-lines.spec.js",
+      "line": 164,
+      "column": 37,
+      "index": 148
+    },
+    {
+      "id": "flow-md-string.spec.js:16:35",
+      "source": "flowchart\nA[\"`The cat in **the** hat`\"]-- \"`The *bat* in the chat`\" -->B[\"The dog in the hog\"] -- \"The rat in the mat\" -->C;",
+      "upstream": "flow-md-string.spec.js",
+      "line": 16,
+      "column": 35,
+      "index": 149
+    },
+    {
+      "id": "flow-md-string.spec.js:41:35",
+      "source": "flowchart LR\nsubgraph \"One\"\n  a(\"`The **cat**\n  in the hat`\") -- \"1o\" --> b{{\"`The **dog** in the hog`\"}}\nend\nsubgraph \"`**Two**`\"\n  c(\"`The **cat**\n  in the hat`\") -- \"`1o **ipa**`\" --> d(\"The dog in the hog\")\nend",
+      "upstream": "flow-md-string.spec.js",
+      "line": 41,
+      "column": 35,
+      "index": 150
+    },
+    {
+      "id": "flow-node-data.spec.js:17:35",
+      "source": "flowchart TB\n      D@{ shape: rounded}",
+      "upstream": "flow-node-data.spec.js",
+      "line": 17,
+      "column": 35,
+      "index": 151
+    },
+    {
+      "id": "flow-node-data.spec.js:26:35",
+      "source": "flowchart TB\n      D@{ shape: rounded }",
+      "upstream": "flow-node-data.spec.js",
+      "line": 26,
+      "column": 35,
+      "index": 152
+    },
+    {
+      "id": "flow-node-data.spec.js:36:35",
+      "source": "flowchart TB\n      D@{ shape: rounded } & E",
+      "upstream": "flow-node-data.spec.js",
+      "line": 36,
+      "column": 35,
+      "index": 153
+    },
+    {
+      "id": "flow-node-data.spec.js:46:35",
+      "source": "flowchart TB\n      D@{ shape: rounded } --> E",
+      "upstream": "flow-node-data.spec.js",
+      "line": 46,
+      "column": 35,
+      "index": 154
+    },
+    {
+      "id": "flow-node-data.spec.js:56:35",
+      "source": "flowchart TB\n      D@{ shape: rounded } & E --> F",
+      "upstream": "flow-node-data.spec.js",
+      "line": 56,
+      "column": 35,
+      "index": 155
+    },
+    {
+      "id": "flow-node-data.spec.js:66:35",
+      "source": "flowchart TB\n      D@{ shape: rounded } & E@{ shape: rounded } --> F",
+      "upstream": "flow-node-data.spec.js",
+      "line": 66,
+      "column": 35,
+      "index": 156
+    },
+    {
+      "id": "flow-node-data.spec.js:76:35",
+      "source": "flowchart TB\n      D@{ shape: rounded } & E@{ shape: rounded } --> F & G@{ shape: rounded }",
+      "upstream": "flow-node-data.spec.js",
+      "line": 76,
+      "column": 35,
+      "index": 157
+    },
+    {
+      "id": "flow-node-data.spec.js:86:35",
+      "source": "flowchart TB\n      D@{ shape: rounded } & E@{ shape: rounded } --> F@{ shape: rounded } & G@{ shape: rounded }",
+      "upstream": "flow-node-data.spec.js",
+      "line": 86,
+      "column": 35,
+      "index": 158
+    },
+    {
+      "id": "flow-node-data.spec.js:96:35",
+      "source": "flowchart TB\n         D@{ shape: rounded } & E@{ shape: rounded } --> F{ shape: rounded } & G{ shape: rounded }    ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 96,
+      "column": 35,
+      "index": 159
+    },
+    {
+      "id": "flow-node-data.spec.js:106:35",
+      "source": "flowchart TB\n      D@{shape: rounded}",
+      "upstream": "flow-node-data.spec.js",
+      "line": 106,
+      "column": 35,
+      "index": 160
+    },
+    {
+      "id": "flow-node-data.spec.js:117:35",
+      "source": "flowchart TB\n      D@{       shape: rounded}",
+      "upstream": "flow-node-data.spec.js",
+      "line": 117,
+      "column": 35,
+      "index": 161
+    },
+    {
+      "id": "flow-node-data.spec.js:128:35",
+      "source": "flowchart TB\n      D@{ shape: rounded         }",
+      "upstream": "flow-node-data.spec.js",
+      "line": 128,
+      "column": 35,
+      "index": 162
+    },
+    {
+      "id": "flow-node-data.spec.js:138:35",
+      "source": "flowchart TB\n      D@{ shape: rounded , label: \"DD\"}",
+      "upstream": "flow-node-data.spec.js",
+      "line": 138,
+      "column": 35,
+      "index": 163
+    },
+    {
+      "id": "flow-node-data.spec.js:148:35",
+      "source": "flowchart TB\n      A --> D@{\n        shape: circle\n        other: \"clock\"\n     }\n\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 148,
+      "column": 35,
+      "index": 164
+    },
+    {
+      "id": "flow-node-data.spec.js:166:35",
+      "source": "flowchart TB\n      A[hello]\n      B@{\n        shape: circle\n        other: \"clock\"\n     }\n      C[Hello]@{\n        shape: circle\n        other: \"clock\"\n     }\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 166,
+      "column": 35,
+      "index": 165
+    },
+    {
+      "id": "flow-node-data.spec.js:188:35",
+      "source": "flowchart TB\n      A@{\n        label: \"This is }\"\n        other: \"clock\"\n     }\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 188,
+      "column": 35,
+      "index": 166
+    },
+    {
+      "id": "flow-node-data.spec.js:202:25",
+      "source": "flowchart TB\n      A@{ shape: this-shape-does-not-exist }\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 202,
+      "column": 25,
+      "index": 167
+    },
+    {
+      "id": "flow-node-data.spec.js:210:25",
+      "source": "flowchart TB\n      A@{ shape: rect_left_inv_arrow }\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 210,
+      "column": 25,
+      "index": 168
+    },
+    {
+      "id": "flow-node-data.spec.js:216:35",
+      "source": "flowchart TB\n      A{This is a label}\n",
+      "upstream": "flow-node-data.spec.js",
+      "line": 216,
+      "column": 35,
+      "index": 169
+    },
+    {
+      "id": "flow-node-data.spec.js:226:35",
+      "source": "flowchart TB\n      A@{\n        label: |\n          This is a\n          multiline string\n        other: \"clock\"\n     }\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 226,
+      "column": 35,
+      "index": 170
+    },
+    {
+      "id": "flow-node-data.spec.js:241:35",
+      "source": "flowchart TB\n      A@{\n        label: \"This is a\n          multiline string\"\n        other: \"clock\"\n     }\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 241,
+      "column": 35,
+      "index": 171
+    },
+    {
+      "id": "flow-node-data.spec.js:255:35",
+      "source": "flowchart TB\n      A@{\n        label: \"This is a string with }\"\n        other: \"clock\"\n     }\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 255,
+      "column": 35,
+      "index": 172
+    },
+    {
+      "id": "flow-node-data.spec.js:268:35",
+      "source": "flowchart TB\n      A@{\n        label: \"This is a string with @\"\n        other: \"clock\"\n     }\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 268,
+      "column": 35,
+      "index": 173
+    },
+    {
+      "id": "flow-node-data.spec.js:281:35",
+      "source": "flowchart TB\n      A@{\n        label: \"This is a string with}\"\n        other: \"clock\"\n     }\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 281,
+      "column": 35,
+      "index": 174
+    },
+    {
+      "id": "flow-node-data.spec.js:295:35",
+      "source": "flowchart TB\n       n2[\"label for n2\"] &   n4@{ label: \"label for n4\"}   & n5@{ label: \"label for n5\"}\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 295,
+      "column": 35,
+      "index": 175
+    },
+    {
+      "id": "flow-node-data.spec.js:307:35",
+      "source": "flowchart TD\n    A[\"A\"] --> B[\"for B\"] &    C@{ label: \"for c\"} & E@{label : \"for E\"}\n    D@{label: \"for D\"}\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 307,
+      "column": 35,
+      "index": 176
+    },
+    {
+      "id": "flow-node-data.spec.js:322:35",
+      "source": "flowchart TD\n    A[\"@A@\"] --> B[\"@for@ B@\"] & C@{ label: \"@for@ c@\"} & E{\"`@for@ E@`\"} & D((\"@for@ D@\"))\n      H1{{\"@for@ H@\"}}\n      H2{{\"`@for@ H@`\"}}\n      Q1{\"@for@ Q@\"}\n      Q2{\"`@for@ Q@`\"}\n      AS1>\"@for@ AS@\"]\n      AS2>\"`@for@ AS@`\"]\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 322,
+      "column": 35,
+      "index": 177
+    },
+    {
+      "id": "flow-node-data.spec.js:348:35",
+      "source": "flowchart TD\n     A & B e1@--> C & D\n        A1 e2@--> C1 & D1\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 348,
+      "column": 35,
+      "index": 178
+    },
+    {
+      "id": "flow-node-data.spec.js:365:35",
+      "source": "flowchart TD\n     A & B e1@--> C & D\n        A1 e1@--> C1 & D1\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 365,
+      "column": 35,
+      "index": 179
+    },
+    {
+      "id": "flow-node-data.spec.js:382:35",
+      "source": "flowchart TD\n     A e1@--> B\n     C e2@--> D\n     E e3@--> F\n    e1@{ animate: true }\n    e2@{ animate: false }\n    e3@{ animate: true }\n    e3@{ animate: false }\n      ",
+      "upstream": "flow-node-data.spec.js",
+      "line": 382,
+      "column": 35,
+      "index": 180
+    },
+    {
+      "id": "flow-singlenode.spec.js:40:35",
+      "source": "graph TD;A;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 40,
+      "column": 35,
+      "index": 181
+    },
+    {
+      "id": "flow-singlenode.spec.js:50:35",
+      "source": "graph TD;A ;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 50,
+      "column": 35,
+      "index": 182
+    },
+    {
+      "id": "flow-singlenode.spec.js:61:35",
+      "source": "graph TD;a[A];",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 61,
+      "column": 35,
+      "index": 183
+    },
+    {
+      "id": "flow-singlenode.spec.js:85:35",
+      "source": "graph TD;a((A));",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 85,
+      "column": 35,
+      "index": 184
+    },
+    {
+      "id": "flow-singlenode.spec.js:96:35",
+      "source": "graph TD;a(A);",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 96,
+      "column": 35,
+      "index": 185
+    },
+    {
+      "id": "flow-singlenode.spec.js:107:35",
+      "source": "graph TD;a>A];",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 107,
+      "column": 35,
+      "index": 186
+    },
+    {
+      "id": "flow-singlenode.spec.js:118:35",
+      "source": "graph TD;a{A};",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 118,
+      "column": 35,
+      "index": 187
+    },
+    {
+      "id": "flow-singlenode.spec.js:129:35",
+      "source": "graph TD;a{A}   ;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 129,
+      "column": 35,
+      "index": 188
+    },
+    {
+      "id": "flow-singlenode.spec.js:140:35",
+      "source": "graph TD;a{A <br> end};",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 140,
+      "column": 35,
+      "index": 189
+    },
+    {
+      "id": "flow-singlenode.spec.js:152:35",
+      "source": "graph TD;a{{A}};",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 152,
+      "column": 35,
+      "index": 190
+    },
+    {
+      "id": "flow-singlenode.spec.js:163:35",
+      "source": "graph TD;a{{A <br> end}};",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 163,
+      "column": 35,
+      "index": 191
+    },
+    {
+      "id": "flow-singlenode.spec.js:175:35",
+      "source": "graph TD;a(A <br> end);",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 175,
+      "column": 35,
+      "index": 192
+    },
+    {
+      "id": "flow-singlenode.spec.js:187:35",
+      "source": "graph TD;a(((A)));",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 187,
+      "column": 35,
+      "index": 193
+    },
+    {
+      "id": "flow-singlenode.spec.js:198:35",
+      "source": "graph TD;a(((A)))   ;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 198,
+      "column": 35,
+      "index": 194
+    },
+    {
+      "id": "flow-singlenode.spec.js:209:35",
+      "source": "graph TD;a(((A <br> end)));",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 209,
+      "column": 35,
+      "index": 195
+    },
+    {
+      "id": "flow-singlenode.spec.js:221:35",
+      "source": "graph TD;id1;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 221,
+      "column": 35,
+      "index": 196
+    },
+    {
+      "id": "flow-singlenode.spec.js:232:35",
+      "source": "graph TD;1;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 232,
+      "column": 35,
+      "index": 197
+    },
+    {
+      "id": "flow-singlenode.spec.js:244:35",
+      "source": "graph TD;subgraph \"hello\";1;end;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 244,
+      "column": 35,
+      "index": 198
+    },
+    {
+      "id": "flow-singlenode.spec.js:255:35",
+      "source": "graph TD;1id;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 255,
+      "column": 35,
+      "index": 199
+    },
+    {
+      "id": "flow-singlenode.spec.js:266:35",
+      "source": "graph TD;i-d;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 266,
+      "column": 35,
+      "index": 200
+    },
+    {
+      "id": "flow-singlenode.spec.js:277:35",
+      "source": "graph TD;i_d;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 277,
+      "column": 35,
+      "index": 201
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=graph",
+      "source": "graph TD;a-graph-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 202
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=flowchart",
+      "source": "graph TD;a-flowchart-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 203
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=flowchart-elk",
+      "source": "graph TD;a-flowchart-elk-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 204
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=style",
+      "source": "graph TD;a-style-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 205
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=default",
+      "source": "graph TD;a-default-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 206
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=linkStyle",
+      "source": "graph TD;a-linkStyle-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 207
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=interpolate",
+      "source": "graph TD;a-interpolate-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 208
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=classDef",
+      "source": "graph TD;a-classDef-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 209
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=class",
+      "source": "graph TD;a-class-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 210
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=href",
+      "source": "graph TD;a-href-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 211
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=call",
+      "source": "graph TD;a-call-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 212
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=click",
+      "source": "graph TD;a-click-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 213
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=_self",
+      "source": "graph TD;a-_self-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 214
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=_blank",
+      "source": "graph TD;a-_blank-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 215
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=_parent",
+      "source": "graph TD;a-_parent-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 216
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=_top",
+      "source": "graph TD;a-_top-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 217
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=end",
+      "source": "graph TD;a-end-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 218
+    },
+    {
+      "id": "flow-singlenode.spec.js:287:35:derived:keywords=subgraph",
+      "source": "graph TD;a-subgraph-node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 287,
+      "column": 35,
+      "derived": true,
+      "index": 219
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=graph",
+      "source": "graph TD;a.graph.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 220
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=flowchart",
+      "source": "graph TD;a.flowchart.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 221
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=flowchart-elk",
+      "source": "graph TD;a.flowchart-elk.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 222
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=style",
+      "source": "graph TD;a.style.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 223
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=default",
+      "source": "graph TD;a.default.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 224
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=linkStyle",
+      "source": "graph TD;a.linkStyle.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 225
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=interpolate",
+      "source": "graph TD;a.interpolate.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 226
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=classDef",
+      "source": "graph TD;a.classDef.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 227
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=class",
+      "source": "graph TD;a.class.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 228
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=href",
+      "source": "graph TD;a.href.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 229
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=call",
+      "source": "graph TD;a.call.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 230
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=click",
+      "source": "graph TD;a.click.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 231
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=_self",
+      "source": "graph TD;a._self.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 232
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=_blank",
+      "source": "graph TD;a._blank.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 233
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=_parent",
+      "source": "graph TD;a._parent.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 234
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=_top",
+      "source": "graph TD;a._top.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 235
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=end",
+      "source": "graph TD;a.end.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 236
+    },
+    {
+      "id": "flow-singlenode.spec.js:293:35:derived:keywords=subgraph",
+      "source": "graph TD;a.subgraph.node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 293,
+      "column": 35,
+      "derived": true,
+      "index": 237
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=graph",
+      "source": "graph TD;a_graph_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 238
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=flowchart",
+      "source": "graph TD;a_flowchart_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 239
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=flowchart-elk",
+      "source": "graph TD;a_flowchart-elk_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 240
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=style",
+      "source": "graph TD;a_style_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 241
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=default",
+      "source": "graph TD;a_default_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 242
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=linkStyle",
+      "source": "graph TD;a_linkStyle_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 243
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=interpolate",
+      "source": "graph TD;a_interpolate_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 244
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=classDef",
+      "source": "graph TD;a_classDef_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 245
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=class",
+      "source": "graph TD;a_class_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 246
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=href",
+      "source": "graph TD;a_href_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 247
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=call",
+      "source": "graph TD;a_call_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 248
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=click",
+      "source": "graph TD;a_click_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 249
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=_self",
+      "source": "graph TD;a__self_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 250
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=_blank",
+      "source": "graph TD;a__blank_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 251
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=_parent",
+      "source": "graph TD;a__parent_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 252
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=_top",
+      "source": "graph TD;a__top_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 253
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=end",
+      "source": "graph TD;a_end_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 254
+    },
+    {
+      "id": "flow-singlenode.spec.js:299:35:derived:keywords=subgraph",
+      "source": "graph TD;a_subgraph_node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 299,
+      "column": 35,
+      "derived": true,
+      "index": 255
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=graph",
+      "source": "graph TD;node_graph;node.graph;node-graph;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 256
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=flowchart",
+      "source": "graph TD;node_flowchart;node.flowchart;node-flowchart;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 257
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=flowchart-elk",
+      "source": "graph TD;node_flowchart-elk;node.flowchart-elk;node-flowchart-elk;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 258
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=style",
+      "source": "graph TD;node_style;node.style;node-style;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 259
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=default",
+      "source": "graph TD;node_default;node.default;node-default;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 260
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=linkStyle",
+      "source": "graph TD;node_linkStyle;node.linkStyle;node-linkStyle;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 261
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=interpolate",
+      "source": "graph TD;node_interpolate;node.interpolate;node-interpolate;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 262
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=classDef",
+      "source": "graph TD;node_classDef;node.classDef;node-classDef;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 263
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=class",
+      "source": "graph TD;node_class;node.class;node-class;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 264
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=href",
+      "source": "graph TD;node_href;node.href;node-href;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 265
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=call",
+      "source": "graph TD;node_call;node.call;node-call;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 266
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=click",
+      "source": "graph TD;node_click;node.click;node-click;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 267
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=_self",
+      "source": "graph TD;node__self;node._self;node-_self;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 268
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=_blank",
+      "source": "graph TD;node__blank;node._blank;node-_blank;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 269
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=_parent",
+      "source": "graph TD;node__parent;node._parent;node-_parent;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 270
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=_top",
+      "source": "graph TD;node__top;node._top;node-_top;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 271
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=end",
+      "source": "graph TD;node_end;node.end;node-end;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 272
+    },
+    {
+      "id": "flow-singlenode.spec.js:305:35:derived:keywords=subgraph",
+      "source": "graph TD;node_subgraph;node.subgraph;node-subgraph;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 305,
+      "column": 35,
+      "derived": true,
+      "index": 273
+    },
+    {
+      "id": "flow-singlenode.spec.js:338:23:derived:workingKeywords=default",
+      "source": "graph TD; default.node;default-node;default/node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 338,
+      "column": 23,
+      "derived": true,
+      "index": 274
+    },
+    {
+      "id": "flow-singlenode.spec.js:338:23:derived:workingKeywords=href",
+      "source": "graph TD; href.node;href-node;href/node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 338,
+      "column": 23,
+      "derived": true,
+      "index": 275
+    },
+    {
+      "id": "flow-singlenode.spec.js:338:23:derived:workingKeywords=click",
+      "source": "graph TD; click.node;click-node;click/node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 338,
+      "column": 23,
+      "derived": true,
+      "index": 276
+    },
+    {
+      "id": "flow-singlenode.spec.js:338:23:derived:workingKeywords=call",
+      "source": "graph TD; call.node;call-node;call/node;",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 338,
+      "column": 23,
+      "derived": true,
+      "index": 277
+    },
+    {
+      "id": "flow-singlenode.spec.js:348:25:derived:specialChars=#",
+      "source": "graph TD; # --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 348,
+      "column": 25,
+      "derived": true,
+      "index": 278
+    },
+    {
+      "id": "flow-singlenode.spec.js:348:25:derived:specialChars=:",
+      "source": "graph TD; : --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 348,
+      "column": 25,
+      "derived": true,
+      "index": 279
+    },
+    {
+      "id": "flow-singlenode.spec.js:348:25:derived:specialChars=0",
+      "source": "graph TD; 0 --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 348,
+      "column": 25,
+      "derived": true,
+      "index": 280
+    },
+    {
+      "id": "flow-singlenode.spec.js:348:25:derived:specialChars=&",
+      "source": "graph TD; & --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 348,
+      "column": 25,
+      "derived": true,
+      "index": 281
+    },
+    {
+      "id": "flow-singlenode.spec.js:348:25:derived:specialChars=,",
+      "source": "graph TD; , --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 348,
+      "column": 25,
+      "derived": true,
+      "index": 282
+    },
+    {
+      "id": "flow-singlenode.spec.js:348:25:derived:specialChars=*",
+      "source": "graph TD; * --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 348,
+      "column": 25,
+      "derived": true,
+      "index": 283
+    },
+    {
+      "id": "flow-singlenode.spec.js:348:25:derived:specialChars=.",
+      "source": "graph TD; . --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 348,
+      "column": 25,
+      "derived": true,
+      "index": 284
+    },
+    {
+      "id": "flow-singlenode.spec.js:348:25:derived:specialChars=\\",
+      "source": "graph TD; \\ --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 348,
+      "column": 25,
+      "derived": true,
+      "index": 285
+    },
+    {
+      "id": "flow-singlenode.spec.js:348:25:derived:specialChars=v",
+      "source": "graph TD; v --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 348,
+      "column": 25,
+      "derived": true,
+      "index": 286
+    },
+    {
+      "id": "flow-singlenode.spec.js:348:25:derived:specialChars=-",
+      "source": "graph TD; - --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 348,
+      "column": 25,
+      "derived": true,
+      "index": 287
+    },
+    {
+      "id": "flow-singlenode.spec.js:348:25:derived:specialChars=/",
+      "source": "graph TD; / --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 348,
+      "column": 25,
+      "derived": true,
+      "index": 288
+    },
+    {
+      "id": "flow-singlenode.spec.js:348:25:derived:specialChars=_",
+      "source": "graph TD; _ --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 348,
+      "column": 25,
+      "derived": true,
+      "index": 289
+    },
+    {
+      "id": "flow-singlenode.spec.js:357:25:derived:specialChars=#",
+      "source": "graph TD; #node --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 357,
+      "column": 25,
+      "derived": true,
+      "index": 290
+    },
+    {
+      "id": "flow-singlenode.spec.js:357:25:derived:specialChars=:",
+      "source": "graph TD; :node --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 357,
+      "column": 25,
+      "derived": true,
+      "index": 291
+    },
+    {
+      "id": "flow-singlenode.spec.js:357:25:derived:specialChars=0",
+      "source": "graph TD; 0node --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 357,
+      "column": 25,
+      "derived": true,
+      "index": 292
+    },
+    {
+      "id": "flow-singlenode.spec.js:357:25:derived:specialChars=&",
+      "source": "graph TD; &node --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 357,
+      "column": 25,
+      "derived": true,
+      "index": 293
+    },
+    {
+      "id": "flow-singlenode.spec.js:357:25:derived:specialChars=,",
+      "source": "graph TD; ,node --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 357,
+      "column": 25,
+      "derived": true,
+      "index": 294
+    },
+    {
+      "id": "flow-singlenode.spec.js:357:25:derived:specialChars=*",
+      "source": "graph TD; *node --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 357,
+      "column": 25,
+      "derived": true,
+      "index": 295
+    },
+    {
+      "id": "flow-singlenode.spec.js:357:25:derived:specialChars=.",
+      "source": "graph TD; .node --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 357,
+      "column": 25,
+      "derived": true,
+      "index": 296
+    },
+    {
+      "id": "flow-singlenode.spec.js:357:25:derived:specialChars=\\",
+      "source": "graph TD; \\node --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 357,
+      "column": 25,
+      "derived": true,
+      "index": 297
+    },
+    {
+      "id": "flow-singlenode.spec.js:357:25:derived:specialChars=v",
+      "source": "graph TD; vnode --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 357,
+      "column": 25,
+      "derived": true,
+      "index": 298
+    },
+    {
+      "id": "flow-singlenode.spec.js:357:25:derived:specialChars=-",
+      "source": "graph TD; -node --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 357,
+      "column": 25,
+      "derived": true,
+      "index": 299
+    },
+    {
+      "id": "flow-singlenode.spec.js:357:25:derived:specialChars=/",
+      "source": "graph TD; /node --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 357,
+      "column": 25,
+      "derived": true,
+      "index": 300
+    },
+    {
+      "id": "flow-singlenode.spec.js:357:25:derived:specialChars=_",
+      "source": "graph TD; _node --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 357,
+      "column": 25,
+      "derived": true,
+      "index": 301
+    },
+    {
+      "id": "flow-singlenode.spec.js:366:25:derived:specialChars=#",
+      "source": "graph TD; node# --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 366,
+      "column": 25,
+      "derived": true,
+      "index": 302
+    },
+    {
+      "id": "flow-singlenode.spec.js:366:25:derived:specialChars=:",
+      "source": "graph TD; node: --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 366,
+      "column": 25,
+      "derived": true,
+      "index": 303
+    },
+    {
+      "id": "flow-singlenode.spec.js:366:25:derived:specialChars=0",
+      "source": "graph TD; node0 --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 366,
+      "column": 25,
+      "derived": true,
+      "index": 304
+    },
+    {
+      "id": "flow-singlenode.spec.js:366:25:derived:specialChars=&",
+      "source": "graph TD; node& --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 366,
+      "column": 25,
+      "derived": true,
+      "index": 305
+    },
+    {
+      "id": "flow-singlenode.spec.js:366:25:derived:specialChars=,",
+      "source": "graph TD; node, --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 366,
+      "column": 25,
+      "derived": true,
+      "index": 306
+    },
+    {
+      "id": "flow-singlenode.spec.js:366:25:derived:specialChars=*",
+      "source": "graph TD; node* --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 366,
+      "column": 25,
+      "derived": true,
+      "index": 307
+    },
+    {
+      "id": "flow-singlenode.spec.js:366:25:derived:specialChars=.",
+      "source": "graph TD; node. --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 366,
+      "column": 25,
+      "derived": true,
+      "index": 308
+    },
+    {
+      "id": "flow-singlenode.spec.js:366:25:derived:specialChars=\\",
+      "source": "graph TD; node\\ --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 366,
+      "column": 25,
+      "derived": true,
+      "index": 309
+    },
+    {
+      "id": "flow-singlenode.spec.js:366:25:derived:specialChars=v",
+      "source": "graph TD; nodev --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 366,
+      "column": 25,
+      "derived": true,
+      "index": 310
+    },
+    {
+      "id": "flow-singlenode.spec.js:366:25:derived:specialChars=-",
+      "source": "graph TD; node- --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 366,
+      "column": 25,
+      "derived": true,
+      "index": 311
+    },
+    {
+      "id": "flow-singlenode.spec.js:366:25:derived:specialChars=/",
+      "source": "graph TD; node/ --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 366,
+      "column": 25,
+      "derived": true,
+      "index": 312
+    },
+    {
+      "id": "flow-singlenode.spec.js:366:25:derived:specialChars=_",
+      "source": "graph TD; node_ --> A",
+      "upstream": "flow-singlenode.spec.js",
+      "line": 366,
+      "column": 25,
+      "derived": true,
+      "index": 313
+    },
+    {
+      "id": "flow-style.spec.js:20:35",
+      "source": "graph TD;style Q background:#fff;",
+      "upstream": "flow-style.spec.js",
+      "line": 20,
+      "column": 35,
+      "index": 314
+    },
+    {
+      "id": "flow-style.spec.js:30:35",
+      "source": "graph TD;style R background:#fff,border:1px solid red;",
+      "upstream": "flow-style.spec.js",
+      "line": 30,
+      "column": 35,
+      "index": 315
+    },
+    {
+      "id": "flow-style.spec.js:42:7",
+      "source": "graph TD;style S background:#aaa;\nstyle T background:#bbb,border:1px solid red;",
+      "upstream": "flow-style.spec.js",
+      "line": 42,
+      "column": 7,
+      "index": 316
+    },
+    {
+      "id": "flow-style.spec.js:57:7",
+      "source": "graph TD;S-->T;\nstyle S background:#aaa;\nstyle T background:#bbb,border:1px solid red;",
+      "upstream": "flow-style.spec.js",
+      "line": 57,
+      "column": 7,
+      "index": 317
+    },
+    {
+      "id": "flow-style.spec.js:71:35",
+      "source": "graph TD;style T background:#bbb,border:1px solid red;",
+      "upstream": "flow-style.spec.js",
+      "line": 71,
+      "column": 35,
+      "index": 318
+    },
+    {
+      "id": "flow-style.spec.js:83:7",
+      "source": "graph TD;A(( ));B((Test));C;style A background:#fff;style D border:1px solid red;",
+      "upstream": "flow-style.spec.js",
+      "line": 83,
+      "column": 7,
+      "index": 319
+    },
+    {
+      "id": "flow-style.spec.js:96:7",
+      "source": "graph TD;classDef exClass background:#bbb,border:1px solid red;",
+      "upstream": "flow-style.spec.js",
+      "line": 96,
+      "column": 7,
+      "index": 320
+    },
+    {
+      "id": "flow-style.spec.js:109:7",
+      "source": "graph TD;classDef firstClass,secondClass background:#bbb,border:1px solid red;",
+      "upstream": "flow-style.spec.js",
+      "line": 109,
+      "column": 7,
+      "index": 321
+    },
+    {
+      "id": "flow-style.spec.js:125:7",
+      "source": "graph TD;classDef exClass background:#bbb,border:1.5px solid red;",
+      "upstream": "flow-style.spec.js",
+      "line": 125,
+      "column": 7,
+      "index": 322
+    },
+    {
+      "id": "flow-style.spec.js:137:7",
+      "source": "graph TD;classDef exClass background:  #bbb,border:1.5px solid red;",
+      "upstream": "flow-style.spec.js",
+      "line": 137,
+      "column": 7,
+      "index": 323
+    },
+    {
+      "id": "flow-style.spec.js:268:7",
+      "source": "graph TD\nA-->B1\nA-->B2\nA-->B3\nA-->B4\nA-->B5\nA-->B6\nA-->B7\nA-->B8\nA-->B9\nA-->B10\nA-->B11\nlinkStyle 10 stroke-width:1px;",
+      "upstream": "flow-style.spec.js",
+      "line": 268,
+      "column": 7,
+      "index": 324
+    },
+    {
+      "id": "flow-style.spec.js:304:35",
+      "source": "graph TD\n    A-->B\n    linkStyle 0 stroke-width:1px;",
+      "upstream": "flow-style.spec.js",
+      "line": 304,
+      "column": 35,
+      "index": 325
+    },
+    {
+      "id": "flow-style.spec.js:315:7",
+      "source": "graph TD\nA-->B1\nA-->B2\nA-->B3\nA-->B4\nA-->B5\nA-->B6\nA-->B7\nA-->B8\nA-->B9\nA-->B10\nA-->B11\nA-->B12\nlinkStyle 10,11 stroke-width:1px;",
+      "upstream": "flow-style.spec.js",
+      "line": 315,
+      "column": 7,
+      "index": 326
+    },
+    {
+      "id": "flow-style.spec.js:338:35",
+      "source": "graph TD\nA-->B\nclassDef exClass font-style:bold;",
+      "upstream": "flow-style.spec.js",
+      "line": 338,
+      "column": 35,
+      "index": 327
+    },
+    {
+      "id": "flow-style.spec.js:348:7",
+      "source": "graph TD\nA-->B\nclassDef exClass fill:#f96,stroke:#333,stroke-width:4px,font-size:50%,font-style:bold;",
+      "upstream": "flow-style.spec.js",
+      "line": 348,
+      "column": 7,
+      "index": 328
+    },
+    {
+      "id": "flow-style.spec.js:359:35",
+      "source": "graph TD;\nAA-->BB;\nstyle A fill:#f00;",
+      "upstream": "flow-style.spec.js",
+      "line": 359,
+      "column": 35,
+      "index": 329
+    },
+    {
+      "id": "flow-style.spec.js:375:35",
+      "source": "\n    graph TD\n      classDef C1 stroke-dasharray:4\n      classDef C2 stroke-dasharray:6\n      A & B:::C1 & D:::C1 --> E:::C2\n    ",
+      "upstream": "flow-style.spec.js",
+      "line": 375,
+      "column": 35,
+      "index": 330
+    },
+    {
+      "id": "flow-text.spec.js:17:37",
+      "source": "graph TD;A--x|textNoSpace|B;",
+      "upstream": "flow-text.spec.js",
+      "line": 17,
+      "column": 37,
+      "index": 331
+    },
+    {
+      "id": "flow-text.spec.js:26:37",
+      "source": "graph TD;A--x|text including space|B;",
+      "upstream": "flow-text.spec.js",
+      "line": 26,
+      "column": 37,
+      "index": 332
+    },
+    {
+      "id": "flow-text.spec.js:35:37",
+      "source": "graph TD;A--x|text with / should work|B;",
+      "upstream": "flow-text.spec.js",
+      "line": 35,
+      "column": 37,
+      "index": 333
+    },
+    {
+      "id": "flow-text.spec.js:44:37",
+      "source": "graph TD;A --x|textNoSpace| B;",
+      "upstream": "flow-text.spec.js",
+      "line": 44,
+      "column": 37,
+      "index": 334
+    },
+    {
+      "id": "flow-text.spec.js:53:37",
+      "source": "graph TD;A--x|text including CAPS space|B;",
+      "upstream": "flow-text.spec.js",
+      "line": 53,
+      "column": 37,
+      "index": 335
+    },
+    {
+      "id": "flow-text.spec.js:62:37",
+      "source": "graph TD;A--x|text including URL space|B;",
+      "upstream": "flow-text.spec.js",
+      "line": 62,
+      "column": 37,
+      "index": 336
+    },
+    {
+      "id": "flow-text.spec.js:72:37",
+      "source": "graph TD;A--text including URL space and send-->B;",
+      "upstream": "flow-text.spec.js",
+      "line": 72,
+      "column": 37,
+      "index": 337
+    },
+    {
+      "id": "flow-text.spec.js:81:37",
+      "source": "graph TD;A-- text including URL space and send -->B;",
+      "upstream": "flow-text.spec.js",
+      "line": 81,
+      "column": 37,
+      "index": 338
+    },
+    {
+      "id": "flow-text.spec.js:91:37",
+      "source": "graph TD;A--x|text including R TD space|B;",
+      "upstream": "flow-text.spec.js",
+      "line": 91,
+      "column": 37,
+      "index": 339
+    },
+    {
+      "id": "flow-text.spec.js:100:37",
+      "source": "graph TD;A--x|text including `|B;",
+      "upstream": "flow-text.spec.js",
+      "line": 100,
+      "column": 37,
+      "index": 340
+    },
+    {
+      "id": "flow-text.spec.js:110:37",
+      "source": "graph TD;A--xv(my text);",
+      "upstream": "flow-text.spec.js",
+      "line": 110,
+      "column": 37,
+      "index": 341
+    },
+    {
+      "id": "flow-text.spec.js:120:37",
+      "source": "graph TD;A--xcsv(my text);",
+      "upstream": "flow-text.spec.js",
+      "line": 120,
+      "column": 37,
+      "index": 342
+    },
+    {
+      "id": "flow-text.spec.js:130:37",
+      "source": "graph TD;A--xava(my text);",
+      "upstream": "flow-text.spec.js",
+      "line": 130,
+      "column": 37,
+      "index": 343
+    },
+    {
+      "id": "flow-text.spec.js:140:37",
+      "source": "graph TD;A--xva(my text);",
+      "upstream": "flow-text.spec.js",
+      "line": 140,
+      "column": 37,
+      "index": 344
+    },
+    {
+      "id": "flow-text.spec.js:149:37",
+      "source": "graph TD;A--x|text including graph space|B;",
+      "upstream": "flow-text.spec.js",
+      "line": 149,
+      "column": 37,
+      "index": 345
+    },
+    {
+      "id": "flow-text.spec.js:157:37",
+      "source": "graph TD;V-->a[v]",
+      "upstream": "flow-text.spec.js",
+      "line": 157,
+      "column": 37,
+      "index": 346
+    },
+    {
+      "id": "flow-text.spec.js:163:37",
+      "source": "graph TD;V-- \"test string()\" -->a[v]",
+      "upstream": "flow-text.spec.js",
+      "line": 163,
+      "column": 37,
+      "index": 347
+    },
+    {
+      "id": "flow-text.spec.js:172:37",
+      "source": "graph TD;A-- test text with == -->B;",
+      "upstream": "flow-text.spec.js",
+      "line": 172,
+      "column": 37,
+      "index": 348
+    },
+    {
+      "id": "flow-text.spec.js:180:37",
+      "source": "graph TD;A-. test text with == .->B;",
+      "upstream": "flow-text.spec.js",
+      "line": 180,
+      "column": 37,
+      "index": 349
+    },
+    {
+      "id": "flow-text.spec.js:188:37",
+      "source": "graph TD;A== test text with - ==>B;",
+      "upstream": "flow-text.spec.js",
+      "line": 188,
+      "column": 37,
+      "index": 350
+    },
+    {
+      "id": "flow-text.spec.js:199:37",
+      "source": "graph TD;A-- textNoSpace --xB;",
+      "upstream": "flow-text.spec.js",
+      "line": 199,
+      "column": 37,
+      "index": 351
+    },
+    {
+      "id": "flow-text.spec.js:208:37",
+      "source": "graph TD;A--    textNoSpace --xB;",
+      "upstream": "flow-text.spec.js",
+      "line": 208,
+      "column": 37,
+      "index": 352
+    },
+    {
+      "id": "flow-text.spec.js:217:37",
+      "source": "graph TD;A-- text including space --xB;",
+      "upstream": "flow-text.spec.js",
+      "line": 217,
+      "column": 37,
+      "index": 353
+    },
+    {
+      "id": "flow-text.spec.js:226:37",
+      "source": "graph TD;A -- text with / should work --x B;",
+      "upstream": "flow-text.spec.js",
+      "line": 226,
+      "column": 37,
+      "index": 354
+    },
+    {
+      "id": "flow-text.spec.js:235:37",
+      "source": "graph TD;A -- textNoSpace --x B;",
+      "upstream": "flow-text.spec.js",
+      "line": 235,
+      "column": 37,
+      "index": 355
+    },
+    {
+      "id": "flow-text.spec.js:244:37",
+      "source": "graph TD;A-- text including CAPS space --xB;",
+      "upstream": "flow-text.spec.js",
+      "line": 244,
+      "column": 37,
+      "index": 356
+    },
+    {
+      "id": "flow-text.spec.js:253:37",
+      "source": "graph TD;A-- text including URL space --xB;",
+      "upstream": "flow-text.spec.js",
+      "line": 253,
+      "column": 37,
+      "index": 357
+    },
+    {
+      "id": "flow-text.spec.js:263:37",
+      "source": "graph TD;A-- text including R TD space --xB;",
+      "upstream": "flow-text.spec.js",
+      "line": 263,
+      "column": 37,
+      "index": 358
+    },
+    {
+      "id": "flow-text.spec.js:272:37",
+      "source": "graph TD;A-- text including graph space and v --xB;",
+      "upstream": "flow-text.spec.js",
+      "line": 272,
+      "column": 37,
+      "index": 359
+    },
+    {
+      "id": "flow-text.spec.js:280:37",
+      "source": "graph TD;A-- text including graph space and v --xB[blav]",
+      "upstream": "flow-text.spec.js",
+      "line": 280,
+      "column": 37,
+      "index": 360
+    },
+    {
+      "id": "flow-text.spec.js:300:37",
+      "source": "graph TD;A-->C(Chimpansen hoppar);",
+      "upstream": "flow-text.spec.js",
+      "line": 300,
+      "column": 37,
+      "index": 361
+    },
+    {
+      "id": "flow-text.spec.js:373:37",
+      "source": "graph TD;A_node-->odd->Vertex Text];",
+      "upstream": "flow-text.spec.js",
+      "line": 373,
+      "column": 37,
+      "index": 362
+    },
+    {
+      "id": "flow-text.spec.js:380:38",
+      "source": "graph TD;A_node-->B[/This node has a / as text/];",
+      "upstream": "flow-text.spec.js",
+      "line": 380,
+      "column": 38,
+      "index": 363
+    },
+    {
+      "id": "flow-text.spec.js:389:38",
+      "source": "graph TD;A_node-->B[\\This node has a \\ as text\\];",
+      "upstream": "flow-text.spec.js",
+      "line": 389,
+      "column": 38,
+      "index": 364
+    },
+    {
+      "id": "flow-text.spec.js:398:37",
+      "source": "graph TD;A-->C{Chimpansen hoppar åäö-ÅÄÖ};",
+      "upstream": "flow-text.spec.js",
+      "line": 398,
+      "column": 37,
+      "index": 365
+    },
+    {
+      "id": "flow-text.spec.js:408:37",
+      "source": "graph TD;A-->C(Chimpansen hoppar åäö  <br> -  ÅÄÖ);",
+      "upstream": "flow-text.spec.js",
+      "line": 408,
+      "column": 37,
+      "index": 366
+    },
+    {
+      "id": "flow-text.spec.js:426:37",
+      "source": "graph TD;A-->C(Начало);",
+      "upstream": "flow-text.spec.js",
+      "line": 426,
+      "column": 37,
+      "index": 367
+    },
+    {
+      "id": "flow-text.spec.js:433:37",
+      "source": "graph TD;A-->C(c:\\windows);",
+      "upstream": "flow-text.spec.js",
+      "line": 433,
+      "column": 37,
+      "index": 368
+    },
+    {
+      "id": "flow-text.spec.js:440:37",
+      "source": "graph TD;A-->C(some CAPS);",
+      "upstream": "flow-text.spec.js",
+      "line": 440,
+      "column": 37,
+      "index": 369
+    },
+    {
+      "id": "flow-text.spec.js:449:37",
+      "source": "graph TD;A-->C(some URL);",
+      "upstream": "flow-text.spec.js",
+      "line": 449,
+      "column": 37,
+      "index": 370
+    },
+    {
+      "id": "flow-text.spec.js:460:35",
+      "source": "graph TD;A--o|text space|B;\n B-->|more text with space|C;",
+      "upstream": "flow-text.spec.js",
+      "line": 460,
+      "column": 35,
+      "index": 371
+    },
+    {
+      "id": "flow-text.spec.js:480:35",
+      "source": "graph TD;A[chimpansen hoppar]-->C;",
+      "upstream": "flow-text.spec.js",
+      "line": 480,
+      "column": 35,
+      "index": 372
+    },
+    {
+      "id": "flow-text.spec.js:490:35",
+      "source": "graph TD;A[chimpansen hoppar] --> C;",
+      "upstream": "flow-text.spec.js",
+      "line": 490,
+      "column": 35,
+      "index": 373
+    },
+    {
+      "id": "flow-text.spec.js:499:35",
+      "source": "graph TD;A[chimpansen_hoppar] --> C;",
+      "upstream": "flow-text.spec.js",
+      "line": 499,
+      "column": 35,
+      "index": 374
+    },
+    {
+      "id": "flow-text.spec.js:509:35",
+      "source": "graph TD;A[\"chimpansen hoppar ()[]\"] --> C;",
+      "upstream": "flow-text.spec.js",
+      "line": 509,
+      "column": 35,
+      "index": 375
+    },
+    {
+      "id": "flow-text.spec.js:519:35",
+      "source": "graph TD;A((chimpansen hoppar))-->C;",
+      "upstream": "flow-text.spec.js",
+      "line": 519,
+      "column": 35,
+      "index": 376
+    },
+    {
+      "id": "flow-text.spec.js:529:35",
+      "source": "graph TD\nA(-this is an ellipse-)-->B",
+      "upstream": "flow-text.spec.js",
+      "line": 529,
+      "column": 35,
+      "index": 377
+    },
+    {
+      "id": "flow-text.spec.js:539:36",
+      "source": "graph\nX(- My Text (",
+      "upstream": "flow-text.spec.js",
+      "line": 539,
+      "column": 36,
+      "index": 378
+    },
+    {
+      "id": "flow-text.spec.js:543:35",
+      "source": "graph TD;A(chimpansen hoppar)-->C;",
+      "upstream": "flow-text.spec.js",
+      "line": 543,
+      "column": 35,
+      "index": 379
+    },
+    {
+      "id": "flow-text.spec.js:553:35",
+      "source": "graph TD;A(?)-->|?|C;",
+      "upstream": "flow-text.spec.js",
+      "line": 553,
+      "column": 35,
+      "index": 380
+    },
+    {
+      "id": "flow-text.spec.js:562:35",
+      "source": "graph TD;A(éèêàçô)-->|éèêàçô|C;",
+      "upstream": "flow-text.spec.js",
+      "line": 562,
+      "column": 35,
+      "index": 381
+    },
+    {
+      "id": "flow-text.spec.js:572:35",
+      "source": "graph TD;A(,.?!+-*)-->|,.?!+-*|C;",
+      "upstream": "flow-text.spec.js",
+      "line": 572,
+      "column": 35,
+      "index": 382
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=graph",
+      "source": "graph TD;A_graph_node-->B[|borders:lt|This node has a graph as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 383
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=flowchart",
+      "source": "graph TD;A_flowchart_node-->B[|borders:lt|This node has a flowchart as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 384
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=flowchart-elk",
+      "source": "graph TD;A_flowchart-elk_node-->B[|borders:lt|This node has a flowchart-elk as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 385
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=style",
+      "source": "graph TD;A_style_node-->B[|borders:lt|This node has a style as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 386
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=default",
+      "source": "graph TD;A_default_node-->B[|borders:lt|This node has a default as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 387
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=linkStyle",
+      "source": "graph TD;A_linkStyle_node-->B[|borders:lt|This node has a linkStyle as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 388
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=interpolate",
+      "source": "graph TD;A_interpolate_node-->B[|borders:lt|This node has a interpolate as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 389
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=classDef",
+      "source": "graph TD;A_classDef_node-->B[|borders:lt|This node has a classDef as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 390
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=class",
+      "source": "graph TD;A_class_node-->B[|borders:lt|This node has a class as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 391
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=href",
+      "source": "graph TD;A_href_node-->B[|borders:lt|This node has a href as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 392
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=call",
+      "source": "graph TD;A_call_node-->B[|borders:lt|This node has a call as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 393
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=click",
+      "source": "graph TD;A_click_node-->B[|borders:lt|This node has a click as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 394
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=_self",
+      "source": "graph TD;A__self_node-->B[|borders:lt|This node has a _self as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 395
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=_blank",
+      "source": "graph TD;A__blank_node-->B[|borders:lt|This node has a _blank as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 396
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=_parent",
+      "source": "graph TD;A__parent_node-->B[|borders:lt|This node has a _parent as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 397
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=_top",
+      "source": "graph TD;A__top_node-->B[|borders:lt|This node has a _top as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 398
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=end",
+      "source": "graph TD;A_end_node-->B[|borders:lt|This node has a end as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 399
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=subgraph",
+      "source": "graph TD;A_subgraph_node-->B[|borders:lt|This node has a subgraph as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 400
+    },
+    {
+      "id": "flow-text.spec.js:363:9:derived:keywords=kitty",
+      "source": "graph TD;A_kitty_node-->B[|borders:lt|This node has a kitty as text];",
+      "upstream": "flow-text.spec.js",
+      "line": 363,
+      "column": 9,
+      "derived": true,
+      "index": 401
+    },
+    {
+      "id": "flow-vertice-chaining.spec.js:17:35",
+      "source": "\n    graph TD\n      A-->B-->C;\n    ",
+      "upstream": "flow-vertice-chaining.spec.js",
+      "line": 17,
+      "column": 35,
+      "index": 402
+    },
+    {
+      "id": "flow-vertice-chaining.spec.js:39:35",
+      "source": "\n    graph TD\n      A & B --> C;\n    ",
+      "upstream": "flow-vertice-chaining.spec.js",
+      "line": 39,
+      "column": 35,
+      "index": 403
+    },
+    {
+      "id": "flow-vertice-chaining.spec.js:61:35",
+      "source": "\n    graph TD\n      A-->B & C;\n    ",
+      "upstream": "flow-vertice-chaining.spec.js",
+      "line": 61,
+      "column": 35,
+      "index": 404
+    },
+    {
+      "id": "flow-vertice-chaining.spec.js:83:35",
+      "source": "\n    graph TD\n      A & B--> C & D;\n    ",
+      "upstream": "flow-vertice-chaining.spec.js",
+      "line": 83,
+      "column": 35,
+      "index": 405
+    },
+    {
+      "id": "flow-vertice-chaining.spec.js:145:35",
+      "source": "\n    graph TD\n      A --> B & B2 & C --> D2;\n    ",
+      "upstream": "flow-vertice-chaining.spec.js",
+      "line": 145,
+      "column": 35,
+      "index": 406
+    },
+    {
+      "id": "flow-vertice-chaining.spec.js:185:35",
+      "source": "\n    graph TD\n      A[ h ] -- hello --> B[\" test \"]:::exClass & C --> D;\n      classDef exClass background:#bbb,border:1px solid red;\n    ",
+      "upstream": "flow-vertice-chaining.spec.js",
+      "line": 185,
+      "column": 35,
+      "index": 407
+    },
+    {
+      "id": "flow.spec.js:17:35",
+      "source": "graph TD;\n A-->B; \n B-->C;",
+      "upstream": "flow.spec.js",
+      "line": 17,
+      "column": 35,
+      "index": 408
+    },
+    {
+      "id": "flow.spec.js:32:23",
+      "source": "swimlane-beta LR;A-->B;",
+      "upstream": "flow.spec.js",
+      "line": 32,
+      "column": 23,
+      "index": 409
+    },
+    {
+      "id": "flow.spec.js:46:35",
+      "source": "graph TD\nendpoint --> sender",
+      "upstream": "flow.spec.js",
+      "line": 46,
+      "column": 35,
+      "index": 410
+    },
+    {
+      "id": "flow.spec.js:58:35",
+      "source": "graph TD\nblend --> monograph",
+      "upstream": "flow.spec.js",
+      "line": 58,
+      "column": 35,
+      "index": 411
+    },
+    {
+      "id": "flow.spec.js:70:35",
+      "source": "graph TD\ndefault --> monograph",
+      "upstream": "flow.spec.js",
+      "line": 70,
+      "column": 35,
+      "index": 412
+    },
+    {
+      "id": "subgraph.spec.js:16:35",
+      "source": "graph TB\nsubgraph One\n\ta1-->a2\nend",
+      "upstream": "subgraph.spec.js",
+      "line": 16,
+      "column": 35,
+      "index": 413
+    },
+    {
+      "id": "subgraph.spec.js:28:35",
+      "source": "graph TB\nsubgraph One\n\ta1-->a2-->a3\nend",
+      "upstream": "subgraph.spec.js",
+      "line": 28,
+      "column": 35,
+      "index": 414
+    },
+    {
+      "id": "subgraph.spec.js:41:35",
+      "source": "graph TB\nsubgraph \"Some Title\"\n\ta1-->a2\nend",
+      "upstream": "subgraph.spec.js",
+      "line": 41,
+      "column": 35,
+      "index": 415
+    },
+    {
+      "id": "subgraph.spec.js:53:35",
+      "source": "graph TB\nsubgraph some-id[Some Title]\n\ta1-->a2\nend",
+      "upstream": "subgraph.spec.js",
+      "line": 53,
+      "column": 35,
+      "index": 416
+    },
+    {
+      "id": "subgraph.spec.js:77:35",
+      "source": "graph TD\n    A[Christmas] -->|Get money| B(Go shopping)\n    subgraph 1test\n    A\n    end",
+      "upstream": "subgraph.spec.js",
+      "line": 77,
+      "column": 35,
+      "index": 417
+    },
+    {
+      "id": "subgraph.spec.js:92:35",
+      "source": "graph TD;A-->B;subgraph myTitle;c-->d;end;",
+      "upstream": "subgraph.spec.js",
+      "line": 92,
+      "column": 35,
+      "index": 418
+    },
+    {
+      "id": "subgraph.spec.js:100:35",
+      "source": "graph TD;A-->B;subgraph \"title in quotes\";c-->d;end;",
+      "upstream": "subgraph.spec.js",
+      "line": 100,
+      "column": 35,
+      "index": 419
+    },
+    {
+      "id": "subgraph.spec.js:114:35",
+      "source": "graph TD;A-->B;subgraph old style that is broken;c-->d;end;",
+      "upstream": "subgraph.spec.js",
+      "line": 114,
+      "column": 35,
+      "index": 420
+    },
+    {
+      "id": "subgraph.spec.js:128:35",
+      "source": "graph TD;A-->B;subgraph a-b-c;c-->d;end;",
+      "upstream": "subgraph.spec.js",
+      "line": 128,
+      "column": 35,
+      "index": 421
+    },
+    {
+      "id": "subgraph.spec.js:142:35",
+      "source": "graph TD;A-->B;subgraph uid1[text of doom];c-->d;end;",
+      "upstream": "subgraph.spec.js",
+      "line": 142,
+      "column": 35,
+      "index": 422
+    },
+    {
+      "id": "subgraph.spec.js:157:35",
+      "source": "graph TD;A-->B;subgraph uid2[\"text of doom\"];c-->d;end;",
+      "upstream": "subgraph.spec.js",
+      "line": 157,
+      "column": 35,
+      "index": 423
+    },
+    {
+      "id": "subgraph.spec.js:172:35",
+      "source": "graph TD;A-->B;subgraph uid2[textofdoom];c-->d;end;",
+      "upstream": "subgraph.spec.js",
+      "line": 172,
+      "column": 35,
+      "index": 424
+    },
+    {
+      "id": "subgraph.spec.js:188:35",
+      "source": "graph TD\nA-->B\nsubgraph myTitle\n\n c-->d \nend\n",
+      "upstream": "subgraph.spec.js",
+      "line": 188,
+      "column": 35,
+      "index": 425
+    },
+    {
+      "id": "subgraph.spec.js:197:35",
+      "source": "graph TD\nA-->B\nsubgraph myTitle   \n\n    c-->d \nend\n",
+      "upstream": "subgraph.spec.js",
+      "line": 197,
+      "column": 35,
+      "index": 426
+    },
+    {
+      "id": "subgraph.spec.js:218:35",
+      "source": "graph TD\nA-->B\nsubgraph myTitle\nc-->d\nend;",
+      "upstream": "subgraph.spec.js",
+      "line": 218,
+      "column": 35,
+      "index": 427
+    },
+    {
+      "id": "subgraph.spec.js:227:35",
+      "source": "graph TD\nA-->B\nsubgraph myTitle\nc-- text -->d\nd-->e\n end;",
+      "upstream": "subgraph.spec.js",
+      "line": 227,
+      "column": 35,
+      "index": 428
+    },
+    {
+      "id": "subgraph.spec.js:235:35",
+      "source": "graph TD\nA-->B\nsubgraph myTitle\na & b --> c & e\n end;",
+      "upstream": "subgraph.spec.js",
+      "line": 235,
+      "column": 35,
+      "index": 429
+    },
+    {
+      "id": "subgraph.spec.js:243:35",
+      "source": "flowchart TB\n    subgraph A\n    b-->B\n    a\n    end\n    a-->c\n    subgraph B\n      c\n    end",
+      "upstream": "subgraph.spec.js",
+      "line": 243,
+      "column": 35,
+      "index": 430
+    },
+    {
+      "id": "subgraph.spec.js:266:35",
+      "source": "flowchart TB\n    b-->B\n    a-->c\n    subgraph B\n      c\n    end\n    subgraph A\n        a\n        b\n        B\n    end",
+      "upstream": "subgraph.spec.js",
+      "line": 266,
+      "column": 35,
+      "index": 431
+    },
+    {
+      "id": "subgraph.spec.js:291:35",
+      "source": "flowchart TB\n    subgraph B\n      c\n    end\n    a-->c\n    subgraph A\n      b-->B\n      a\n    end",
+      "upstream": "subgraph.spec.js",
+      "line": 291,
+      "column": 35,
+      "index": 432
+    },
+    {
+      "id": "subgraph.spec.js:313:35",
+      "source": "\n      graph LR\n        subgraph WithTD\n          direction TD\n          A1 --> A2\n        end\n    ",
+      "upstream": "subgraph.spec.js",
+      "line": 313,
+      "column": 35,
+      "index": 433
+    },
+    {
+      "id": "subgraph.spec.js:331:23",
+      "source": "\n      graph TD\n        subgraph one [My Group]\n          A --> B\n        end\n        C --> A\n        one@{ view: collapsed }\n    ",
+      "upstream": "subgraph.spec.js",
+      "line": 331,
+      "column": 23,
+      "index": 434
+    }
+  ]
+}

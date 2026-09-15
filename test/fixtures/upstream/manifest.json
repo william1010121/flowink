@@ -1,0 +1,99 @@
+{
+  "baseline": {
+    "tag": "mermaid@12.0.0",
+    "commit": "98a0945418c76238f15df2afaddbba4272656c3b"
+  },
+  "files": [
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-arrows.spec.js",
+      "file": "specs/flow-arrows.spec.js",
+      "sha256": "025ffc3f3fcee855bb4c9be841c7320e2309888f2206261c9262b9a318815feb",
+      "bytes": 9440
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-comments.spec.js",
+      "file": "specs/flow-comments.spec.js",
+      "sha256": "29988ed63d44bf0ea225721e3df4236e2b0101817389c23c58aa0cab6aa61fd6",
+      "bytes": 5163
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-direction.spec.js",
+      "file": "specs/flow-direction.spec.js",
+      "sha256": "507bc69c1302e5635eff505e6535e00805977b23e17171a732355a82cea76687",
+      "bytes": 2606
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-edges.spec.js",
+      "file": "specs/flow-edges.spec.js",
+      "sha256": "f4b2d83c677f794327f5483131e492e52d2a97ef20318a86362d56e912cb79f0",
+      "bytes": 22870
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-huge.spec.js",
+      "file": "specs/flow-huge.spec.js",
+      "sha256": "6025e8b6842be1ddeb56d894c07d8d7f58e07b50af107e0c4a54675b8ddf1f42",
+      "bytes": 869
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-interactions.spec.js",
+      "file": "specs/flow-interactions.spec.js",
+      "sha256": "4664958cbedfbdeddff4cc5e8e947842e15f896c80c1678c02292cb354bc3715",
+      "bytes": 5945
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-lines.spec.js",
+      "file": "specs/flow-lines.spec.js",
+      "sha256": "af81dfd07f8c977d418551cbde2d65e501958f347adb5f380e8b5696424f0cbf",
+      "bytes": 5345
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-md-string.spec.js",
+      "file": "specs/flow-md-string.spec.js",
+      "sha256": "3fbc58cac25ab3d7a70278b7398321bf553ab821d43279eeee563261f5468e77",
+      "bytes": 2214
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-node-data.spec.js",
+      "file": "specs/flow-node-data.spec.js",
+      "sha256": "120966e159d0ff1dde1a97aa848db07e89aadd19f4b5420c3c1ad58b3e93e0e0",
+      "bytes": 15691
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-singlenode.spec.js",
+      "file": "specs/flow-singlenode.spec.js",
+      "sha256": "b747889e1c748f221f55b2cc95a2c4dcfd9b6a677b5cc0cb7766af7c3cb94bb4",
+      "bytes": 11932
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js",
+      "file": "specs/flow-style.spec.js",
+      "sha256": "7f6638cbd8d81e60aebb25dc05c1d7a53ca2917ba73591611dbe3cdb06981eb7",
+      "bytes": 14522
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-text.spec.js",
+      "file": "specs/flow-text.spec.js",
+      "sha256": "99de833e5993d41f7ae60605138f24ff8d8417890267fc00d93791f5448af468",
+      "bytes": 21735
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow-vertice-chaining.spec.js",
+      "file": "specs/flow-vertice-chaining.spec.js",
+      "sha256": "2833a1610c3ed721750b2d71ddf3d1e8b3cb5a6c8a76b0b7341a47d81cbbbb2f",
+      "bytes": 7623
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/flow.spec.js",
+      "file": "specs/flow.spec.js",
+      "sha256": "badc905d2dfe8ddd13ead494dd38bcdc4d35c56aee1b8931dd2203f073060963",
+      "bytes": 7585
+    },
+    {
+      "path": "packages/mermaid/src/diagrams/flowchart/parser/subgraph.spec.js",
+      "file": "specs/subgraph.spec.js",
+      "sha256": "3adbcb03a2be84a76c777502f7772922f05dd93643b2817a73180d11680d9a3f",
+      "bytes": 11880
+    }
+  ],
+  "caseCount": 435
+}

@@ -1,0 +1,14 @@
+{
+  "project": "mermaid",
+  "tag": "mermaid@12.0.0",
+  "commit": "98a0945418c76238f15df2afaddbba4272656c3b",
+  "upstream": "https://github.com/mermaid-js/mermaid",
+  "sources": {
+    "grammar": "packages/mermaid/src/diagrams/flowchart/parser/flow.jison",
+    "semantic": "packages/mermaid/src/diagrams/flowchart/flowDb.ts",
+    "parser-wrapper": "packages/mermaid/src/diagrams/flowchart/parser/flowParser.ts"
+  },
+  "grammarSha256": "e9891eb4f646140e5110e72ef5f79b099677a265ba1a84884b39a573b56d1c68",
+  "license": "MIT",
+  "note": "flow.jison is vendored unmodified. FlowSemanticDB is a DOM-free adapter derived from flowDb.ts for FlowInk's FlowGraph IR."
+}
