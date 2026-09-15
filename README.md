@@ -6,6 +6,7 @@
 
 ASCII and Unicode diagrams for Node.js and the browser.
 
+[![npm version](https://img.shields.io/npm/v/flowink)](https://www.npmjs.com/package/flowink)
 [![JavaScript ESM](https://img.shields.io/badge/JavaScript-ESM-f7df1e?logo=javascript&logoColor=111111)](#quick-start)
 [![Mermaid 12.0.0](https://img.shields.io/badge/Mermaid-12.0.0-ff3670)](#compatibility)
 [![Node.js 22.12+](https://img.shields.io/badge/Node.js-%E2%89%A522.12-339933?logo=nodedotjs&logoColor=white)](#development)
@@ -33,16 +34,13 @@ ASCII and Unicode diagrams for Node.js and the browser.
 
 ## Quick start
 
-FlowInk is not published to npm yet. Build it from this repository with **Node.js 22.12+**:
+Requires **Node.js 22.12+**. Install from npm:
 
 ```sh
-git clone https://github.com/william1010121/flowink.git
-cd flowink
-npm ci
-npm run build
+npm install flowink
 ```
 
-Create `demo.mjs` inside the checkout:
+Create `demo.mjs` in your project:
 
 ```js
 import { parse, render } from 'flowink';
@@ -60,13 +58,6 @@ console.log(graph.nodes, graph.edges);
 
 ```sh
 node demo.mjs
-```
-
-To use it in another project, run `npm pack` in this checkout and install the resulting tarball:
-
-```sh
-# From your application directory:
-npm install /path/to/flowink/flowink-0.1.0.tgz
 ```
 
 Browser applications can import `flowink` through their usual bundler.
@@ -286,6 +277,8 @@ Compatibility covers this version's **flowcharts**, not other Mermaid diagram ty
 ## Development
 
 ```sh
+git clone https://github.com/william1010121/flowink.git
+cd flowink
 npm ci
 npm run build
 npm test

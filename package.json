@@ -14,6 +14,7 @@
   },
   "files": [
     "dist",
+    "examples",
     "vendor/mermaid",
     "LICENSE",
     "NOTICE.md",
@@ -23,6 +24,10 @@
     "node": ">=22.12.0"
   },
   "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "sideEffects": false,
   "scripts": {
     "generate": "node scripts/generate-parser.js",
