@@ -1,0 +1,42 @@
+flowchart TB
+    %% ===== Encoder =====
+    subgraph ENC["Transformer Encoder"]
+        direction TB
+        X["Input Tokens"] --> E["Token Embedding"]
+        E --> PE1["+ Positional Encoding"]
+
+        PE1 --> MHA1["Multi-Head Self-Attention"]
+        PE1 -. Residual .-> AN1["Add & Norm"]
+        MHA1 --> AN1
+
+        AN1 --> FFN1["Feed Forward Network"]
+        AN1 -. Residual .-> AN2["Add & Norm"]
+        FFN1 --> AN2
+    end
+
+    %% ===== Decoder =====
+    subgraph DEC["Transformer Decoder"]
+        direction TB
+        Y["Output Tokens<br/>(Shifted Right)"] --> D["Token Embedding"]
+        D --> PE2["+ Positional Encoding"]
+
+        PE2 --> MMHA["Masked Multi-Head<br/>Self-Attention"]
+        PE2 -. Residual .-> AN3["Add & Norm"]
+        MMHA --> AN3
+
+        AN3 --> CROSS["Multi-Head<br/>Cross-Attention"]
+        AN3 -. Residual .-> AN4["Add & Norm"]
+        CROSS --> AN4
+
+        AN4 --> FFN2["Feed Forward Network"]
+        AN4 -. Residual .-> AN5["Add & Norm"]
+        FFN2 --> AN5
+    end
+
+    %% Encoder -> Decoder
+    AN2 -->|"K, V"| CROSS
+
+    %% Output
+    AN5 --> LINEAR["Linear"]
+    LINEAR --> SOFTMAX["Softmax"]
+    SOFTMAX --> OUT["Output Probabilities"]
