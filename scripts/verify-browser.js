@@ -26,7 +26,7 @@ export async function verifyBrowser({ directory = '.cache/browser-smoke', timeou
       server.once('error', reject);
       server.listen(0, '127.0.0.1', resolve);
     });
-    browser = await chromium.launch({ timeout });
+    browser = await chromium.launch({ timeout: 30_000 });
     const page = await browser.newPage();
     const errors = [];
     page.on('pageerror', error => errors.push(`Page error: ${error.message}`));
@@ -37,8 +37,20 @@ export async function verifyBrowser({ directory = '.cache/browser-smoke', timeou
     page.on('response', response => {
       if (response.status() >= 400) errors.push(`HTTP ${response.status()}: ${response.url()}`);
     });
-    await page.goto(`http://127.0.0.1:${server.address().port}/`, { timeout, waitUntil: 'load' });
-    await page.waitForFunction(() => window.__flowinkSmoke !== undefined, null, { timeout });
+    const origin = `http://127.0.0.1:${server.address().port}`;
+    await page.route('**/*', route => {
+      if (new URL(route.request().url()).origin === origin) return route.continue();
+      errors.push(`Off-origin request: ${route.request().url()}`);
+      return route.abort();
+    });
+    await page.goto(`${origin}/`, { timeout: 30_000, waitUntil: 'load' });
+    try {
+      await page.waitForFunction(() => window.__flowinkSmoke !== undefined, null, { timeout });
+    } catch (error) {
+      assert.deepEqual(errors, [], 'Browser reported errors');
+      if (error.name === 'TimeoutError') throw new Error('Browser completion timed out', { cause: error });
+      throw error;
+    }
     const result = await page.evaluate(() => window.__flowinkSmoke);
     assert.deepEqual(errors, [], 'Browser reported errors');
     assert.equal(result.status, 'passed', result.error || 'Browser verification did not pass');

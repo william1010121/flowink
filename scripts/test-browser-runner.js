@@ -11,10 +11,11 @@ try {
   const original = await readFile(join(directory, 'index.html'), 'utf8');
   const mutants = [
     ['output mismatch', original.replace('const results=[];', "expected[0].outputs[0] += 'wrong'; const results=[];"), /browser output differs/],
-    ['missing module', original.replace("from './flowink.js'", "from './missing.js'"), /Timeout|Browser reported errors/],
+    ['missing module', original.replace("from './flowink.js'", "from './missing.js'"), /Browser reported errors/],
     ['page error', '<script>throw Error("intentional page error")</script><script>window.__flowinkSmoke={status:"passed",results:[]}</script>', /Browser reported errors/],
     ['console error', '<script>console.error("intentional console error");window.__flowinkSmoke={status:"passed",results:[]}</script>', /Browser reported errors/],
-    ['timeout', '<p>Never publishes completion</p>', /Timeout/],
+    ['off-origin request', '<script type="module">await fetch("https://example.invalid/blocked").catch(()=>{});window.__flowinkSmoke={status:"passed",results:[]}</script>', /Browser reported errors/],
+    ['timeout', '<p>Never publishes completion</p>', /Browser completion timed out/],
     ['incomplete results', '<script>window.__flowinkSmoke={status:"passed",results:[]}</script>', /deep-equal/],
   ];
   for (const [name, html, pattern] of mutants) {
