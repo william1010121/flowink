@@ -15,7 +15,7 @@ const { render } = await import('../dist/index.js');
 const expected = await Promise.all(cases.map(async ([name, source]) => ({
   name, outputs: await Promise.all(['ascii', 'unicode'].map(charset => render(source, { charset }))),
 })));
-await writeFile(`${outdir}/index.html`, `<!doctype html><html lang="en"><meta charset="utf-8"><title>FlowInk browser verification</title>
+await writeFile(`${outdir}/index.html`, `<!doctype html><html lang="en"><meta charset="utf-8"><title>FlowInk browser verification</title><link rel="icon" href="data:,">
 <style>body{font:16px system-ui;margin:24px;background:#fafafa;color:#222}pre{font:14px/1.25 ui-monospace,monospace;white-space:pre;overflow:auto;padding:16px;background:white;border:1px solid #ddd}h2{font-size:16px}</style>
 <h1>FlowInk browser verification</h1><p id="status">Running…</p><main></main><script type="module">
 import {render,parse} from './flowink.js';

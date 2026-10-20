@@ -36,7 +36,9 @@
     "prepack": "npm run build",
     "test:browser:build": "npm run build && node scripts/browser-smoke.js",
     "test:types": "tsc --noEmit --skipLibCheck --module NodeNext --moduleResolution NodeNext --target ES2022 test/types.mts",
-    "test:package": "npm run build && node scripts/package-smoke.js"
+    "test:package": "npm run build && node scripts/package-smoke.js",
+    "test:browser": "npm run test:browser:build && node scripts/verify-browser.js",
+    "test:browser:runner": "npm run test:browser:build && node scripts/test-browser-runner.js"
   },
   "dependencies": {
     "elkjs": "0.12.0",
@@ -50,6 +52,7 @@
     "jison": "0.4.18",
     "jsdom": "^26.1.0",
     "mermaid": "12.0.0",
+    "playwright": "1.56.1",
     "typescript": "^5.9.0"
   },
   "repository": {

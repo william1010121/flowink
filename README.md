@@ -286,7 +286,9 @@ The suite covers **435 upstream fixtures**, including complete static inputs and
 
 - **Parser comparison:** upstream cases use Mermaid's raw parser and FlowDB; preprocessing cases use Mermaid's public API. [Fixture provenance and exclusions](test/fixtures/upstream/README.md).
 - **Package installation:** `test:package` checks archive contents and installs the tarball in a temporary directory outside the project.
-- **Browser execution:** `npm run test:browser:build` generates `.cache/browser-smoke/index.html`. Serve that directory over HTTP and open the page to compare five diagrams in both charsets against Node.js output. Results are available in `window.__flowinkSmoke`.
+- **Browser execution:** install Chromium once with `npx playwright install chromium`, then run `npm run test:browser`. It builds the browser bundle, serves it on an ephemeral loopback port, and executes five synthetic diagrams in real headless Chromium. ASCII and Unicode outputs must exactly match Node.js; syntax-error positions and repeatability are also checked. Browser errors, failed requests, incomplete results, mismatches, and timeouts fail the command. `npm run test:browser:runner` verifies these failure guards with deliberately broken pages and then checks the restored page.
+- **Manual browser inspection:** `npm run test:browser:build` only generates `.cache/browser-smoke/index.html`; it does not execute a browser. Serve that directory over HTTP to inspect `window.__flowinkSmoke` and the rendered diagrams.
+- **CI:** pull requests and pushes to `main` run unit/compatibility tests, build, type checks, and tarball installation on Node 22.12.0 (the minimum), latest 22, 24, and 26. A separate Chromium job runs parity and failure-guard verification. Failed browser jobs retain generated smoke assets for seven days. No release or publishing steps run.
 
 Fixtures are checked in, so tests do not download upstream source on each run. Mermaid itself is a development-only oracle dependency. Rendering is asynchronous but still uses CPU; applications can run large layouts in their own worker.
 
