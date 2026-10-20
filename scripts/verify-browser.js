@@ -47,12 +47,12 @@ export async function verifyBrowser({ directory = '.cache/browser-smoke', timeou
     try {
       await page.waitForFunction(() => window.__flowinkSmoke !== undefined, null, { timeout });
     } catch (error) {
-      assert.deepEqual(errors, [], 'Browser reported errors');
+      assert.equal(errors.length, 0, `Browser reported errors: ${errors.join('; ')}`);
       if (error.name === 'TimeoutError') throw new Error('Browser completion timed out', { cause: error });
       throw error;
     }
     const result = await page.evaluate(() => window.__flowinkSmoke);
-    assert.deepEqual(errors, [], 'Browser reported errors');
+    assert.equal(errors.length, 0, `Browser reported errors: ${errors.join('; ')}`);
     assert.equal(result.status, 'passed', result.error || 'Browser verification did not pass');
     assert.deepEqual(result.results.map(row => row.name), ['branch', 'cycle', 'parallel', 'nested', 'CJK']);
     assert.ok(result.results.every(row => row.passed === true), 'Incomplete browser results');
