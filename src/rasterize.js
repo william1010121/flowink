@@ -486,8 +486,26 @@ function stringifyGrid(grid) {
   return lines.join('\n');
 }
 
+let segmenterConstructor;
+let graphemeSegmenter;
+
 function segment(value) {
-  if (typeof Intl !== 'undefined' && Intl.Segmenter) return Array.from(new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(value), (item) => item.segment);
+  if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+    const Constructor = Intl.Segmenter;
+    let instance;
+    if (graphemeSegmenter && Constructor === segmenterConstructor) {
+      instance = graphemeSegmenter;
+    } else {
+      instance = new Constructor(undefined, { granularity: 'grapheme' });
+      // Reuse only the native implementation, not potentially stateful polyfills.
+      if (Function.prototype.toString.call(Constructor) === 'function Segmenter() { [native code] }') {
+        segmenterConstructor = Constructor;
+        graphemeSegmenter = instance;
+      }
+    }
+    // Each call gets its own Segments object and iterator.
+    return Array.from(instance.segment(value), (item) => item.segment);
+  }
   return Array.from(value);
 }
 
