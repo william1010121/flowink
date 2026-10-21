@@ -321,9 +321,10 @@ export class FlowSemanticDB {
   }
 }
 
-export function parserError(error, source) {
-  const line = error?.hash?.loc?.first_line ?? error?.lineNumber;
-  const firstColumn = error?.hash?.loc?.first_column;
+export function parserError(error, source, tokenLocation) {
+  const location = tokenLocation ?? error?.hash?.loc;
+  const line = location?.first_line ?? error?.lineNumber;
+  const firstColumn = location?.first_column;
   const column = firstColumn === undefined ? undefined : firstColumn + 1;
   return new FlowInkError(error?.message ?? 'Invalid Mermaid flowchart', { code: 'PARSE_ERROR', line, column, cause: error });
 }
