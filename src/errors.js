@@ -5,7 +5,9 @@ export class FlowInkError extends Error {
     super(message, { cause: options.cause });
     this.name = 'FlowInkError';
     this.code = options.code ?? 'FLOWINK_ERROR';
+    /** @type {number | undefined} */
     this.line = options.line;
+    /** @type {number | undefined} */
     this.column = options.column;
   }
 }
