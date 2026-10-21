@@ -23,23 +23,14 @@ test('renderGraph is a named public function and matches source rendering/JSON r
   }
 });
 
-test('renderGraph preserves the residual multi-loop collision and recovers', async () => {
+test('renderGraph preserves repaired multi-loop output and recovery parity', async () => {
   const input = 'flowchart BT\nB --> A\nA --- A\nA --- A\nA --- A';
+  await assert.rejects(api.render('flowchart BT\nA -->'), { code: 'PARSE_ERROR' });
   for (const charset of ['ascii', 'unicode']) {
     const graph = api.parse(input);
-    let expected;
-    await assert.rejects(api.render(input, { charset }), error => {
-      assert.equal(error.code, 'ROUTE_COLLISION');
-      expected = error;
-      return true;
-    });
+    const expected = await api.render(input, { charset });
     for (const data of [graph, JSON.parse(JSON.stringify(graph))]) {
-      await assert.rejects(api.renderGraph(data, { charset }), error => {
-        assert.equal(error.name, expected.name);
-        assert.equal(error.code, expected.code);
-        assert.equal(error.message, expected.message);
-        return true;
-      });
+      assert.equal(await api.renderGraph(data, { charset }), expected);
     }
     assert.equal(await api.renderGraph(api.parse(source), { charset }), await api.render(source, { charset }));
   }

@@ -706,7 +706,12 @@ function gridRepair(start, end, context, sourceBox, targetBox, occupied, arrowSt
         path.reverse();
         return compress(path);
       }
+      const currentOccupied = occupied.get(key(current.x, current.y));
       for (const [dx, dy] of directions) {
+        // Entering a crossing perpendicularly is valid, but leaving that same
+        // cell along the occupied wire would create an ambiguous shared bend.
+        // The destination-only check below cannot see this turn at current.
+        if (currentOccupied?.orientations.has(dx ? 'h' : 'v')) continue;
         const x = current.x + dx; const y = current.y + dy;
         if (x < minX || x > maxX || y < minY || y > maxY || blocked(x, y, dx ? 'h' : 'v')) continue;
         const k = key(x, y);

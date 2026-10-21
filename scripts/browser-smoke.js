@@ -5,6 +5,8 @@ await mkdir(outdir, { recursive: true });
 await build({ entryPoints: ['dist/index.js'], outfile: `${outdir}/flowink.js`,
   bundle: true, format: 'esm', platform: 'browser', target: 'es2022', sourcemap: true });
 const cases = [
+  ['crossingRepair', 'flowchart BT\n B --> A\n A --- A\n A --- A\n A --- A'],
+  ['crossings', 'flowchart LR\n' + [1, 2, 3].flatMap(s => [1, 2, 3].map(t => `S${s} --> T${t}`)).join('\n')],
   ['shortSelfLoop', 'flowchart TB\n A --> A'],
   ['neighborSelfLoops', 'flowchart LR\n A --> A\n A --> A\n A ~~~ B'],
   ['title-clearance', "flowchart TB\nsubgraph G0[\"Outer\"]\nN0[\"Start\"]\nsubgraph G1[\"Inner\"]\nN1[\"Review\"]\nN2[\"\u7d42\u70b9\"]\nend\nend\nN3[\"\u51e6\u7406 \ud83d\udc08\"]\nN4[\"Alpha<br/>Beta\"]\nN0 --> N1\nN1 --> N2\nN2 --> N3\nN3 --> N4\nN4 --> N1\n"],
