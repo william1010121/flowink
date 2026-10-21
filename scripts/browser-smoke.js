@@ -5,6 +5,7 @@ await mkdir(outdir, { recursive: true });
 await build({ entryPoints: ['dist/index.js'], outfile: `${outdir}/flowink.js`,
   bundle: true, format: 'esm', platform: 'browser', target: 'es2022', sourcemap: true });
 const cases = [
+  ['yaml-scalar', 'flowchart TB\n A@{label: |\n  shape: rect\n  # literal text\n}'],
   ['tab-label', 'flowchart LR\n A["中\t👩‍💻\té"] --> B["plain label"]'],
   ['grapheme-lines', 'flowchart TB\n A["中文<br/>👩‍💻<br/>👨‍👩‍👧‍👦<br/>é<br/>a"]'],
   ['branch', 'flowchart LR\n A[Start] --> B{Ready?}\n B -->|yes| C[Work]\n B -->|no| D[Wait]'],
@@ -39,7 +40,11 @@ try {
       const pre=document.createElement('pre');pre.textContent=outputs[i];document.querySelector('main').append(title,pre);
     }
   }
-  const largeShapeSource='flowchart TB\\n A@{ label: |\\n'+'  a\\n'.repeat(150001)+'shape: rect\\n}';
+  const kept=parse('flowchart TB\\n A@{label: |+\\n  one\\n\\n}').nodes[0].metadata;
+  if(kept.label!=='one\\n\\n')throw Error('YAML keep chomping changed');
+  const nested=parse('flowchart TB\\n A@{settings:\\n  color: blue\\nlabel: hi\\n}').nodes[0].metadata;
+  if(nested.settings.color!=='blue' || Object.hasOwn(nested,'color'))throw Error('Nested YAML flattened');
+  const largeShapeSource='flowchart TB\\n A@{label: |\\n'+'  a\\n'.repeat(150001)+'shape: rect\\n}';
   const largeShape=parse(largeShapeSource);
   if(largeShape.nodes.length!==1 || largeShape.nodes[0].metadata.label!=='a\\n'.repeat(150001))throw Error('Large YAML scalar failed');
   let located=false;try{parse('flowchart LR\\n A[')}catch(e){located=Number.isInteger(e.line)}

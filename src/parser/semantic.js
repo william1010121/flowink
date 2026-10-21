@@ -1,4 +1,3 @@
-import { minimum } from '../extrema.js';
 import { FlowInkError } from '../errors.js';
 import yaml from 'js-yaml';
 
@@ -16,17 +15,25 @@ function labelType(value) {
 function parseShapeData(raw) {
   const metadata = {};
   if (!raw) return metadata;
-  const body = String(raw).trim();
-  // Shape data is indented relative to the node. YAML block scalars require
-  // that common indentation to be removed before parsing.
-  const lines = body.split('\n');
-  // The first key is trimmed to column zero. Subsequent keys retain the
-  // node's indentation, while block scalar content is further indented.
-  const indents = lines.slice(1).filter((line) => line.trim()).map((line) => line.match(/^\s*/)[0].length);
-  const indent = indents.length ? minimum(indents) : 0;
-  const normalized = lines.map((line, index) => index === 0 ? line : line.slice(Math.min(indent, line.length))).join('\n');
+  const source = String(raw);
+  const body = source.trim();
   try {
-    const parsed = yaml.load(normalized.includes('\n') ? normalized : `{${normalized}}`, { schema: yaml.JSON_SCHEMA });
+    let parsed;
+    if (/[\r\n]/.test(body)) {
+      // YAML owns indentation and block-scalar chomping. Trimming/dedenting
+      // content can turn scalar text into keys or flatten nested mappings.
+      parsed = yaml.load(source, { schema: yaml.JSON_SCHEMA });
+    } else {
+      try {
+        // Preserve Mermaid's single-line comma-separated shape-data syntax.
+        parsed = yaml.load(`{${body}}`, { schema: yaml.JSON_SCHEMA });
+      } catch (error) {
+        // An empty block scalar may have a one-line trimmed body but still
+        // needs its original line ending to be interpreted as block YAML.
+        if (!/[\r\n]/.test(source)) throw error;
+        parsed = yaml.load(source, { schema: yaml.JSON_SCHEMA });
+      }
+    }
     if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) Object.assign(metadata, parsed);
   } catch (error) {
     throw new FlowInkError(error?.message ?? 'Invalid shape data.', { code: 'SHAPE_DATA_ERROR', cause: error });

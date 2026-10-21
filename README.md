@@ -224,6 +224,8 @@ Returns an independent, serializable graph, retaining the exact original input.
 | `classes` | Named style definitions |
 | `metadata` | Frontmatter, directives, accessibility information, and other non-drawing data |
 
+Multiline shape-data declarations (`@{...}`) follow YAML indentation, nested-mapping, and block-scalar rules. Align sibling keys; literal/folded labels retain their scalar content and chomping semantics. Single-line comma-separated shape metadata remains supported. Inconsistent multiline indentation raises `SHAPE_DATA_ERROR` rather than being silently dedented. See [shape-data YAML behavior](docs/shape-yaml-indentation.md).
+
 ### Errors
 
 ```js
