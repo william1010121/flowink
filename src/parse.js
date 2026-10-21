@@ -39,6 +39,9 @@ export function parse(source) {
       : undefined;
     const wrapped = parserError(error, source, tokenLocation);
     if (wrapped.line !== undefined) wrapped.line += processed.lineOffset;
+    // The leading BOM occupies one UTF-16 code unit only on original line 1.
+    // Keep EOF/lexical fallback locations unchanged.
+    if (tokenLocation && processed.removedBOM && wrapped.line === 1 && wrapped.column !== undefined) wrapped.column += 1;
     throw wrapped;
   }
 }

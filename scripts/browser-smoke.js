@@ -54,6 +54,10 @@ try {
     let caught=false;try{parse(source)}catch(e){caught=true;if(e.line!==line||e.column!==column)throw Error('Wrong lookahead location');}
     if(!caught)throw Error('Invalid lookahead accepted');
   }
+  for(const [source,line,column] of [[String.fromCharCode(0xfeff)+'flowchart LR; A[ok)',1,20],[String.fromCharCode(0xfeff)+'flowchart LR\\n A[ok)',2,6]]){
+    let caught=false;try{parse(source)}catch(e){caught=true;if(e.line!==line||e.column!==column)throw Error('Wrong BOM location');}
+    if(!caught)throw Error('Invalid BOM source accepted');
+  }
   let located=false;try{parse('flowchart LR\\n A[')}catch(e){located=Number.isInteger(e.line)}
   if(!located)throw Error('Syntax error lacks position');
   window.__flowinkSmoke={status:'passed',results};

@@ -30,6 +30,7 @@ assert.equal(parse(source).nodes.length,2);
 assert.match(await render(source),/Start/);
 assert.match(await render(source,{charset:'unicode'}),/Done/);
 assert.equal(typeof globalThis.document,'undefined');
+assert.throws(()=>parse(String.fromCharCode(0xfeff)+'flowchart LR; A[ok)'),e=>e.code==='PARSE_ERROR'&&e.line===1&&e.column===20);
 assert.throws(()=>parse('flowchart LR\\n A[ok)\\n'),e=>e.code==='PARSE_ERROR'&&e.line===2&&e.column===6);
 console.log('Clean package consumer passed');
 `);
