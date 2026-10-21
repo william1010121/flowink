@@ -90,6 +90,16 @@ function htmlTokenText(value) {
       continue;
     }
 
+    // Comments were handled above. A tag must begin with an ASCII letter,
+    // optionally after one slash; impossible openers stay literal without
+    // repeatedly scanning the rest of the label for a terminator.
+    const start = source.charCodeAt(index + (source[index + 1] === '/' ? 2 : 1));
+    if (!((start >= 65 && start <= 90) || (start >= 97 && start <= 122))) {
+      result += '<';
+      index += 1;
+      continue;
+    }
+
     // Find the tag terminator while respecting quoted `>` characters in
     // attributes. If this is not a valid tag (for example `A < B > C` or an
     // escaped `\>`), retain the angle bracket as ordinary label text.
