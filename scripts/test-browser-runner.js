@@ -17,7 +17,7 @@ try {
     offOrigin.once('error', reject);
     offOrigin.listen(0, '127.0.0.1', resolve);
   });
-  const passed = JSON.stringify({ status: 'passed', results: ['branch', 'cycle', 'parallel', 'nested', 'CJK'].map(name => ({ name, passed: true })) });
+  const passed = JSON.stringify({ status: 'passed', results: ['grapheme-lines', 'branch', 'cycle', 'parallel', 'nested', 'CJK'].map(name => ({ name, passed: true })) });
   await cp('.cache/browser-smoke', directory, { recursive: true });
   const original = await readFile(join(directory, 'index.html'), 'utf8');
   const mutants = [
