@@ -1,0 +1,15 @@
+flowchart TB
+subgraph G0["Outer"]
+N0["Start"]
+subgraph G1["Inner"]
+N1["Review"]
+N2["終点"]
+end
+end
+N3["処理 🐈"]
+N4["Alpha<br/>Beta"]
+N0 --> N1
+N1 --> N2
+N2 --> N3
+N3 --> N4
+N4 --> N1

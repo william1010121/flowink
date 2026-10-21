@@ -54,7 +54,7 @@ export async function verifyBrowser({ directory = '.cache/browser-smoke', timeou
     const result = await page.evaluate(() => window.__flowinkSmoke);
     assert.equal(errors.length, 0, `Browser reported errors: ${errors.join('; ')}`);
     assert.equal(result.status, 'passed', result.error || 'Browser verification did not pass');
-    assert.deepEqual(result.results.map(row => row.name), ['controls', 'branch', 'cycle', 'parallel', 'nested', 'CJK']);
+    assert.deepEqual(result.results.map(row => row.name), ['controls', 'distinctArrowheads', 'nestedCrossLevel', 'nestedCompound', 'crossingRepair', 'crossings', 'shortSelfLoop', 'neighborSelfLoops', 'title-clearance', 'metadata-keys', 'yaml-scalar', 'tab-label', 'grapheme-lines', 'branch', 'cycle', 'parallel', 'nested', 'CJK']);
     assert.ok(result.results.every(row => row.passed === true), 'Incomplete browser results');
     return result;
   } finally {
@@ -64,6 +64,6 @@ export async function verifyBrowser({ directory = '.cache/browser-smoke', timeou
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  await verifyBrowser();
-  console.log('Chromium: all six fixtures match Node.js in ASCII and Unicode.');
+  const result = await verifyBrowser();
+  console.log(`Chromium: all ${result.results.length} fixtures match Node.js in ASCII and Unicode.`);
 }

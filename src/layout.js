@@ -1,3 +1,4 @@
+import { minimum, maximum } from './extrema.js';
 // The bundled entry has no runtime dependency on the optional `web-worker`
 // package, so it works unchanged in both Node and browser consumers.
 import ELK from 'elkjs/lib/elk.bundled.js';
@@ -146,6 +147,10 @@ function makeContext(graph) {
       invalid(`Subgraph ${subgraph.id} refers to missing parent ${subgraph.parentId}.`);
     }
     if (subgraph.parentId !== undefined) parent.set(subgraph.id, subgraph.parentId);
+  }
+  // Register every explicit parent before reconciling membership lists, so a
+  // later group cannot silently overwrite a conflicting inferred parent.
+  for (const subgraph of subgraphs.values()) {
     for (const childId of subgraph.nodeIds ?? []) {
       if (!nodes.has(childId) && !subgraphs.has(childId)) invalid(`Subgraph ${subgraph.id} refers to missing child ${childId}.`);
       const previous = parent.get(childId);
@@ -271,6 +276,22 @@ function containerChildren(context, containerId) {
         children,
         edges: containerEdges(context, id),
       };
+      // A separated compound graph drops edges crossing into grandchildren.
+      // Keep its external boundary/local direction separate, but route its
+      // real children together inside an invisible, zero-padding ELK graph.
+      const directChildren = new Set(children.map(child => child.id));
+      const endpoints = result.edges.flatMap(edge => [...edge.sources, ...edge.targets]);
+      if (result.layoutOptions['elk.hierarchyHandling'] === 'SEPARATE_CHILDREN'
+        && !endpoints.includes(result.id)
+        && endpoints.some(endpoint => !directChildren.has(endpoint))) {
+        result.children = [{
+          id: `h${result.id}`,
+          layoutOptions: { ...result.layoutOptions, 'elk.direction': DIRECTIONS[contextDirection(context.graph, context.parent, context.subgraphs, id)], 'elk.hierarchyHandling': 'INCLUDE_CHILDREN', 'elk.padding': '[top=0,left=0,bottom=0,right=0]' },
+          children,
+          edges: result.edges,
+        }];
+        result.edges = [];
+      }
       if (children.length === 0) {
         result.width = elkSize(dim.width);
         result.height = elkSize(dim.height);
@@ -439,15 +460,15 @@ function fromElkGraph(context, result) {
     edges.push({ id: sourceEdge.id, points: route, arrowStart: sourceEdge.arrowStart ?? 'none', arrowEnd: sourceEdge.arrowEnd ?? 'none', stroke: sourceEdge.stroke ?? 'normal', ...(label ? { label } : {}) });
   }
 
-  const minX = Math.min(0, ...boxes.map((box) => box.x), ...edges.flatMap((edge) => edge.points.map((point) => point.x)));
-  const minY = Math.min(0, ...boxes.map((box) => box.y), ...edges.flatMap((edge) => edge.points.map((point) => point.y)));
+  const minX = minimum(edges.flatMap((edge) => edge.points.map((point) => point.x)), minimum(boxes.map((box) => box.x), 0));
+  const minY = minimum(edges.flatMap((edge) => edge.points.map((point) => point.y)), minimum(boxes.map((box) => box.y), 0));
   if (minX !== 0 || minY !== 0) {
     for (const box of boxes) { box.x -= minX; box.y -= minY; }
     for (const edge of edges) for (const point of edge.points) { point.x -= minX; point.y -= minY; }
     for (const edge of edges) if (edge.label) { edge.label.x -= minX; edge.label.y -= minY; }
   }
-  const width = Math.max(1, ...boxes.map((box) => box.x + box.width), ...edges.flatMap((edge) => edge.points.map((point) => point.x + 1)));
-  const height = Math.max(1, ...boxes.map((box) => box.y + box.height), ...edges.flatMap((edge) => edge.points.map((point) => point.y + 1)));
+  const width = maximum(edges.flatMap((edge) => edge.points.map((point) => point.x + 1)), maximum(boxes.map((box) => box.x + box.width), 1));
+  const height = maximum(edges.flatMap((edge) => edge.points.map((point) => point.y + 1)), maximum(boxes.map((box) => box.y + box.height), 1));
   return { boxes, edges, width, height };
 }
 
@@ -469,7 +490,7 @@ function routePoints(edge, sourceBox, targetBox, floatBoxes, context, occupied, 
   const sections = edge.sections;
   if (selfLoop && sourceBox.id === targetBox.id) {
     const custom = selfLoopRoute(sourceBox, selfLoop.rank, selfLoop.count);
-    if (!routeBlocked(custom, context.__boxById, allowedBoxes(context, sourceBox.id, targetBox.id), occupied, sourceBox.id, targetBox.id, arrowStart, arrowEnd)) return custom;
+    if (distinctLoopEndpoints(custom) && !routeBlocked(custom, context.__boxById, allowedBoxes(context, sourceBox.id, targetBox.id), occupied, sourceBox.id, targetBox.id, arrowStart, arrowEnd)) return custom;
   }
   const raw = [];
   for (const section of sections) {
@@ -496,12 +517,19 @@ function routePoints(edge, sourceBox, targetBox, floatBoxes, context, occupied, 
   nudgeRouteEndpoint(points, targetBox, points.length - 1, -1, 0);
   simplifyRoute(points);
   const allowed = allowedBoxes(context, sourceBox.id, targetBox.id);
-  if (routeBlocked(points, context.__boxById, allowed, occupied, sourceBox.id, targetBox.id, arrowStart, arrowEnd)) {
+  if ((selfLoop && !distinctLoopEndpoints(points)) || routeBlocked(points, context.__boxById, allowed, occupied, sourceBox.id, targetBox.id, arrowStart, arrowEnd)) {
     const repaired = gridRepair(points[0], points[points.length - 1], context, sourceBox, targetBox, occupied, arrowStart, arrowEnd);
     if (!repaired) invalid(`Integer grid routing collided while placing edge ${edge.id}.`, 'LAYOUT_ROUTE_COLLISION');
     return repaired;
   }
   return points;
+}
+
+// A valid loop leaves and returns at separated border cells. On a short box,
+// the custom loop or snapped ELK anchors can coincide and retrace one segment.
+function distinctLoopEndpoints(points) {
+  const start = points[0]; const end = points.at(-1);
+  return start && end && Math.abs(start.x - end.x) + Math.abs(start.y - end.y) > 1;
 }
 
 function restoreEndpointSegment(points, index, neighborStep) {
@@ -519,20 +547,26 @@ function selfLoopRoute(box, rank, count) {
   const ring = Math.floor(rank / 4) + 2;
   const left = box.x; const right = box.x + box.width - 1;
   const top = box.y; const bottom = box.y + box.height - 1;
+  // Tiny boxes have no pair of separated interior side cells. Use corners
+  // instead of collapsing the loop to an out-and-back segment.
+  const sideTop = top + (box.height >= 5 ? 1 : 0);
+  const sideBottom = bottom - (box.height >= 5 ? 1 : 0);
+  const sideLeft = left + (box.width >= 5 ? 1 : 0);
+  const sideRight = right - (box.width >= 5 ? 1 : 0);
   if (side === 0) {
     const x = left - ring;
-    return [{ x: left, y: top + 1 }, { x, y: top + 1 }, { x, y: bottom - 1 }, { x: left, y: bottom - 1 }];
+    return [{ x: left, y: sideTop }, { x, y: sideTop }, { x, y: sideBottom }, { x: left, y: sideBottom }];
   }
   if (side === 1) {
     const x = right + ring;
-    return [{ x: right, y: bottom - 1 }, { x, y: bottom - 1 }, { x, y: top + 1 }, { x: right, y: top + 1 }];
+    return [{ x: right, y: sideBottom }, { x, y: sideBottom }, { x, y: sideTop }, { x: right, y: sideTop }];
   }
   if (side === 2) {
     const y = top - ring;
-    return [{ x: left + 1, y: top }, { x: left + 1, y }, { x: right - 1, y }, { x: right - 1, y: top }];
+    return [{ x: sideLeft, y: top }, { x: sideLeft, y }, { x: sideRight, y }, { x: sideRight, y: top }];
   }
   const y = bottom + ring;
-  return [{ x: right - 1, y: bottom }, { x: right - 1, y }, { x: left + 1, y }, { x: left + 1, y: bottom }];
+  return [{ x: sideRight, y: bottom }, { x: sideRight, y }, { x: sideLeft, y }, { x: sideLeft, y: bottom }];
 }
 
 function nudgeRouteEndpoint(points, box, index, neighborStep, offset) {
@@ -618,6 +652,8 @@ function isAncestor(context, candidate, id) {
 function routeBlocked(points, boxes, allowed, occupied, sourceId, targetId, arrowStart = 'none', arrowEnd = 'none') {
   const pair = pairKey(sourceId, targetId);
   const arrowCells = routeArrowKeys(points, arrowStart, arrowEnd);
+  // Two arrowheads on this edge must not collapse onto the same cell.
+  if (arrowStart !== 'none' && arrowEnd !== 'none' && arrowCells.size < 2) return true;
   for (let i = 1; i < points.length; i += 1) {
     const orientation = points[i - 1].x === points[i].x ? 'v' : 'h';
     for (const cell of segmentCells(points[i - 1], points[i])) {
@@ -626,6 +662,7 @@ function routeBlocked(points, boxes, allowed, occupied, sourceId, targetId, arro
       for (const [id, box] of boxes) {
         if (!box || (!inside(cell, box) && !(box.kind === 'node' && !allowed.has(id) && insideExpanded(cell, box, 1)))) continue;
         if (box.kind === 'subgraph' && headerCell(cell, box)) return true;
+        if (arrowCells.has(key(cell.x, cell.y)) && onBoxBorder(cell, box)) return true;
         if (box.kind === 'node' && allowed.has(id)) {
           // A route may leave or enter an endpoint on exactly one border
           // cell, but cannot travel along the endpoint's border or interior.
@@ -652,14 +689,18 @@ function gridRepair(start, end, context, sourceBox, targetBox, occupied, arrowSt
   const starts = endpointCandidates(sourceBox, start);
   const ends = endpointCandidates(targetBox, end);
   for (const candidateStart of starts) for (const candidateEnd of ends) {
-    if (candidateStart.x === candidateEnd.x && candidateStart.y === candidateEnd.y && sourceId !== targetId) continue;
+    // A self-loop must leave the node and return at a distinct, nonadjacent
+    // border cell. Identical endpoints produce an empty BFS path; adjacent
+    // endpoints produce a one-cell border route whose arrow overwrites the box.
+    const endpointDistance = Math.abs(candidateStart.x - candidateEnd.x) + Math.abs(candidateStart.y - candidateEnd.y);
+    if (endpointDistance === 0 || (sourceId === targetId && endpointDistance === 1)) continue;
     const startPoint = candidateStart;
     const endPoint = candidateEnd;
-    for (const margin of [8, 16, 32, 64]) {
-    const minX = Math.min(startPoint.x, endPoint.x, ...all.map((b) => b.x)) - margin;
-    const maxX = Math.max(startPoint.x, endPoint.x, ...all.map((b) => b.x + b.width - 1)) + margin;
-    const minY = Math.min(startPoint.y, endPoint.y, ...all.map((b) => b.y)) - margin;
-    const maxY = Math.max(startPoint.y, endPoint.y, ...all.map((b) => b.y + b.height - 1)) + margin;
+    searchMargins: for (const margin of [8, 16, 32, 64]) {
+    const minX = minimum(all.map((b) => b.x), Math.min(startPoint.x, endPoint.x)) - margin;
+    const maxX = maximum(all.map((b) => b.x + b.width - 1), Math.max(startPoint.x, endPoint.x)) + margin;
+    const minY = minimum(all.map((b) => b.y), Math.min(startPoint.y, endPoint.y)) - margin;
+    const maxY = maximum(all.map((b) => b.y + b.height - 1), Math.max(startPoint.y, endPoint.y)) + margin;
     const queue = [startPoint];
     const previous = new Map([[key(startPoint.x, startPoint.y), null]]);
     const currentArrows = endpointArrowNeighborhood(startPoint, endPoint, arrowStart, arrowEnd);
@@ -672,6 +713,7 @@ function gridRepair(start, end, context, sourceBox, targetBox, occupied, arrowSt
       for (const [id, box] of boxes) {
         if (!inside(cell, box) && !(box.kind === 'node' && !allowed.has(id) && insideExpanded(cell, box, 1))) continue;
         if (box.kind === 'subgraph' && headerCell(cell, box)) return true;
+        if (currentArrows.has(key(x, y)) && onBoxBorder(cell, box)) return true;
         if (box.kind === 'node' && allowed.has(id)) {
           if (!(x === startPoint.x && y === startPoint.y) && !(x === endPoint.x && y === endPoint.y)) return true;
         } else if (!allowed.has(id)) return true;
@@ -686,9 +728,16 @@ function gridRepair(start, end, context, sourceBox, targetBox, occupied, arrowSt
         let cursor = current;
         while (cursor) { path.push(cursor); cursor = previous.get(key(cursor.x, cursor.y)); }
         path.reverse();
+        // Try another endpoint pair rather than accepting overlapping arrows.
+        if (arrowStart !== 'none' && arrowEnd !== 'none' && routeArrowKeys(path, arrowStart, arrowEnd).size < 2) break searchMargins;
         return compress(path);
       }
+      const currentOccupied = occupied.get(key(current.x, current.y));
       for (const [dx, dy] of directions) {
+        // Entering a crossing perpendicularly is valid, but leaving that same
+        // cell along the occupied wire would create an ambiguous shared bend.
+        // The destination-only check below cannot see this turn at current.
+        if (currentOccupied?.orientations.has(dx ? 'h' : 'v')) continue;
         const x = current.x + dx; const y = current.y + dy;
         if (x < minX || x > maxX || y < minY || y > maxY || blocked(x, y, dx ? 'h' : 'v')) continue;
         const k = key(x, y);
@@ -813,6 +862,11 @@ function segmentCells(a, b) {
   return cells;
 }
 
+function onBoxBorder(point, box) {
+  return inside(point, box) && (point.x === box.x || point.x === box.x + box.width - 1
+    || point.y === box.y || point.y === box.y + box.height - 1);
+}
+
 function inside(point, box) {
   return box && point.x >= box.x && point.x < box.x + box.width && point.y >= box.y && point.y < box.y + box.height;
 }
@@ -840,8 +894,8 @@ function edgeLabel(output, edge, route, sourceBox, boxes, placedLabels, routes) 
   const midX = Math.floor((a.x + b.x) / 2);
   const midY = Math.floor((a.y + b.y) / 2);
   if (edge.source === edge.target && sourceBox) {
-    const routeMinX = Math.min(...route.map((point) => point.x));
-    const routeMaxX = Math.max(...route.map((point) => point.x));
+    const routeMinX = minimum(route.map((point) => point.x));
+    const routeMaxX = maximum(route.map((point) => point.x));
     const leftOfBox = routeMinX < sourceBox.x;
     const y = Math.max(0, midY - Math.floor(height / 2));
     const candidates = [
@@ -892,7 +946,7 @@ function labelCollides(candidate, width, height, route, boxes, placedLabels, rou
 }
 
 function maxWidth(lines, fallback) {
-  if (lines.length > 0) return Math.max(1, ...lines.map((line) => Number(displayWidth(line))));
+  if (lines.length > 0) return maximum(lines.map((line) => Number(displayWidth(line))), 1);
   return Math.max(1, Number(displayWidth(String(fallback ?? ''))));
 }
 

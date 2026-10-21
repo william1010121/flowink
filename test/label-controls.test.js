@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { labelLines, prepareNode } from '../src/text.js';
-import { render } from '../src/index.js';
+import { render, parse, renderGraph } from '../src/index.js';
 const unsafe = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/;
 
 test('unsafe raw C0/C1 label controls become visible replacements', () => {
@@ -33,6 +33,11 @@ test('node, edge, and group labels cannot emit raw terminal control bytes', asyn
       const result=await render(source,{charset});
       assert.doesNotMatch(result,unsafe,JSON.stringify(result));
       assert.ok(result.includes('�'),JSON.stringify(result));
+      const graph = parse(source);
+      const original = JSON.stringify(graph);
+      assert.equal(await renderGraph(graph, { charset }), result);
+      assert.equal(await renderGraph(JSON.parse(original), { charset }), result);
+      assert.equal(JSON.stringify(graph), original);
     }
   }
 });
@@ -59,4 +64,39 @@ test('many-line generated placeholders avoid argument-count limits during prepar
   assert.equal(node.lines.at(-1),'x]');
   assert.equal(node.height,150_003);
   assert.equal(node.width,6);
+});
+
+
+test('renderGraph neutralizes edited labels, ID fallbacks and generated shape names without mutation', async () => {
+  const controls = Array.from({ length: 0xa0 }, (_, code) => String.fromCharCode(code)).filter(value => unsafe.test(value)).join('');
+  const edited = parse('flowchart LR\nsubgraph G[Group]\nA[Node]-->|Edge|B\nend');
+  edited.nodes[0].label = 'N\u001b';
+  edited.edges[0].label = 'E\u0007';
+  edited.subgraphs[0].label = 'G\u009b';
+  const cases = [
+    edited,
+    { direction: 'TB', nodes: [{ id: 'A', label: 'A' + controls + 'B' }], edges: [], subgraphs: [] },
+    { direction: 'TB', nodes: [{ id: 'A\u001bB' }], edges: [], subgraphs: [] },
+    { direction: 'TB', nodes: [{ id: 'A', label: 'safe', shape: '<odd>\u001b\r\nnext\tpart' }], edges: [], subgraphs: [] },
+    { direction: 'TB', nodes: [{ id: 'A', label: 'ignored', metadata: { label: 'A&#27;B', shape: '<odd>\u0007', labelType: 'markdown' } }], edges: [], subgraphs: [] },
+  ];
+  for (const graph of cases) {
+    const original = JSON.stringify(graph);
+    for (const charset of ['ascii', 'unicode']) {
+      const output = await renderGraph(graph, { charset });
+      assert.doesNotMatch(output, unsafe, JSON.stringify(output));
+      assert.ok(output.includes('�'));
+      assert.equal(JSON.stringify(graph), original);
+    }
+  }
+});
+
+test('renderGraph control normalization survives failed and concurrent calls', async () => {
+  const graph = parse('flowchart LR\nA["A&#27;B"] -->|"E&#7;"| B');
+  const original = JSON.stringify(graph);
+  const expected = await renderGraph(graph);
+  await assert.rejects(renderGraph({ ...graph, direction: 'bad' }), { code: 'INVALID_GRAPH' });
+  assert.deepEqual(await Promise.all(Array.from({ length: 4 }, () => renderGraph(graph))), Array(4).fill(expected));
+  assert.doesNotMatch(expected, unsafe, JSON.stringify(expected));
+  assert.equal(JSON.stringify(graph), original);
 });

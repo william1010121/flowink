@@ -1,0 +1,62 @@
+[
+  {
+    "source": "flowchart TB\nsubgraph A\na\nend\na-->A",
+    "ascii": "1029eedfd8378c281dc47596e3c24038ad4f8fc4586b0e13f8d5d1584cd2a894",
+    "unicode": "6def264cf892584029ae6157f9070a32933c43126cd77b44565a864205eaa3f2"
+  },
+  {
+    "source": "flowchart TB\nsubgraph A\na\nend\na---A",
+    "ascii": "d04bbacecd1f06316cd8a968ffcb31db163a1ff78166af89a959666fe1a7b1ec",
+    "unicode": "04f634bf37cd9bcd5e28e3cd20798dc0b1e5a19d9aedca95e637769d4253b22c"
+  },
+  {
+    "source": "flowchart TB\nsubgraph A\na\nend\na<-->a",
+    "ascii": "43189e4e7a12ffe6c086a94574b0bc5c282f7aa2cc0fc079f500b0a17acbbb51",
+    "unicode": "68b10a76593647cac9d22ca9413372062321067cf7210c8555d9b81d25fb22be"
+  },
+  {
+    "source": "flowchart BT\nsubgraph A\na\nend\na-->A",
+    "ascii": "a4e43a991fc8e29e060173f14b955728d129082ac94ce89d4556c3fb151308f2",
+    "unicode": "e84aeb51fe13d110585fb497926d0d160f6730e760148c480cb398745b450976"
+  },
+  {
+    "source": "flowchart BT\nsubgraph A\na\nend\na---A",
+    "ascii": "40641ff9f97150eeaba4b41d21e7392f13b24c6906f7e9b272fa09bdf9eccdb2",
+    "unicode": "87f84f3705650de021426d7d5c86d70da13e50ed672c5208c672ca5cb09601db"
+  },
+  {
+    "source": "flowchart BT\nsubgraph A\na\nend\na<-->a",
+    "ascii": "43189e4e7a12ffe6c086a94574b0bc5c282f7aa2cc0fc079f500b0a17acbbb51",
+    "unicode": "68b10a76593647cac9d22ca9413372062321067cf7210c8555d9b81d25fb22be"
+  },
+  {
+    "source": "flowchart LR\nsubgraph A\na\nend\na-->A",
+    "ascii": "6770094e8f0b79d09325d8e55b4401a1e7e670e514d9059bd9008abdf428f1d9",
+    "unicode": "6a1513166303eb5814403ed9099fd15491ab83dbaf2c7f02d793ad74000e20dd"
+  },
+  {
+    "source": "flowchart LR\nsubgraph A\na\nend\na---A",
+    "ascii": "ce90fc954027bb560b82049c7ab4448bba79dc5302f431bfcadae3a89e3b7f5c",
+    "unicode": "2ef650d0a905ccddfa1df34de34ea2d01a92850fa9918f7fdd155a71275c3094"
+  },
+  {
+    "source": "flowchart LR\nsubgraph A\na\nend\na<-->a",
+    "ascii": "142fce4956708152a31be73b0552052a18a6e4c685c3b3570d25f51e0757cf3c",
+    "unicode": "de014aef23a0df59ae9393bb8a106f1528baf9b4a12b7c21b2873e161b6ec8c2"
+  },
+  {
+    "source": "flowchart RL\nsubgraph A\na\nend\na-->A",
+    "ascii": "0dbcce9240ececde57791b9b7705ef8a0c64ed77ab41acf2e32747e6555a607c",
+    "unicode": "2443451f88b33c9f3ae60a0a3157a0e87d20ba45636c30e2390810154abd92b9"
+  },
+  {
+    "source": "flowchart RL\nsubgraph A\na\nend\na---A",
+    "ascii": "f4ce558655247880f9514bd0d47f3f7745a3c0622ae585e8ae41197f8bd775d9",
+    "unicode": "e5e78ec2871c102a9ea5ba2afab0344d9253531e9d8835fd0c16bc7bb6ed87e8"
+  },
+  {
+    "source": "flowchart RL\nsubgraph A\na\nend\na<-->a",
+    "ascii": "142fce4956708152a31be73b0552052a18a6e4c685c3b3570d25f51e0757cf3c",
+    "unicode": "de014aef23a0df59ae9393bb8a106f1528baf9b4a12b7c21b2873e161b6ec8c2"
+  }
+]

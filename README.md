@@ -16,6 +16,13 @@ ASCII and Unicode diagrams for Node.js and the browser.
 
 </div>
 
+**Documentation status:** This README tracks `main`, which can contain changes
+not yet published to npm. The published **0.1.1** package exports synchronous
+`parse`, Promise-based `render`, and `FlowInkError`; it does **not** export `renderGraph`. To use
+`renderGraph`, build the matching source checkout as described in
+[Development](#development). The repository's `package.json` version alone
+does not establish that its current source has been published.
+
 <!-- example:hero:start -->
 ```text
 +---------+  +------------+
@@ -212,6 +219,30 @@ Unsafe C0/C1 control characters in labels are replaced with visible `�` after 
 
 Output has no trailing spaces or trailing newline. There is no fixed total width, and labels are not truncated. Dense diagrams may expand to preserve wire spacing and readable label placement.
 
+### `renderGraph(graph, options?) → Promise<string>`
+
+**Source-build API:** Not available in the published npm **0.1.1** package.
+Use a matching [source build](#development), not the npm quick-start install.
+
+Render an edited or JSON-deserialized `FlowGraph` directly, without parsing its `source` again. Options and output formatting match `render`.
+
+After building this checkout, run the example from its root (for example, save
+it as `demo.mjs` and run `node demo.mjs`):
+
+```js
+import { parse, renderGraph } from './dist/index.js';
+
+const graph = parse('flowchart LR\n A[Start] --> B[Done]');
+graph.nodes.find(node => node.id === 'A').label = 'Ready';
+console.log(await renderGraph(graph, { charset: 'unicode' }));
+```
+
+For an unchanged graph with accepted acyclic drawing data, `renderGraph(parse(source), options)` produces the same output as `render(source, options)`. Rendering snapshots drawing data before asynchronous layout and does not mutate the input, so frozen graphs and concurrent calls are supported. Changes made after a call starts affect only later calls.
+
+Graph records must be plain objects from the caller or another realm (or null-prototype objects), with own data properties and ordinary dense arrays. Drawing fields are validated, including directions, identifiers, edge endpoints, arrow/stroke kinds, parents, and group membership. Accessors in drawing data are rejected without invoking them. Invalid graphs reject with `FlowInkError` code `INVALID_GRAPH`; layout failures retain their usual error codes. Graph errors do not fabricate Mermaid source locations.
+
+`source`, styles, classes, and non-drawing metadata are ignored, not executed or reparsed. Text/shape metadata used for drawing is copied and must contain only acyclic data with at most 256 nested levels. Deeper drawing metadata rejects with `INVALID_GRAPH` before layout. Icon/image payloads are not loaded or traversed; only their presence selects a placeholder. This API accepts graph data, not arbitrary JavaScript instances or executable objects; it is not a sandbox for Proxies. Use `parse` followed by edits, or a JSON round-trip of its result, to preserve the graph structure. Cyclic text/shape metadata created by YAML aliases is rejected, even if source rendering accepts it. Ordinary data from same-origin iframes or VM contexts can be passed directly, including mixed-realm arrays and records. Custom class instances, array subclasses, and nonstandard prototype chains remain unsupported.
+
 ### `parse(source) → FlowGraph`
 
 Returns an independent, serializable graph, retaining the exact original input.
@@ -225,6 +256,8 @@ Returns an independent, serializable graph, retaining the exact original input.
 | `subgraphs` | IDs, titles, membership, hierarchy, local directions, metadata |
 | `classes` | Named style definitions |
 | `metadata` | Frontmatter, directives, accessibility information, and other non-drawing data |
+
+Multiline shape-data declarations (`@{...}`) follow YAML indentation, nested-mapping, and block-scalar rules. Align sibling keys; literal/folded labels retain their scalar content and chomping semantics. Single-line comma-separated shape metadata remains supported. Inconsistent multiline indentation raises `SHAPE_DATA_ERROR` rather than being silently dedented. See [shape-data YAML behavior](docs/shape-yaml-indentation.md).
 
 ### Errors
 
@@ -245,7 +278,7 @@ try {
 }
 ```
 
-Located syntax errors use one-based lines and columns in the original source. Layout failures are reported explicitly; a successful render must not silently omit an edge.
+Located syntax errors use one-based lines and UTF-16 code-unit columns in the original source. Unexpected-token errors point to the beginning of the offending token; end-of-input errors retain the parser’s last available location, and lexical failures may have no location. Layout failures are reported explicitly; a successful render must not silently omit an edge.
 
 ## Compatibility
 
