@@ -1,3 +1,4 @@
+import { maximum } from './extrema.js';
 import stringWidth from 'string-width';
 import { decodeHTML } from 'entities';
 import { marked } from 'marked';
@@ -305,7 +306,7 @@ export function prepareNode(node = {}) {
     lines = lines.length === 1 && lines[0] === '' ? prefixes : [...prefixes, ...lines];
   }
 
-  const widest = Math.max(0, ...lines.map(displayWidth));
+  const widest = maximum(lines.map(displayWidth), 0);
   // Two horizontal border cells plus one padding cell on each side.
   const padding = 1;
   const borderWidth = 2;

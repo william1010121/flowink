@@ -1,3 +1,4 @@
+import { maximum } from './extrema.js';
 import { FlowInkError } from './errors.js';
 import { displayWidth } from './text.js';
 
@@ -128,7 +129,7 @@ function normalizeLabel(label, owner) {
     fail(`Label for ${owner} is invalid.`, 'INVALID_LAYOUT');
   }
   if (label.lines.some((line) => typeof line !== 'string')) fail(`Label for ${owner} has a non-string line.`, 'INVALID_LAYOUT');
-  const measured = Math.max(0, ...label.lines.map((line) => displayWidth(line)));
+  const measured = maximum(label.lines.map((line) => displayWidth(line)), 0);
   const width = Number.isInteger(label.width) && label.width >= measured ? label.width : measured;
   const height = Number.isInteger(label.height) && label.height >= label.lines.length ? label.height : label.lines.length;
   return { ...label, width, height };

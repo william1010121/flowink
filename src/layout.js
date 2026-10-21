@@ -1,3 +1,4 @@
+import { minimum, maximum } from './extrema.js';
 // The bundled entry has no runtime dependency on the optional `web-worker`
 // package, so it works unchanged in both Node and browser consumers.
 import ELK from 'elkjs/lib/elk.bundled.js';
@@ -439,15 +440,15 @@ function fromElkGraph(context, result) {
     edges.push({ id: sourceEdge.id, points: route, arrowStart: sourceEdge.arrowStart ?? 'none', arrowEnd: sourceEdge.arrowEnd ?? 'none', stroke: sourceEdge.stroke ?? 'normal', ...(label ? { label } : {}) });
   }
 
-  const minX = Math.min(0, ...boxes.map((box) => box.x), ...edges.flatMap((edge) => edge.points.map((point) => point.x)));
-  const minY = Math.min(0, ...boxes.map((box) => box.y), ...edges.flatMap((edge) => edge.points.map((point) => point.y)));
+  const minX = minimum(edges.flatMap((edge) => edge.points.map((point) => point.x)), minimum(boxes.map((box) => box.x), 0));
+  const minY = minimum(edges.flatMap((edge) => edge.points.map((point) => point.y)), minimum(boxes.map((box) => box.y), 0));
   if (minX !== 0 || minY !== 0) {
     for (const box of boxes) { box.x -= minX; box.y -= minY; }
     for (const edge of edges) for (const point of edge.points) { point.x -= minX; point.y -= minY; }
     for (const edge of edges) if (edge.label) { edge.label.x -= minX; edge.label.y -= minY; }
   }
-  const width = Math.max(1, ...boxes.map((box) => box.x + box.width), ...edges.flatMap((edge) => edge.points.map((point) => point.x + 1)));
-  const height = Math.max(1, ...boxes.map((box) => box.y + box.height), ...edges.flatMap((edge) => edge.points.map((point) => point.y + 1)));
+  const width = maximum(edges.flatMap((edge) => edge.points.map((point) => point.x + 1)), maximum(boxes.map((box) => box.x + box.width), 1));
+  const height = maximum(edges.flatMap((edge) => edge.points.map((point) => point.y + 1)), maximum(boxes.map((box) => box.y + box.height), 1));
   return { boxes, edges, width, height };
 }
 
@@ -656,10 +657,10 @@ function gridRepair(start, end, context, sourceBox, targetBox, occupied, arrowSt
     const startPoint = candidateStart;
     const endPoint = candidateEnd;
     for (const margin of [8, 16, 32, 64]) {
-    const minX = Math.min(startPoint.x, endPoint.x, ...all.map((b) => b.x)) - margin;
-    const maxX = Math.max(startPoint.x, endPoint.x, ...all.map((b) => b.x + b.width - 1)) + margin;
-    const minY = Math.min(startPoint.y, endPoint.y, ...all.map((b) => b.y)) - margin;
-    const maxY = Math.max(startPoint.y, endPoint.y, ...all.map((b) => b.y + b.height - 1)) + margin;
+    const minX = minimum(all.map((b) => b.x), Math.min(startPoint.x, endPoint.x)) - margin;
+    const maxX = maximum(all.map((b) => b.x + b.width - 1), Math.max(startPoint.x, endPoint.x)) + margin;
+    const minY = minimum(all.map((b) => b.y), Math.min(startPoint.y, endPoint.y)) - margin;
+    const maxY = maximum(all.map((b) => b.y + b.height - 1), Math.max(startPoint.y, endPoint.y)) + margin;
     const queue = [startPoint];
     const previous = new Map([[key(startPoint.x, startPoint.y), null]]);
     const currentArrows = endpointArrowNeighborhood(startPoint, endPoint, arrowStart, arrowEnd);
@@ -840,8 +841,8 @@ function edgeLabel(output, edge, route, sourceBox, boxes, placedLabels, routes) 
   const midX = Math.floor((a.x + b.x) / 2);
   const midY = Math.floor((a.y + b.y) / 2);
   if (edge.source === edge.target && sourceBox) {
-    const routeMinX = Math.min(...route.map((point) => point.x));
-    const routeMaxX = Math.max(...route.map((point) => point.x));
+    const routeMinX = minimum(route.map((point) => point.x));
+    const routeMaxX = maximum(route.map((point) => point.x));
     const leftOfBox = routeMinX < sourceBox.x;
     const y = Math.max(0, midY - Math.floor(height / 2));
     const candidates = [
@@ -892,7 +893,7 @@ function labelCollides(candidate, width, height, route, boxes, placedLabels, rou
 }
 
 function maxWidth(lines, fallback) {
-  if (lines.length > 0) return Math.max(1, ...lines.map((line) => Number(displayWidth(line))));
+  if (lines.length > 0) return maximum(lines.map((line) => Number(displayWidth(line))), 1);
   return Math.max(1, Number(displayWidth(String(fallback ?? ''))));
 }
 
