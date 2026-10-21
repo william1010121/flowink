@@ -147,6 +147,10 @@ function makeContext(graph) {
       invalid(`Subgraph ${subgraph.id} refers to missing parent ${subgraph.parentId}.`);
     }
     if (subgraph.parentId !== undefined) parent.set(subgraph.id, subgraph.parentId);
+  }
+  // Register every explicit parent before reconciling membership lists, so a
+  // later group cannot silently overwrite a conflicting inferred parent.
+  for (const subgraph of subgraphs.values()) {
     for (const childId of subgraph.nodeIds ?? []) {
       if (!nodes.has(childId) && !subgraphs.has(childId)) invalid(`Subgraph ${subgraph.id} refers to missing child ${childId}.`);
       const previous = parent.get(childId);

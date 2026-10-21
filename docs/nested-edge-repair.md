@@ -16,7 +16,7 @@ Original sequential baseline/candidate measurements in milliseconds, retained in
 
 The reconstructed harness accepts the baseline entry module path as its first argument, warms each implementation, checks exact output equality for previously valid inputs, and reports medians of nine sequential renders. New recovered measurements must not be presented as the original experiment.
 
-## Independent current-main validation
+## First independent main validation
 
 This extraction is based on main `985704bc208caef534359629c04cc4764cd89e2e`, after the separately reviewed self-loop and crossing fixes. It contains no geometry-spacing optimization, terminal-control normalization, or experimental lexer pruning. The production change remains 23 added lines in `src/layout.js`.
 
@@ -27,3 +27,27 @@ The focused regressions also compare source rendering, parsed-graph rendering an
 An independent current-main review additionally compared 32 ancestor/compound/bidirectional cases: four unchanged successes, 18 repaired failures (16 missing-edge and two arrow-border cases), ten unchanged `ARROW_COLLISION` failures, and no successful-case regression. The 22 successful examples matched JSON `renderGraph` output and exposed only public IDs. A border-only regression and explicit ancestor-direction/parent assertions are now durable tests. This does not claim all compound arrow arrangements are supported.
 
 A fresh Node24.19.0 bounded run used three warmups and nine sequential samples per implementation, with exact output checks for prior successes. Median baseline/candidate milliseconds: small 6.760/7.560; decision 10.071/8.946; chain100 60.156/56.174; deep groups 18.412/16.727. The small control was 0.800ms slower (11.8%) in this run; other controls were faster, so these noisy sequential results are not a throughput claim. Formerly failing nested/compound examples rendered in 42.803/52.425ms and have no successful baseline timing. These measurements are distinct from the historical run above.
+
+## Integration with main after parent validation
+
+The final candidate is based on main `260a96499e4eb0ce47eb7d2509c27fccc9d1db5d`,
+including the independently merged order-independent parent validation and
+published-versus-source README guard. The nested repair remains the same
+23-line production delta relative to that main. The earlier candidate and
+its evidence remain preserved; its old-head review is not a review of this
+combined source. No spacing optimization, terminal-control normalization, or
+unpublished distinct-arrowhead repair is included.
+
+The combined suite passes 644 tests. Build, declarations, an offline packed
+consumer, all 16 Chromium fixtures and browser failure guards pass. The
+offline package check reuses cached dependencies and is not represented as
+a fresh network install; final-head CI must supply its clean-install gate.
+
+Re-running the differential against this exact main retains all 428 prior
+successful upstream sources byte-for-byte in both charsets, fixes the same
+four missing-edge sources, and retains three expected errors. The bounded
+generated corpus again covers 200 executions of 149 distinct sources: 364
+identical successful outputs and 36 fixed attempts, with no new regression.
+Minimum Node 22.12 also passes the 34 focused nested/parent/API/realm tests.
+The timing results above remain measurements of the earlier base, not new
+measurements of this integration.
