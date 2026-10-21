@@ -16,6 +16,13 @@ ASCII and Unicode diagrams for Node.js and the browser.
 
 </div>
 
+**Documentation status:** This README tracks `main`, which can contain changes
+not yet published to npm. The published **0.1.1** package exports synchronous
+`parse`, Promise-based `render`, and `FlowInkError`; it does **not** export `renderGraph`. To use
+`renderGraph`, build the matching source checkout as described in
+[Development](#development). The repository's `package.json` version alone
+does not establish that its current source has been published.
+
 <!-- example:hero:start -->
 ```text
 +---------+  +------------+
@@ -212,10 +219,16 @@ Output has no trailing spaces or trailing newline. There is no fixed total width
 
 ### `renderGraph(graph, options?) → Promise<string>`
 
+**Source-build API:** Not available in the published npm **0.1.1** package.
+Use a matching [source build](#development), not the npm quick-start install.
+
 Render an edited or JSON-deserialized `FlowGraph` directly, without parsing its `source` again. Options and output formatting match `render`.
 
+After building this checkout, run the example from its root (for example, save
+it as `demo.mjs` and run `node demo.mjs`):
+
 ```js
-import { parse, renderGraph } from 'flowink';
+import { parse, renderGraph } from './dist/index.js';
 
 const graph = parse('flowchart LR\n A[Start] --> B[Done]');
 graph.nodes.find(node => node.id === 'A').label = 'Ready';
