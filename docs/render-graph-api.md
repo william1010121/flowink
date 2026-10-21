@@ -6,12 +6,12 @@ It is not a new parser dialect, CLI, or general JavaScript-object sandbox.
 
 The API snapshots drawing fields synchronously before the first asynchronous
 layout step. Unknown/non-drawing fields are ignored. Own data descriptors are
-read without invoking getters. Same-realm plain objects (including null-prototype records)
+read without invoking getters. Plain objects from the caller or another realm (including null-prototype records)
 and dense ordinary arrays are accepted; custom instances and accessors in
 consumed data are rejected. Cyclic text/shape metadata (including parser YAML
 aliases) is rejected rather than promising parity for non-serializable inputs.
 Icon/image metadata is reduced to a presence flag without traversing its
-unused payload. Cross-realm records must first be deserialized in the calling realm. Drawing-metadata traversal has a 256-level depth limit; deeper acyclic inputs
+unused payload. Cross-realm ordinary records and dense arrays are accepted directly. Custom class instances, array subclasses, and nonstandard prototype chains remain rejected. Foreign intrinsic prototypes are checked through own data descriptors and native constructor/prototype identity, without invoking constructors or property getters. Drawing-metadata traversal has a 256-level depth limit; deeper acyclic inputs
 reject as `INVALID_GRAPH` instead of overflowing the JavaScript stack. Memoized copying preserves aliases
 inside each consumed metadata value without sharing caller objects; a shared
 acyclic subtree is copied once, rather than expanded exponentially. Cached
@@ -93,3 +93,40 @@ no competing builds/timings, now against this independent main-based API:
 The reused-graph chain and nested-group medians are 1.4% and 3.0% slower in this
 run despite less preparation work. This remains a composable API feature, not a
 layout cache or a promise that skipping parsing always lowers full-render time.
+
+### Cross-realm boundary
+
+Foreign ordinary objects/arrays require standard intrinsic prototype `constructor` data descriptors and constructor-to-prototype back-references. Deleting or replacing those descriptors can make otherwise ordinary foreign data unsupported; the existing local-realm fast paths remain unchanged. Validation uses caller-realm intrinsic descriptor/prototype operations and `Function.prototype.toString`, never caller-supplied or foreign method overrides. It assumes trusted caller-realm intrinsics, and is not hardened identity authentication or a sandbox for arbitrary Proxies.
+
+Cross-realm regression coverage uses both Node VM contexts and real same-origin Chromium iframes: plain and mixed-realm output parity, rejected custom classes/array subclasses, and rejected non-executed getters. Existing metadata cycle/depth/shared-DAG and snapshot-mutation safeguards also apply to foreign data. The feature does not grant access to cross-origin iframe objects; ordinary browser origin rules remain in force.
+
+Run `node scripts/benchmark-cross-realm.js BASELINE_SRC_GRAPH_JS` to compare snapshot overhead. It verifies snapshot equality, rotates baseline-local/candidate-local/candidate-foreign order for nine rounds, discards two warmup rounds, and reports medians of seven 500-call batches. On Node 24.19.0: two nodes measured 0.003179 / 0.002893 / 0.007667 ms; 100 nodes measured 0.081154 / 0.083587 / 0.205779 ms. Foreign descriptor validation has a measurable cost; local 100-node overhead was approximately 3% in this run. These are snapshot-only timings, not full-render speed claims, and shared-host noise limits generalization.
+
+Cross-realm extraction onto main `2ef9e97179c96ab358698f74c302a08385ef6bcf`
+changes no routing or parsing source. Its graph validator is byte-identical to
+the previously reviewed cross-realm implementation. Current validation passes
+621 tests, build/types, an offline packed consumer, ten browser fixtures plus
+real same-origin iframe checks, and browser failure guards. A bounded
+200-execution/149-source differential verifies foreign-graph and JSON paths
+against current-main source rendering in both charsets: 356 identical successful
+outputs and 44 identical expected layout errors. Existing class/accessor,
+cycle/depth/DAG, mutation and repeated-recovery safeguards remain tested.
+
+One refreshed snapshot-only comparison on Node 24.19.0 completed within ten
+seconds using the same rotating nine-round harness. Baseline-local /
+candidate-local / candidate-foreign medians were 0.003083 / 0.002433 / 0.007337 ms
+for two nodes and 0.098482 / 0.099475 / 0.221873 ms for 100 nodes. The local
+100-node difference is approximately one microsecond (+1.0%); foreign validation
+has a deliberate measurable cost. This is interoperability, not a full-render
+performance claim. Local online dependency installation remains unverified due
+to the previously observed registry HTTP 403; offline results are kept distinct.
+
+### Cross-realm descriptor review follow-up
+
+Foreign intrinsic recognition also compares the enumerable, writable, and
+configurable flags of both the prototype's own constructor descriptor and the
+constructor's own prototype back-reference with the caller-realm intrinsic.
+Keeping a native constructor value alone does not make an altered foreign
+constructor descriptor acceptable. Regressions independently change each mutable
+constructor flag for Object and Array, reject accessor/non-callable replacements,
+and verify that an ordinary foreign graph still renders after those failures.

@@ -27,7 +27,23 @@ import {render,parse,renderGraph} from './flowink.js';
 const cases = ${JSON.stringify(cases)};
 const expected = ${JSON.stringify(expected)};
 const results=[];
+const frame=document.createElement('iframe');
+frame.hidden=true;
+document.body.append(frame);
+const foreign=frame.contentWindow;
+if(foreign.Object.prototype===Object.prototype)throw Error('iframe has no distinct realm');
 try {
+  const rejectGraph=async graph=>{try{await renderGraph(graph)}catch(error){if(error.code==='INVALID_GRAPH')return;throw error}throw Error('Invalid foreign graph accepted')};
+  const base=foreign.JSON.parse(JSON.stringify(parse(cases[0][1])));
+  const ForeignClass=foreign.eval('(class Graph {})');
+  await rejectGraph(Object.assign(new ForeignClass(),base));
+  const ForeignArray=foreign.eval('(class Nodes extends Array {})');
+  await rejectGraph({...base,nodes:new ForeignArray(...base.nodes)});
+  let getterCalls=0;
+  const invalid=foreign.JSON.parse(JSON.stringify(base));
+  foreign.Object.defineProperty(invalid.nodes[0],'label',{get(){getterCalls++;throw Error('getter called')}});
+  await rejectGraph(invalid);
+  if(getterCalls!==0)throw Error('Foreign getter executed');
   for(const [name,source] of cases){
     const outputs=await Promise.all(['ascii','unicode'].map(charset=>render(source,{charset})));
     if(!outputs.every(s=>typeof s==='string'&&s.length))throw Error(name+': empty output');
@@ -37,6 +53,10 @@ try {
     const graph=parse(source);
     const graphOutputs=await Promise.all(['ascii','unicode'].map(charset=>renderGraph(JSON.parse(JSON.stringify(graph)),{charset})));
     if(JSON.stringify(graphOutputs)!==JSON.stringify(outputs))throw Error(name+': renderGraph differs from render');
+    const foreignGraph=foreign.JSON.parse(JSON.stringify(graph));
+    const foreignOutputs=await Promise.all(['ascii','unicode'].map(charset=>renderGraph(foreignGraph,{charset})));
+    if(JSON.stringify(foreignOutputs)!==JSON.stringify(outputs))throw Error(name+': foreign graph differs');
+    if(await renderGraph({...foreignGraph,nodes:[...foreignGraph.nodes]})!==outputs[0])throw Error(name+': mixed realm differs');
     if(graph.source!==source)throw Error(name+': source lost');
     results.push({name,nodes:graph.nodes.length,edges:graph.edges.length,passed:true});
     for(let i=0;i<outputs.length;i++){
