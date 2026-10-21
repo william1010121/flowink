@@ -16,7 +16,7 @@ this is not a streaming-memory redesign or a resource/DoS sandbox.
 On main b2e663af25ba336213917c3afdc43635304967ed, each of these bounded fixtures
 hit a RangeError; the candidate completes them:
 
-- A 600,044-byte single-node YAML block scalar with 150,001 content lines and a
+- A 600,043-byte single-node YAML block scalar with 150,001 content lines and a
   sibling `shape: rect` key. Public parse previously wrapped the RangeError as
   PARSE_ERROR. The test parses only, without constructing a huge raster.
 - Node preparation and edge-label validation with 150,001 short lines, without
@@ -25,8 +25,10 @@ hit a RangeError; the candidate completes them:
   large canvas or many-node pairwise overlap work.
 
 The initial scalar-only diagnostic has a separate pre-existing common-indentation
-normalization limitation. It is not claimed fixed: the final valid regression
-uses the sibling key to preserve the existing indentation convention. Other
+normalization limitation. It was not fixed by the extrema change; the separate
+[raw-YAML follow-up](shape-yaml-indentation.md) addresses it. The large regression
+uses consistently aligned root keys and a sibling key. The raw-YAML follow-up
+aligned the first key by removing one incidental space after the opening brace. Other
 argument spreads, such as parser style/class pushes, are outside this extrema-only
 change. There is no claim that all large-input failures are eliminated.
 

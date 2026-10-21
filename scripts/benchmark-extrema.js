@@ -7,7 +7,7 @@ import { maximum } from '../src/extrema.js';
 if (!process.argv[2]) throw new Error('Usage: node scripts/benchmark-extrema.js BASELINE_CHECKOUT');
 const baseline = await import(pathToFileURL(resolve(process.argv[2], 'src/index.js')));
 const oldRaster = await import(pathToFileURL(resolve(process.argv[2], 'src/rasterize.js')));
-const scalar = 'flowchart TB\n A@{ label: |\n' + '  a\n'.repeat(100) + 'shape: rect\n}';
+const scalar = 'flowchart TB\n A@{label: |\n' + '  a\n'.repeat(100) + 'shape: rect\n}';
 const graph = { width: 1, height: 1, boxes: [], edges: [{ id: 'e', points: [{ x: 0, y: 0 }], label: { x: 0, y: 0, lines: Array(100).fill('a') } }] };
 const numbers = Array.from({ length: 10000 }, (_, i) => (i % 17) - 8);
 const source = 'flowchart LR\n A["開始 👩‍💻"] -->|確認| B["完成 é"]';

@@ -28,8 +28,8 @@ test('bounded extrema preserve empty, seed, NaN, infinity and signed-zero semant
 });
 
 test('large valid shape-data scalar parses repeatedly and malformed data still recovers', () => {
-  // The sibling key preserves the parser's existing common-indent convention.
-  const source = 'flowchart TB\n A@{ label: |\n' + '  a\n'.repeat(150001) + 'shape: rect\n}';
+  // Keep both root keys aligned; the sibling also exercises large indentation scans.
+  const source = 'flowchart TB\n A@{label: |\n' + '  a\n'.repeat(150001) + 'shape: rect\n}';
   for (let i = 0; i < 2; i++) {
     const graph = parse(source);
     assert.equal(graph.nodes.length, 1);
