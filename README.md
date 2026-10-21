@@ -245,7 +245,7 @@ try {
 }
 ```
 
-Located syntax errors use one-based lines and columns in the original source. Layout failures are reported explicitly; a successful render must not silently omit an edge.
+Located syntax errors use one-based lines and UTF-16 code-unit columns in the original source. Unexpected-token errors point to the beginning of the offending token; end-of-input errors retain the parser’s last available location, and lexical failures may have no location. Layout failures are reported explicitly; a successful render must not silently omit an edge.
 
 ## Compatibility
 

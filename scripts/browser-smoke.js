@@ -50,6 +50,10 @@ try {
   const largeShapeSource='flowchart TB\\n A@{label: |\\n'+'  a\\n'.repeat(150001)+'shape: rect\\n}';
   const largeShape=parse(largeShapeSource);
   if(largeShape.nodes.length!==1 || largeShape.nodes[0].metadata.label!=='a\\n'.repeat(150001))throw Error('Large YAML scalar failed');
+  for(const [source,line,column] of [['flowchart LR\\n A[ok)\\n',2,6],['flowchart LR\\n A[中文🙂)\\n',2,8],['flowchart LR\\n  end\\n',2,3]]){
+    let caught=false;try{parse(source)}catch(e){caught=true;if(e.line!==line||e.column!==column)throw Error('Wrong lookahead location');}
+    if(!caught)throw Error('Invalid lookahead accepted');
+  }
   let located=false;try{parse('flowchart LR\\n A[')}catch(e){located=Number.isInteger(e.line)}
   if(!located)throw Error('Syntax error lacks position');
   window.__flowinkSmoke={status:'passed',results};
