@@ -73,7 +73,28 @@ export function snapshotGraph(input) {
 function record(value, path) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) fail(`${path} must be a plain data object.`);
   const prototype = Object.getPrototypeOf(value);
-  if (prototype !== Object.prototype && prototype !== null) fail(`${path} must be a plain data object.`);
+  if (prototype !== null && !objectPrototype(prototype)) fail(`${path} must be a plain data object.`);
+}
+
+// Foreign intrinsics are recognized by own data descriptors, never by calling
+// constructors or user-overridable methods. Custom instances remain excluded.
+function intrinsicPrototype(prototype, constructor) {
+  const descriptor = Object.getOwnPropertyDescriptor(prototype, 'constructor');
+  if (!descriptor || !Object.hasOwn(descriptor, 'value') || typeof descriptor.value !== 'function') return false;
+  const value = descriptor.value;
+  const back = Object.getOwnPropertyDescriptor(value, 'prototype');
+  return back && Object.hasOwn(back, 'value') && back.value === prototype
+    && Function.prototype.toString.call(value) === Function.prototype.toString.call(constructor);
+}
+
+function objectPrototype(prototype) {
+  return prototype === Object.prototype || (prototype !== null
+    && Object.getPrototypeOf(prototype) === null && intrinsicPrototype(prototype, Object));
+}
+
+function arrayPrototype(prototype) {
+  return prototype === Array.prototype || (Array.isArray(prototype)
+    && objectPrototype(Object.getPrototypeOf(prototype)) && intrinsicPrototype(prototype, Array));
 }
 
 function field(value, key, path) {
@@ -84,7 +105,7 @@ function field(value, key, path) {
 }
 
 function list(value, path) {
-  if (!Array.isArray(value) || Object.getPrototypeOf(value) !== Array.prototype) fail(`${path} must be an array.`);
+  if (!Array.isArray(value) || !arrayPrototype(Object.getPrototypeOf(value))) fail(`${path} must be an array.`);
   const result = [];
   for (let i = 0; i < value.length; i++) {
     if (!Object.hasOwn(value, i)) fail(`${path} must not contain empty slots.`);

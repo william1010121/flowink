@@ -192,10 +192,12 @@ test('parser-origin cyclic drawing metadata is explicitly outside the data API c
   }
 });
 
-test('cross-realm graph data must be deserialized in the calling realm', async () => {
+test('cross-realm plain graph data renders without serialization in the caller', async () => {
   const graph = api.parse(source);
   const foreign = runInNewContext(`JSON.parse(${JSON.stringify(JSON.stringify(graph))})`);
-  await assert.rejects(api.renderGraph(foreign), invalid());
+  for (const charset of ['ascii', 'unicode']) {
+    assert.equal(await api.renderGraph(foreign, { charset }), await api.render(source, { charset }));
+  }
   assert.equal(await api.renderGraph(JSON.parse(JSON.stringify(foreign))), await api.render(source));
 });
 
