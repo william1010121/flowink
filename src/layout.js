@@ -470,7 +470,7 @@ function routePoints(edge, sourceBox, targetBox, floatBoxes, context, occupied, 
   const sections = edge.sections;
   if (selfLoop && sourceBox.id === targetBox.id) {
     const custom = selfLoopRoute(sourceBox, selfLoop.rank, selfLoop.count);
-    if (!routeBlocked(custom, context.__boxById, allowedBoxes(context, sourceBox.id, targetBox.id), occupied, sourceBox.id, targetBox.id, arrowStart, arrowEnd)) return custom;
+    if (distinctLoopEndpoints(custom) && !routeBlocked(custom, context.__boxById, allowedBoxes(context, sourceBox.id, targetBox.id), occupied, sourceBox.id, targetBox.id, arrowStart, arrowEnd)) return custom;
   }
   const raw = [];
   for (const section of sections) {
@@ -497,12 +497,19 @@ function routePoints(edge, sourceBox, targetBox, floatBoxes, context, occupied, 
   nudgeRouteEndpoint(points, targetBox, points.length - 1, -1, 0);
   simplifyRoute(points);
   const allowed = allowedBoxes(context, sourceBox.id, targetBox.id);
-  if (routeBlocked(points, context.__boxById, allowed, occupied, sourceBox.id, targetBox.id, arrowStart, arrowEnd)) {
+  if ((selfLoop && !distinctLoopEndpoints(points)) || routeBlocked(points, context.__boxById, allowed, occupied, sourceBox.id, targetBox.id, arrowStart, arrowEnd)) {
     const repaired = gridRepair(points[0], points[points.length - 1], context, sourceBox, targetBox, occupied, arrowStart, arrowEnd);
     if (!repaired) invalid(`Integer grid routing collided while placing edge ${edge.id}.`, 'LAYOUT_ROUTE_COLLISION');
     return repaired;
   }
   return points;
+}
+
+// A valid loop leaves and returns at separated border cells. On a short box,
+// the custom loop or snapped ELK anchors can coincide and retrace one segment.
+function distinctLoopEndpoints(points) {
+  const start = points[0]; const end = points.at(-1);
+  return start && end && Math.abs(start.x - end.x) + Math.abs(start.y - end.y) > 1;
 }
 
 function restoreEndpointSegment(points, index, neighborStep) {
@@ -520,20 +527,26 @@ function selfLoopRoute(box, rank, count) {
   const ring = Math.floor(rank / 4) + 2;
   const left = box.x; const right = box.x + box.width - 1;
   const top = box.y; const bottom = box.y + box.height - 1;
+  // Tiny boxes have no pair of separated interior side cells. Use corners
+  // instead of collapsing the loop to an out-and-back segment.
+  const sideTop = top + (box.height >= 5 ? 1 : 0);
+  const sideBottom = bottom - (box.height >= 5 ? 1 : 0);
+  const sideLeft = left + (box.width >= 5 ? 1 : 0);
+  const sideRight = right - (box.width >= 5 ? 1 : 0);
   if (side === 0) {
     const x = left - ring;
-    return [{ x: left, y: top + 1 }, { x, y: top + 1 }, { x, y: bottom - 1 }, { x: left, y: bottom - 1 }];
+    return [{ x: left, y: sideTop }, { x, y: sideTop }, { x, y: sideBottom }, { x: left, y: sideBottom }];
   }
   if (side === 1) {
     const x = right + ring;
-    return [{ x: right, y: bottom - 1 }, { x, y: bottom - 1 }, { x, y: top + 1 }, { x: right, y: top + 1 }];
+    return [{ x: right, y: sideBottom }, { x, y: sideBottom }, { x, y: sideTop }, { x: right, y: sideTop }];
   }
   if (side === 2) {
     const y = top - ring;
-    return [{ x: left + 1, y: top }, { x: left + 1, y }, { x: right - 1, y }, { x: right - 1, y: top }];
+    return [{ x: sideLeft, y: top }, { x: sideLeft, y }, { x: sideRight, y }, { x: sideRight, y: top }];
   }
   const y = bottom + ring;
-  return [{ x: right - 1, y: bottom }, { x: right - 1, y }, { x: left + 1, y }, { x: left + 1, y: bottom }];
+  return [{ x: sideRight, y: bottom }, { x: sideRight, y }, { x: sideLeft, y }, { x: sideLeft, y: bottom }];
 }
 
 function nudgeRouteEndpoint(points, box, index, neighborStep, offset) {
@@ -653,7 +666,11 @@ function gridRepair(start, end, context, sourceBox, targetBox, occupied, arrowSt
   const starts = endpointCandidates(sourceBox, start);
   const ends = endpointCandidates(targetBox, end);
   for (const candidateStart of starts) for (const candidateEnd of ends) {
-    if (candidateStart.x === candidateEnd.x && candidateStart.y === candidateEnd.y && sourceId !== targetId) continue;
+    // A self-loop must leave the node and return at a distinct, nonadjacent
+    // border cell. Identical endpoints produce an empty BFS path; adjacent
+    // endpoints produce a one-cell border route whose arrow overwrites the box.
+    const endpointDistance = Math.abs(candidateStart.x - candidateEnd.x) + Math.abs(candidateStart.y - candidateEnd.y);
+    if (endpointDistance === 0 || (sourceId === targetId && endpointDistance === 1)) continue;
     const startPoint = candidateStart;
     const endPoint = candidateEnd;
     for (const margin of [8, 16, 32, 64]) {

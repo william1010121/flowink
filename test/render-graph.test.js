@@ -23,13 +23,13 @@ test('renderGraph is a named public function and matches source rendering/JSON r
   }
 });
 
-test('renderGraph preserves existing layout failures without importing routing repairs', async () => {
+test('renderGraph preserves the residual multi-loop collision and recovers', async () => {
   const input = 'flowchart BT\nB --> A\nA --- A\nA --- A\nA --- A';
   for (const charset of ['ascii', 'unicode']) {
     const graph = api.parse(input);
     let expected;
     await assert.rejects(api.render(input, { charset }), error => {
-      assert.equal(error.code, 'LAYOUT_EMPTY_EDGE');
+      assert.equal(error.code, 'ROUTE_COLLISION');
       expected = error;
       return true;
     });
