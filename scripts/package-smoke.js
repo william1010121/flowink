@@ -33,6 +33,19 @@ assert.equal(typeof globalThis.document,'undefined');
 console.log('Clean package consumer passed');
 `);
   process.stdout.write(run(process.execPath, ['check.mjs'], consumer));
+  await writeFile(join(consumer, 'error-types.mts'), `import {FlowInkError} from 'flowink';
+const error = new FlowInkError('unlocated');
+// @ts-expect-error Locations can be absent at runtime.
+const unsafeLine: number = error.line;
+// @ts-expect-error Locations can be absent at runtime.
+const unsafeColumn: number = error.column;
+const line: number | undefined = error.line;
+const column: number | undefined = error.column;
+if (error.line !== undefined) error.line.toFixed();
+if (error.column !== undefined) error.column.toFixed();
+void [line, column, unsafeLine, unsafeColumn];
+`);
+  run(process.execPath, [join(root, 'node_modules/typescript/bin/tsc'), '--strict', '--noEmit', '--skipLibCheck', '--module', 'NodeNext', '--moduleResolution', 'NodeNext', '--target', 'ES2022', 'error-types.mts'], consumer);
   const report = { filename: pack.filename, size: pack.size, unpackedSize: pack.unpackedSize, fileCount: pack.files.length, cleanConsumer: 'passed' };
   await writeFile(join(outdir, 'package-verification.json'), JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify(report));
