@@ -5,6 +5,7 @@ await mkdir(outdir, { recursive: true });
 await build({ entryPoints: ['dist/index.js'], outfile: `${outdir}/flowink.js`,
   bundle: true, format: 'esm', platform: 'browser', target: 'es2022', sourcemap: true });
 const cases = [
+  ['metadata-keys', 'flowchart TB\nA@{__proto__: kept, constructor: ctor, prototype: proto, label: Visible} --> B'],
   ['yaml-scalar', 'flowchart TB\n A@{label: |\n  shape: rect\n  # literal text\n}'],
   ['tab-label', 'flowchart LR\n A["中\t👩‍💻\té"] --> B["plain label"]'],
   ['grapheme-lines', 'flowchart TB\n A["中文<br/>👩‍💻<br/>👨‍👩‍👧‍👦<br/>é<br/>a"]'],
@@ -40,6 +41,8 @@ try {
       const pre=document.createElement('pre');pre.textContent=outputs[i];document.querySelector('main').append(title,pre);
     }
   }
+  const special=parse('flowchart TB\\nA@{__proto__: kept, constructor: ctor, prototype: proto}').nodes[0].metadata;
+  if(!Object.hasOwn(special,'__proto__') || special.__proto__!=='kept' || Object.getPrototypeOf(special)!==Object.prototype)throw Error('Own metadata key lost');
   const kept=parse('flowchart TB\\n A@{label: |+\\n  one\\n\\n}').nodes[0].metadata;
   if(kept.label!=='one\\n\\n')throw Error('YAML keep chomping changed');
   const nested=parse('flowchart TB\\n A@{settings:\\n  color: blue\\nlabel: hi\\n}').nodes[0].metadata;
