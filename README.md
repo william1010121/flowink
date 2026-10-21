@@ -210,6 +210,24 @@ const unicode = await render(source, { charset: 'unicode' });
 
 Output has no trailing spaces or trailing newline. There is no fixed total width, and labels are not truncated. Dense diagrams may expand to preserve wire spacing and readable label placement.
 
+### `renderGraph(graph, options?) → Promise<string>`
+
+Render an edited or JSON-deserialized `FlowGraph` directly, without parsing its `source` again. Options and output formatting match `render`.
+
+```js
+import { parse, renderGraph } from 'flowink';
+
+const graph = parse('flowchart LR\n A[Start] --> B[Done]');
+graph.nodes.find(node => node.id === 'A').label = 'Ready';
+console.log(await renderGraph(graph, { charset: 'unicode' }));
+```
+
+For an unchanged graph with accepted acyclic drawing data, `renderGraph(parse(source), options)` produces the same output as `render(source, options)`. Rendering snapshots drawing data before asynchronous layout and does not mutate the input, so frozen graphs and concurrent calls are supported. Changes made after a call starts affect only later calls.
+
+Graph records must be same-realm plain objects (or null-prototype objects), with own data properties and ordinary dense arrays. Drawing fields are validated, including directions, identifiers, edge endpoints, arrow/stroke kinds, parents, and group membership. Accessors in drawing data are rejected without invoking them. Invalid graphs reject with `FlowInkError` code `INVALID_GRAPH`; layout failures retain their usual error codes. Graph errors do not fabricate Mermaid source locations.
+
+`source`, styles, classes, and non-drawing metadata are ignored, not executed or reparsed. Text/shape metadata used for drawing is copied and must contain only acyclic data with at most 256 nested levels. Deeper drawing metadata rejects with `INVALID_GRAPH` before layout. Icon/image payloads are not loaded or traversed; only their presence selects a placeholder. This API accepts graph data, not arbitrary JavaScript instances or executable objects; it is not a sandbox for Proxies. Use `parse` followed by edits, or a JSON round-trip of its result, to preserve the graph structure. Cyclic text/shape metadata created by YAML aliases is rejected, even if source rendering accepts it. For objects from another realm (such as an iframe), deserialize their JSON in the calling realm first.
+
 ### `parse(source) → FlowGraph`
 
 Returns an independent, serializable graph, retaining the exact original input.

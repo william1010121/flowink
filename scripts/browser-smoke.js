@@ -23,7 +23,7 @@ const expected = await Promise.all(cases.map(async ([name, source]) => ({
 await writeFile(`${outdir}/index.html`, `<!doctype html><html lang="en"><meta charset="utf-8"><title>FlowInk browser verification</title><link rel="icon" href="data:,">
 <style>body{font:16px system-ui;margin:24px;background:#fafafa;color:#222}pre{font:14px/1.25 ui-monospace,monospace;white-space:pre;overflow:auto;padding:16px;background:white;border:1px solid #ddd}h2{font-size:16px}</style>
 <h1>FlowInk browser verification</h1><p id="status">Running…</p><main></main><script type="module">
-import {render,parse} from './flowink.js';
+import {render,parse,renderGraph} from './flowink.js';
 const cases = ${JSON.stringify(cases)};
 const expected = ${JSON.stringify(expected)};
 const results=[];
@@ -35,6 +35,8 @@ try {
     const repeat=await render(source);
     if(repeat!==outputs[0])throw Error(name+': unstable output');
     const graph=parse(source);
+    const graphOutputs=await Promise.all(['ascii','unicode'].map(charset=>renderGraph(JSON.parse(JSON.stringify(graph)),{charset})));
+    if(JSON.stringify(graphOutputs)!==JSON.stringify(outputs))throw Error(name+': renderGraph differs from render');
     if(graph.source!==source)throw Error(name+': source lost');
     results.push({name,nodes:graph.nodes.length,edges:graph.edges.length,passed:true});
     for(let i=0;i<outputs.length;i++){

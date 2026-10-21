@@ -24,11 +24,15 @@ try {
   await writeFile(join(consumer, 'package.json'), JSON.stringify({ type: 'module', private: true }));
   run('npm', ['install', '--ignore-scripts', '--omit=dev', '--no-audit', '--no-fund', archive], consumer);
   await writeFile(join(consumer, 'check.mjs'), `import assert from 'node:assert/strict';
-import {parse,render} from 'flowink';
+import {parse,render,renderGraph} from 'flowink';
 const source='flowchart LR\\n A[Start] --> B[Done]';
 assert.equal(parse(source).nodes.length,2);
 assert.match(await render(source),/Start/);
 assert.match(await render(source,{charset:'unicode'}),/Done/);
+const graph=JSON.parse(JSON.stringify(parse(source)));
+assert.equal(await renderGraph(graph),await render(source));
+graph.nodes[0].label='Changed';
+assert.match(await renderGraph(graph),/Changed/);
 assert.equal(typeof globalThis.document,'undefined');
 assert.throws(()=>parse(String.fromCharCode(0xfeff)+'flowchart LR; A[ok)'),e=>e.code==='PARSE_ERROR'&&e.line===1&&e.column===20);
 assert.throws(()=>parse('flowchart LR\\n A[ok)\\n'),e=>e.code==='PARSE_ERROR'&&e.line===2&&e.column===6);
