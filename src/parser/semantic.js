@@ -4,6 +4,13 @@ import yaml from 'js-yaml';
 
 const VALID_SHAPES = new Set(`join rounded state anchor db summary database start document event stop console process text circle rect display prepare squareRect choice note composite rectWithTitle labelRect block_arrow collapsedGroup iconSquare iconCircle icon iconRounded imageSquare kanbanItem proc rectangle roundedRect stadium terminal pill fr-rect subprocess subproc framed-rectangle subroutine cyl cylinder datastore data-store folder directory bucket browser person circ bang cloud diam decision diamond question hex hexagon lean-r lean-right in-out lean_right lean-l lean-left out-in lean_left trap-b priority trapezoid-bottom trapezoid trap-t manual trapezoid-top inv-trapezoid inv_trapezoid dbl-circ double-circle doublecircle notch-rect card notched-rectangle lin-rect lined-rectangle lined-process lin-proc shaded-process sm-circ small-circle stateStart fr-circ framed-circle stateEnd fork forkJoin hourglass collate brace comment brace-l brace-r braces bolt com-link lightning-bolt doc delay half-rounded-rectangle h-cyl das horizontal-cylinder lin-cyl disk lined-cylinder curv-trap curved-trapezoid div-rect div-proc divided-rectangle divided-process tri extract triangle win-pane internal-storage window-pane f-circ junction filled-circle notch-pent loop-limit notched-pentagon flip-tri manual-file flipped-triangle sl-rect manual-input sloped-rectangle docs documents st-doc stacked-document st-rect procs processes stacked-rectangle bow-rect stored-data bow-tie-rectangle cross-circ crossed-circle tag-doc tagged-document tag-rect tagged-rectangle tag-proc tagged-process flag paper-tape odd rect_left_inv_arrow lin-doc lined-document`.split(/\s+/));
 
+// Internal ordinary arrays: retain the original length even when source and
+// target alias, without passing data-sized arrays as function arguments.
+function appendValues(target, values) {
+  const length = values.length;
+  for (let index = 0; index < length; index++) target.push(values[index]);
+}
+
 function textValue(value) {
   if (value === undefined || value === null) return '';
   return typeof value === 'object' && 'text' in value ? String(value.text) : String(value);
@@ -118,8 +125,8 @@ export class FlowSemanticDB {
       vertex.labelType = labelType(textObj);
     }
     if (type) vertex.shape = type;
-    if (Array.isArray(styles)) vertex.styles.push(...styles);
-    if (Array.isArray(classes)) vertex.classes.push(...classes);
+    if (Array.isArray(styles)) appendValues(vertex.styles, styles);
+    if (Array.isArray(classes)) appendValues(vertex.classes, classes);
     if (dir) vertex.direction = dir;
     if (props && typeof props === 'object') mergeMetadata(vertex.metadata, props);
     if (rawShapeData !== undefined) mergeMetadata(vertex.metadata, shapeData);
@@ -288,15 +295,15 @@ export class FlowSemanticDB {
     for (const group of this.subGraphs) {
       const synthetic = this.vertices.get(group.id);
       if (synthetic) {
-        group.styles.push(...synthetic.styles);
-        group.classes.push(...synthetic.classes);
+        appendValues(group.styles, synthetic.styles);
+        appendValues(group.classes, synthetic.classes);
         mergeMetadata(group.metadata, synthetic.metadata);
       }
       if (this.tooltips.has(group.id)) group.metadata.tooltip = this.tooltips.get(group.id);
       if (this.interactions.has(group.id)) group.metadata.interaction = this.interactions.get(group.id);
     }
     for (const node of this.vertices.values()) {
-      for (const className of node.classes) node.styles.push(...(this.classes.get(className) ?? []));
+      for (const className of node.classes) appendValues(node.styles, this.classes.get(className) ?? []);
       if (this.tooltips.has(node.id)) node.metadata.tooltip = this.tooltips.get(node.id);
       if (this.interactions.has(node.id)) node.metadata.interaction = this.interactions.get(node.id);
     }
@@ -306,7 +313,7 @@ export class FlowSemanticDB {
         edge.metadata.interpolate = this.defaultInterpolate;
       }
       edge.styles = [...this.defaultStyles, ...edge.styles];
-      for (const className of edge.classes) edge.styles.push(...(this.classes.get(className) ?? []));
+      for (const className of edge.classes) appendValues(edge.styles, this.classes.get(className) ?? []);
       if (this.interactions.has(edge.id)) edge.metadata.interaction = this.interactions.get(edge.id);
     }
     const metadata = {};
