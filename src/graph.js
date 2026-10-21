@@ -81,9 +81,15 @@ function record(value, path) {
 function intrinsicPrototype(prototype, constructor) {
   const descriptor = Object.getOwnPropertyDescriptor(prototype, 'constructor');
   if (!descriptor || !Object.hasOwn(descriptor, 'value') || typeof descriptor.value !== 'function') return false;
+  const standard = Object.getOwnPropertyDescriptor(constructor.prototype, 'constructor');
+  if (descriptor.enumerable !== standard.enumerable || descriptor.writable !== standard.writable
+    || descriptor.configurable !== standard.configurable) return false;
   const value = descriptor.value;
   const back = Object.getOwnPropertyDescriptor(value, 'prototype');
+  const standardBack = Object.getOwnPropertyDescriptor(constructor, 'prototype');
   return back && Object.hasOwn(back, 'value') && back.value === prototype
+    && back.enumerable === standardBack.enumerable && back.writable === standardBack.writable
+    && back.configurable === standardBack.configurable
     && Function.prototype.toString.call(value) === Function.prototype.toString.call(constructor);
 }
 

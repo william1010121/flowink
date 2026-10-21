@@ -84,8 +84,22 @@ test('foreign intrinsic overrides are not invoked and altered constructor descri
   `, context);
   assert.equal(await renderGraph(graph), await render(source));
   assert.equal(context.calls, 0);
-  for (const statement of ['delete Object.prototype.constructor', 'delete Array.prototype.constructor', 'Object.prototype.constructor = function Object(){}']) {
+  for (const statement of ['delete Object.prototype.constructor', 'delete Array.prototype.constructor', 'Object.prototype.constructor = function Object(){}', 'Object.prototype.constructor = null', 'Array.prototype.constructor = 42', "Object.defineProperty(Array.prototype, 'constructor', {get(){throw Error('must not call')}})"]) {
     const altered = runInNewContext(`const graph = JSON.parse(source); ${statement}; graph`, { source: JSON.stringify(parse(source)) });
     await assert.rejects(renderGraph(altered), invalid);
   }
+});
+
+test('foreign constructor descriptor flags must match standard intrinsic descriptors', async () => {
+  for (const name of ['Object', 'Array']) {
+    for (const [flag, value] of [['enumerable', true], ['writable', false], ['configurable', false]]) {
+      const graph = runInNewContext(`
+        const graph = JSON.parse(source);
+        Object.defineProperty(${name}.prototype, 'constructor', {${flag}: ${value}});
+        graph;
+      `, { source: JSON.stringify(parse(source)) });
+      await assert.rejects(renderGraph(graph), invalid, `${name}.${flag}`);
+    }
+  }
+  assert.equal(await renderGraph(foreign(parse(source))), await render(source));
 });

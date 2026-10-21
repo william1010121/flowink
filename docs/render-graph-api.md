@@ -120,3 +120,13 @@ for two nodes and 0.098482 / 0.099475 / 0.221873 ms for 100 nodes. The local
 has a deliberate measurable cost. This is interoperability, not a full-render
 performance claim. Local online dependency installation remains unverified due
 to the previously observed registry HTTP 403; offline results are kept distinct.
+
+### Cross-realm descriptor review follow-up
+
+Foreign intrinsic recognition also compares the enumerable, writable, and
+configurable flags of both the prototype's own constructor descriptor and the
+constructor's own prototype back-reference with the caller-realm intrinsic.
+Keeping a native constructor value alone does not make an altered foreign
+constructor descriptor acceptable. Regressions independently change each mutable
+constructor flag for Object and Array, reject accessor/non-callable replacements,
+and verify that an ordinary foreign graph still renders after those failures.
