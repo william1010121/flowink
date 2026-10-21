@@ -1,4 +1,4 @@
-import { parse, render, FlowInkError, type FlowGraph } from 'flowink';
+import { parse, render, renderGraph, FlowInkError, type FlowGraph } from 'flowink';
 
 const graph: FlowGraph = parse('flowchart LR\n A --> B');
 const ids: string[] = graph.nodes.map(node => node.id);
@@ -10,3 +10,10 @@ void [ids, output, ascii, error];
 render(graph.source, { charset: 'svg' });
 // @ts-expect-error Parser accepts Mermaid source, not a graph object.
 parse(graph);
+
+const edited: Promise<string> = renderGraph(graph, { charset: 'unicode' });
+void edited;
+// @ts-expect-error Graph rendering accepts graphs, not Mermaid strings.
+renderGraph(graph.source);
+// @ts-expect-error Graph rendering has the same finite charset choices.
+renderGraph(graph, { charset: 'svg' });
