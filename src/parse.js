@@ -1,3 +1,4 @@
+import { mergeMetadata } from './metadata.js';
 import parser from './parser/generated.js';
 import { FlowInkError } from './errors.js';
 import { FlowSemanticDB, parserError } from './parser/semantic.js';
@@ -19,7 +20,7 @@ export function parse(source) {
     const canonicaliseLabel = (value) => String(value).replace(/(<[^>]+?)='([^']*)'/g, '$1="$2"');
     for (const node of graph.nodes) node.label = canonicaliseLabel(node.label);
     for (const edge of graph.edges) edge.label = canonicaliseLabel(edge.label);
-    Object.assign(graph.metadata, processed.metadata);
+    mergeMetadata(graph.metadata, processed.metadata);
     return graph;
   } catch (error) {
     if (error instanceof FlowInkError) throw error;

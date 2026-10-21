@@ -1,3 +1,4 @@
+import { mergeMetadata } from '../metadata.js';
 import { FlowInkError } from '../errors.js';
 import yaml from 'js-yaml';
 
@@ -34,7 +35,7 @@ function parseShapeData(raw) {
         parsed = yaml.load(source, { schema: yaml.JSON_SCHEMA });
       }
     }
-    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) Object.assign(metadata, parsed);
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) mergeMetadata(metadata, parsed);
   } catch (error) {
     throw new FlowInkError(error?.message ?? 'Invalid shape data.', { code: 'SHAPE_DATA_ERROR', cause: error });
   }
@@ -86,7 +87,7 @@ export class FlowSemanticDB {
     const shapeData = rawShapeData !== undefined ? parseShapeData(rawShapeData) : undefined;
     const subGraph = this.subGraphLookup.get(id);
     if (subGraph && shapeData) {
-      Object.assign(subGraph.metadata, shapeData);
+      mergeMetadata(subGraph.metadata, shapeData);
       return;
     }
     const edge = this.edges.find((item) => item.id === id.replace(/^@|@$/g, ''));
@@ -95,7 +96,7 @@ export class FlowSemanticDB {
       // upstream grammar. Do not expose its temporary vertex as a node.
       const placeholder = this.vertices.get(id);
       if (placeholder && placeholder.label === id && placeholder.shape === 'rect' && !placeholder.styles.length && !placeholder.classes.length) this.vertices.delete(id);
-      Object.assign(edge.metadata, shapeData);
+      mergeMetadata(edge.metadata, shapeData);
       const shape = edge.metadata;
       if (shape.animate !== undefined) edge.animate = Boolean(shape.animate);
       if (shape.animation !== undefined) edge.animation = String(shape.animation);
@@ -120,8 +121,8 @@ export class FlowSemanticDB {
     if (Array.isArray(styles)) vertex.styles.push(...styles);
     if (Array.isArray(classes)) vertex.classes.push(...classes);
     if (dir) vertex.direction = dir;
-    if (props && typeof props === 'object') Object.assign(vertex.metadata, props);
-    if (rawShapeData !== undefined) Object.assign(vertex.metadata, shapeData);
+    if (props && typeof props === 'object') mergeMetadata(vertex.metadata, props);
+    if (rawShapeData !== undefined) mergeMetadata(vertex.metadata, shapeData);
     if (rawShapeData !== undefined) {
       const shapeData = vertex.metadata;
       if (shapeData.shape !== undefined) {
@@ -289,7 +290,7 @@ export class FlowSemanticDB {
       if (synthetic) {
         group.styles.push(...synthetic.styles);
         group.classes.push(...synthetic.classes);
-        Object.assign(group.metadata, synthetic.metadata);
+        mergeMetadata(group.metadata, synthetic.metadata);
       }
       if (this.tooltips.has(group.id)) group.metadata.tooltip = this.tooltips.get(group.id);
       if (this.interactions.has(group.id)) group.metadata.interaction = this.interactions.get(group.id);
