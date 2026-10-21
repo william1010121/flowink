@@ -276,6 +276,22 @@ function containerChildren(context, containerId) {
         children,
         edges: containerEdges(context, id),
       };
+      // A separated compound graph drops edges crossing into grandchildren.
+      // Keep its external boundary/local direction separate, but route its
+      // real children together inside an invisible, zero-padding ELK graph.
+      const directChildren = new Set(children.map(child => child.id));
+      const endpoints = result.edges.flatMap(edge => [...edge.sources, ...edge.targets]);
+      if (result.layoutOptions['elk.hierarchyHandling'] === 'SEPARATE_CHILDREN'
+        && !endpoints.includes(result.id)
+        && endpoints.some(endpoint => !directChildren.has(endpoint))) {
+        result.children = [{
+          id: `h${result.id}`,
+          layoutOptions: { ...result.layoutOptions, 'elk.direction': DIRECTIONS[contextDirection(context.graph, context.parent, context.subgraphs, id)], 'elk.hierarchyHandling': 'INCLUDE_CHILDREN', 'elk.padding': '[top=0,left=0,bottom=0,right=0]' },
+          children,
+          edges: result.edges,
+        }];
+        result.edges = [];
+      }
       if (children.length === 0) {
         result.width = elkSize(dim.width);
         result.height = elkSize(dim.height);
@@ -644,6 +660,7 @@ function routeBlocked(points, boxes, allowed, occupied, sourceId, targetId, arro
       for (const [id, box] of boxes) {
         if (!box || (!inside(cell, box) && !(box.kind === 'node' && !allowed.has(id) && insideExpanded(cell, box, 1)))) continue;
         if (box.kind === 'subgraph' && headerCell(cell, box)) return true;
+        if (arrowCells.has(key(cell.x, cell.y)) && onBoxBorder(cell, box)) return true;
         if (box.kind === 'node' && allowed.has(id)) {
           // A route may leave or enter an endpoint on exactly one border
           // cell, but cannot travel along the endpoint's border or interior.
@@ -694,6 +711,7 @@ function gridRepair(start, end, context, sourceBox, targetBox, occupied, arrowSt
       for (const [id, box] of boxes) {
         if (!inside(cell, box) && !(box.kind === 'node' && !allowed.has(id) && insideExpanded(cell, box, 1))) continue;
         if (box.kind === 'subgraph' && headerCell(cell, box)) return true;
+        if (currentArrows.has(key(x, y)) && onBoxBorder(cell, box)) return true;
         if (box.kind === 'node' && allowed.has(id)) {
           if (!(x === startPoint.x && y === startPoint.y) && !(x === endPoint.x && y === endPoint.y)) return true;
         } else if (!allowed.has(id)) return true;
@@ -838,6 +856,11 @@ function segmentCells(a, b) {
   cells.push({ x, y });
   while (x !== b.x || y !== b.y) { x += dx; y += dy; cells.push({ x, y }); }
   return cells;
+}
+
+function onBoxBorder(point, box) {
+  return inside(point, box) && (point.x === box.x || point.x === box.x + box.width - 1
+    || point.y === box.y || point.y === box.y + box.height - 1);
 }
 
 function inside(point, box) {
