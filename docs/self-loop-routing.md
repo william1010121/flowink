@@ -57,3 +57,12 @@ All returned candidate layouts passed separated-endpoint, no-reversal and
 node-interior checks. The 14 different errors are seven undirected-loop sources
 (TB with six/eight loops, BT three/eight, LR six/eight, RL eight, all with B→A),
 again LAYOUT_EMPTY_EDGE→ROUTE_COLLISION rather than repaired cases.
+
+The realistic 200-execution / 149-distinct-source corpus was rerun after recovery
+against main 406ae886: its 400 charset attempts again yielded 330 identical
+successes, 26 changed successes, 36 identical errors and eight repaired errors,
+with no new failures or invalid returned loop geometries. The final extracted
+candidate also passes an offline packed consumer, twelve real Chromium parity
+fixtures (including ordinary foreign/mixed-realm graph inputs), and browser
+failure guards. Offline installation is not represented as a fresh network
+installation; the new-head CI run must validate the actual main-based merge.
