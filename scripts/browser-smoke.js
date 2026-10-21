@@ -5,6 +5,7 @@ await mkdir(outdir, { recursive: true });
 await build({ entryPoints: ['dist/index.js'], outfile: `${outdir}/flowink.js`,
   bundle: true, format: 'esm', platform: 'browser', target: 'es2022', sourcemap: true });
 const cases = [
+  ['title-clearance', "flowchart TB\nsubgraph G0[\"Outer\"]\nN0[\"Start\"]\nsubgraph G1[\"Inner\"]\nN1[\"Review\"]\nN2[\"\u7d42\u70b9\"]\nend\nend\nN3[\"\u51e6\u7406 \ud83d\udc08\"]\nN4[\"Alpha<br/>Beta\"]\nN0 --> N1\nN1 --> N2\nN2 --> N3\nN3 --> N4\nN4 --> N1\n"],
   ['metadata-keys', 'flowchart TB\nA@{__proto__: kept, constructor: ctor, prototype: proto, label: Visible} --> B'],
   ['yaml-scalar', 'flowchart TB\n A@{label: |\n  shape: rect\n  # literal text\n}'],
   ['tab-label', 'flowchart LR\n A["中\t👩‍💻\té"] --> B["plain label"]'],

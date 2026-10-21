@@ -54,7 +54,7 @@ export async function verifyBrowser({ directory = '.cache/browser-smoke', timeou
     const result = await page.evaluate(() => window.__flowinkSmoke);
     assert.equal(errors.length, 0, `Browser reported errors: ${errors.join('; ')}`);
     assert.equal(result.status, 'passed', result.error || 'Browser verification did not pass');
-    assert.deepEqual(result.results.map(row => row.name), ['metadata-keys', 'yaml-scalar', 'tab-label', 'grapheme-lines', 'branch', 'cycle', 'parallel', 'nested', 'CJK']);
+    assert.deepEqual(result.results.map(row => row.name), ['title-clearance', 'metadata-keys', 'yaml-scalar', 'tab-label', 'grapheme-lines', 'branch', 'cycle', 'parallel', 'nested', 'CJK']);
     assert.ok(result.results.every(row => row.passed === true), 'Incomplete browser results');
     return result;
   } finally {
