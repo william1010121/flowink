@@ -215,6 +215,8 @@ const unicode = await render(source, { charset: 'unicode' });
 | --- | --- | --- |
 | `charset` | `'ascii'`, `'unicode'` | `'ascii'` |
 
+Unsafe C0/C1 control characters in labels are replaced with visible `�` after entity decoding; LF and tab normalization are preserved. Labels are plain text, not terminal escape instructions.
+
 Output has no trailing spaces or trailing newline. There is no fixed total width, and labels are not truncated. Dense diagrams may expand to preserve wire spacing and readable label placement.
 
 ### `renderGraph(graph, options?) → Promise<string>`

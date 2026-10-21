@@ -1,7 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { labelLines } from '../src/text.js';
-import { labelLines as legacy } from './fixtures/text/legacy-text.js';
+import { labelLines as legacyUnsafe } from './fixtures/text/legacy-text.js';
+// Current HTML fixtures have no control-plus-tab combinations. This adapter
+// accounts only for their intentional control replacement; tab realignment is
+// covered separately in label-controls.test.js, not by this legacy oracle.
+const legacy = (...args) => legacyUnsafe(...args).map(line => line.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/g, '\uFFFD'));
 
 test('impossible HTML openers stay literal across repeated and mixed markup', () => {
   for (const value of ['<'.repeat(4000), '</'.repeat(2000), '< '.repeat(2000), '<'.repeat(2000)+'<b>text</b>']) {
