@@ -652,6 +652,8 @@ function isAncestor(context, candidate, id) {
 function routeBlocked(points, boxes, allowed, occupied, sourceId, targetId, arrowStart = 'none', arrowEnd = 'none') {
   const pair = pairKey(sourceId, targetId);
   const arrowCells = routeArrowKeys(points, arrowStart, arrowEnd);
+  // Two arrowheads on this edge must not collapse onto the same cell.
+  if (arrowStart !== 'none' && arrowEnd !== 'none' && arrowCells.size < 2) return true;
   for (let i = 1; i < points.length; i += 1) {
     const orientation = points[i - 1].x === points[i].x ? 'v' : 'h';
     for (const cell of segmentCells(points[i - 1], points[i])) {
@@ -694,7 +696,7 @@ function gridRepair(start, end, context, sourceBox, targetBox, occupied, arrowSt
     if (endpointDistance === 0 || (sourceId === targetId && endpointDistance === 1)) continue;
     const startPoint = candidateStart;
     const endPoint = candidateEnd;
-    for (const margin of [8, 16, 32, 64]) {
+    searchMargins: for (const margin of [8, 16, 32, 64]) {
     const minX = minimum(all.map((b) => b.x), Math.min(startPoint.x, endPoint.x)) - margin;
     const maxX = maximum(all.map((b) => b.x + b.width - 1), Math.max(startPoint.x, endPoint.x)) + margin;
     const minY = minimum(all.map((b) => b.y), Math.min(startPoint.y, endPoint.y)) - margin;
@@ -726,6 +728,8 @@ function gridRepair(start, end, context, sourceBox, targetBox, occupied, arrowSt
         let cursor = current;
         while (cursor) { path.push(cursor); cursor = previous.get(key(cursor.x, cursor.y)); }
         path.reverse();
+        // Try another endpoint pair rather than accepting overlapping arrows.
+        if (arrowStart !== 'none' && arrowEnd !== 'none' && routeArrowKeys(path, arrowStart, arrowEnd).size < 2) break searchMargins;
         return compress(path);
       }
       const currentOccupied = occupied.get(key(current.x, current.y));

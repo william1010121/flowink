@@ -5,6 +5,7 @@ await mkdir(outdir, { recursive: true });
 await build({ entryPoints: ['dist/index.js'], outfile: `${outdir}/flowink.js`,
   bundle: true, format: 'esm', platform: 'browser', target: 'es2022', sourcemap: true });
 const cases = [
+  ['distinctArrowheads', 'flowchart TB\nsubgraph A\na\nend\na<-->A'],
   ['nestedCrossLevel', 'flowchart TB\nsubgraph A\ndirection LR\na\nsubgraph B\nc-->d\nend\na-->c\nend'],
   ['nestedCompound', 'flowchart TB\nsubgraph A\nb-->B\na\nend\na-->c\nsubgraph B\nc\nend'],
   ['crossingRepair', 'flowchart BT\n B --> A\n A --- A\n A --- A\n A --- A'],
