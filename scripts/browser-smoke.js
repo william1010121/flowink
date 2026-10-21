@@ -59,6 +59,8 @@ try {
     let caught=false;try{parse(source)}catch(e){caught=true;if(e.line!==line||e.column!==column)throw Error('Wrong BOM location');}
     if(!caught)throw Error('Invalid BOM source accepted');
   }
+  const unterminated='<a'.repeat(128);
+  if(!(await render('flowchart LR\\n A["'+unterminated+'"]')).includes(unterminated))throw Error('Unterminated tag suffix lost');
   let located=false;try{parse('flowchart LR\\n A[')}catch(e){located=Number.isInteger(e.line)}
   if(!located)throw Error('Syntax error lacks position');
   window.__flowinkSmoke={status:'passed',results};
