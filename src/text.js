@@ -216,11 +216,19 @@ export function labelLines(label, labelType = 'text') {
     }
   }
 
-  plain = expandTabs(decodeLabelEntities(plain).replace(/\r\n?/g, '\n'));
+  // Labels are plain terminal text, never executable terminal instructions.
+  // Decode first so encoded controls cannot bypass this boundary. Preserve
+  // existing newline/tab handling and show replacements rather than hide data.
+  plain = expandTabs(terminalText(decodeLabelEntities(plain)));
   // Lexer block tokens add a terminal newline. It is layout punctuation rather
   // than an additional empty line in the node label.
   plain = plain.replace(/^\n+|\n+$/g, '');
   return plain === '' ? [''] : plain.split('\n');
+}
+
+function terminalText(value) {
+  return value.replace(/\r\n?/g, '\n')
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/g, '\uFFFD');
 }
 
 const SHAPE_ALIASES = new Map([
@@ -297,14 +305,17 @@ export function prepareNode(node = {}) {
   let lines = labelLines(label, input.labelType ?? metadataInput.labelType ?? 'text');
   const shapePlaceholder = shapeKey(original) !== 'rect' && !SHAPE_ALIASES.has(shapeKey(original));
   const prefixes = [];
-  if (shapePlaceholder) prefixes.push(`[${original}]`);
+  if (shapePlaceholder) {
+    for (const line of expandTabs(terminalText(`[${original}]`)).split('\n')) prefixes.push(line);
+  }
   if (placeholderKind) prefixes.push(`[${placeholderKind}]`);
   else if (canonical === 'image' || canonical === 'icon') prefixes.push(`[${canonical}]`);
   if (prefixes.length) {
     lines = lines.length === 1 && lines[0] === '' ? prefixes : [...prefixes, ...lines];
   }
 
-  const widest = Math.max(0, ...lines.map(displayWidth));
+  let widest = 0;
+  for (const line of lines) widest = Math.max(widest, displayWidth(line));
   // Two horizontal border cells plus one padding cell on each side.
   const padding = 1;
   const borderWidth = 2;

@@ -5,6 +5,7 @@ await mkdir(outdir, { recursive: true });
 await build({ entryPoints: ['dist/index.js'], outfile: `${outdir}/flowink.js`,
   bundle: true, format: 'esm', platform: 'browser', target: 'es2022', sourcemap: true });
 const cases = [
+  ['controls', 'flowchart LR\nsubgraph G["G&#27;"]\nA["A&#27;[31mB"]-->|"E&#7;"|B\nend'],
   ['branch', 'flowchart LR\n A[Start] --> B{Ready?}\n B -->|yes| C[Work]\n B -->|no| D[Wait]'],
   ['cycle', 'flowchart TB\n A[Alpha] --> B[Beta] --> C[Gamma] --> A'],
   ['parallel', 'flowchart LR\n A -->|first| B\n A -->|second| B\n B -->|return| A'],
@@ -26,6 +27,7 @@ try {
   for(const [name,source] of cases){
     const outputs=await Promise.all(['ascii','unicode'].map(charset=>render(source,{charset})));
     if(!outputs.every(s=>typeof s==='string'&&s.length))throw Error(name+': empty output');
+    if(outputs.some(output=>[...output].some(character=>{const c=character.charCodeAt(0);return (c<32&&c!==10)||(c>=127&&c<=159)})))throw Error(name+': unsafe terminal control');
     if(JSON.stringify(outputs)!==JSON.stringify(expected.find(row=>row.name===name).outputs))throw Error(name+': browser output differs from Node.js');
     const repeat=await render(source);
     if(repeat!==outputs[0])throw Error(name+': unstable output');
