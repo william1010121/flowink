@@ -26,6 +26,7 @@ const graphemeSegmenter = typeof Intl !== 'undefined' && Intl.Segmenter
 
 /** Expand tabs to four-column tab stops so terminal labels occupy known cells. */
 function expandTabs(value) {
+  if (!value.includes('\t')) return value;
   return value.split('\n').map((line) => {
     let column = 0;
     let result = '';
