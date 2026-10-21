@@ -15,7 +15,9 @@ import { marked } from 'marked';
 export function displayWidth(value) {
   if (value === null || value === undefined) return 0;
   const text = String(value).replace(/\r\n?/g, '\n');
-  return Math.max(0, ...text.split('\n').map((line) => stringWidth(line)));
+  let width = 0;
+  for (const line of text.split('\n')) width = Math.max(width, stringWidth(line));
+  return width;
 }
 
 const graphemeSegmenter = typeof Intl !== 'undefined' && Intl.Segmenter

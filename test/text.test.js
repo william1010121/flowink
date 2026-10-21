@@ -1,4 +1,5 @@
 import test from 'node:test';
+import stringWidth from 'string-width';
 import assert from 'node:assert/strict';
 import { displayWidth, labelLines, prepareNode } from '../src/text.js';
 import { parse } from '../src/parse.js';
@@ -84,4 +85,31 @@ test('prepareNode maps common shapes and creates image/icon placeholders', () =>
   assert.equal(imageData.shape, 'image');
   assert.deepEqual(imageData.lines, ['[image]']);
   assert.equal(imageData.metadata.img, 'https://example.test/x.png');
+});
+
+test('displayWidth handles many lines without an argument-count limit', () => {
+  const text = 'x\n'.repeat(150_000) + '中文';
+  for (let i = 0; i < 3; i++) assert.equal(displayWidth(text), 4);
+  assert.equal(displayWidth('\n'.repeat(150_000)), 0);
+});
+
+test('displayWidth preserves normalization, coercion, and recovery after errors', () => {
+  for (const [value, width] of [[null, 0], [undefined, 0], ['', 0], ['\r\n\r\n', 0], ['中文\rA\r\n🙂\n', 4], [42, 2], [false, 5], [Symbol('x'), 9]]) {
+    assert.equal(displayWidth(value), width);
+  }
+  const failure = new Error('coercion failed');
+  assert.throws(() => displayWidth({ toString() { throw failure; } }), error => error === failure);
+  assert.equal(displayWidth('e\u0301\n👨‍👩‍👧‍👦\n中'), 2);
+});
+
+
+test('displayWidth matches the original algorithm for seeded Unicode multiline inputs', () => {
+  let seed = 0x4f10a;
+  const random = limit => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed % limit; };
+  const fragments = ['', 'abc', '中文', '🙂', 'e\u0301', '👨‍👩‍👧‍👦', '\t', '\n', '\r', '\r\n', '\u001b[31mred\u001b[0m', '🏳️‍🌈'];
+  for (let trial = 0; trial < 1000; trial++) {
+    const value = Array.from({ length: random(80) }, () => fragments[random(fragments.length)]).join('');
+    const expected = Math.max(0, ...value.replace(/\r\n?/g, '\n').split('\n').map(line => stringWidth(line)));
+    assert.equal(displayWidth(value), expected, `trial ${trial}`);
+  }
 });
