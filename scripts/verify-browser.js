@@ -64,6 +64,6 @@ export async function verifyBrowser({ directory = '.cache/browser-smoke', timeou
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  await verifyBrowser();
-  console.log('Chromium: all eight fixtures match Node.js in ASCII and Unicode.');
+  const result = await verifyBrowser();
+  console.log(`Chromium: all ${result.results.length} fixtures match Node.js in ASCII and Unicode.`);
 }
