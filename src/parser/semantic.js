@@ -1,3 +1,4 @@
+import { minimum } from '../extrema.js';
 import { FlowInkError } from '../errors.js';
 import yaml from 'js-yaml';
 
@@ -22,7 +23,7 @@ function parseShapeData(raw) {
   // The first key is trimmed to column zero. Subsequent keys retain the
   // node's indentation, while block scalar content is further indented.
   const indents = lines.slice(1).filter((line) => line.trim()).map((line) => line.match(/^\s*/)[0].length);
-  const indent = indents.length ? Math.min(...indents) : 0;
+  const indent = indents.length ? minimum(indents) : 0;
   const normalized = lines.map((line, index) => index === 0 ? line : line.slice(Math.min(indent, line.length))).join('\n');
   try {
     const parsed = yaml.load(normalized.includes('\n') ? normalized : `{${normalized}}`, { schema: yaml.JSON_SCHEMA });

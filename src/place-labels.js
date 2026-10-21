@@ -1,3 +1,4 @@
+import { minimum, maximum } from './extrema.js';
 import { FlowInkError } from './errors.js';
 import { displayWidth } from './text.js';
 
@@ -109,7 +110,7 @@ function normalizeLabel(source, edgeId) {
   // embedded newlines as well so callers constructing a graph by hand get the
   // same reservation semantics as parser-produced labels.
   const lines = source.lines.flatMap((line) => String(line).replace(/\r\n?/g, '\n').split('\n'));
-  const measuredWidth = Math.max(0, ...lines.map((line) => displayWidth(line)));
+  const measuredWidth = maximum(lines.map((line) => displayWidth(line)), 0);
   const suppliedWidth = Number.isInteger(source.width) && source.width > 0 ? source.width : 0;
   const suppliedHeight = Number.isInteger(source.height) && source.height > 0 ? source.height : 0;
   return {
@@ -344,7 +345,7 @@ function layoutBounds(layout, boxes, edges) {
   const ys = [0];
   for (const box of boxes) { xs.push(box.x, box.x + box.width); ys.push(box.y, box.y + box.height); }
   for (const edge of edges) for (const point of edge.points) { xs.push(point.x); ys.push(point.y); }
-  return { width: Math.max(1, (Math.max(...xs) - Math.min(...xs)) + (layout.width || 0)), height: Math.max(1, (Math.max(...ys) - Math.min(...ys)) + (layout.height || 0)) };
+  return { width: Math.max(1, (maximum(xs) - minimum(xs)) + (layout.width || 0)), height: Math.max(1, (maximum(ys) - minimum(ys)) + (layout.height || 0)) };
 }
 
 function translateAndExpand(layout) {
@@ -354,8 +355,8 @@ function translateAndExpand(layout) {
   for (const box of layout.boxes) { xValues.push(box.x); yValues.push(box.y); }
   for (const edge of layout.edges) for (const point of edge.points) { xValues.push(point.x); yValues.push(point.y); }
   for (const label of labels) { xValues.push(label.x); yValues.push(label.y); }
-  const shiftX = Math.max(0, -Math.min(...xValues));
-  const shiftY = Math.max(0, -Math.min(...yValues));
+  const shiftX = Math.max(0, -minimum(xValues));
+  const shiftY = Math.max(0, -minimum(yValues));
   if (shiftX || shiftY) {
     for (const box of layout.boxes) { box.x += shiftX; box.y += shiftY; }
     for (const edge of layout.edges) {

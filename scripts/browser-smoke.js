@@ -39,6 +39,9 @@ try {
       const pre=document.createElement('pre');pre.textContent=outputs[i];document.querySelector('main').append(title,pre);
     }
   }
+  const largeShapeSource='flowchart TB\\n A@{ label: |\\n'+'  a\\n'.repeat(150001)+'shape: rect\\n}';
+  const largeShape=parse(largeShapeSource);
+  if(largeShape.nodes.length!==1 || largeShape.nodes[0].metadata.label!=='a\\n'.repeat(150001))throw Error('Large YAML scalar failed');
   let located=false;try{parse('flowchart LR\\n A[')}catch(e){located=Number.isInteger(e.line)}
   if(!located)throw Error('Syntax error lacks position');
   window.__flowinkSmoke={status:'passed',results};
