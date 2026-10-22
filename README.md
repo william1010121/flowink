@@ -323,6 +323,8 @@ The suite covers **435 upstream fixtures**, including complete static inputs and
 - **Manual browser inspection:** `npm run test:browser:build` only generates `.cache/browser-smoke/index.html`; it does not execute a browser. Serve that directory over HTTP to inspect `window.__flowinkSmoke` and the rendered diagrams.
 - **CI:** pull requests and pushes to `main` run unit/compatibility tests, build, type checks, and tarball installation on Node 22.12.0 (the minimum), latest 22, 24, and 26. A separate Chromium job runs parity and failure-guard verification. Failed browser jobs retain generated smoke assets for seven days. No release or publishing steps run.
 
+For reproducible geometry microbenchmarks and complete-layout comparisons, run `npm run bench:spacing`; see [methodology and limitations](docs/spacing-performance.md).
+
 Fixtures are checked in, so tests do not download upstream source on each run. Mermaid itself is a development-only oracle dependency. Rendering is asynchronous but still uses CPU; applications can run large layouts in their own worker.
 
 ## License

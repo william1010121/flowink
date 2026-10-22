@@ -38,7 +38,8 @@
     "test:types": "tsc --noEmit --skipLibCheck --module NodeNext --moduleResolution NodeNext --target ES2022 test/types.mts",
     "test:package": "npm run build && node scripts/package-smoke.js",
     "test:browser": "npm run test:browser:build && node scripts/verify-browser.js",
-    "test:browser:runner": "npm run test:browser:build && node scripts/test-browser-runner.js"
+    "test:browser:runner": "npm run test:browser:build && node scripts/test-browser-runner.js",
+    "bench:spacing": "node scripts/benchmark-spacing.js"
   },
   "dependencies": {
     "elkjs": "0.12.0",
