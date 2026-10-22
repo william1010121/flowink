@@ -1,7 +1,15 @@
+import { mergeMetadata } from '../metadata.js';
 import { FlowInkError } from '../errors.js';
 import yaml from 'js-yaml';
 
 const VALID_SHAPES = new Set(`join rounded state anchor db summary database start document event stop console process text circle rect display prepare squareRect choice note composite rectWithTitle labelRect block_arrow collapsedGroup iconSquare iconCircle icon iconRounded imageSquare kanbanItem proc rectangle roundedRect stadium terminal pill fr-rect subprocess subproc framed-rectangle subroutine cyl cylinder datastore data-store folder directory bucket browser person circ bang cloud diam decision diamond question hex hexagon lean-r lean-right in-out lean_right lean-l lean-left out-in lean_left trap-b priority trapezoid-bottom trapezoid trap-t manual trapezoid-top inv-trapezoid inv_trapezoid dbl-circ double-circle doublecircle notch-rect card notched-rectangle lin-rect lined-rectangle lined-process lin-proc shaded-process sm-circ small-circle stateStart fr-circ framed-circle stateEnd fork forkJoin hourglass collate brace comment brace-l brace-r braces bolt com-link lightning-bolt doc delay half-rounded-rectangle h-cyl das horizontal-cylinder lin-cyl disk lined-cylinder curv-trap curved-trapezoid div-rect div-proc divided-rectangle divided-process tri extract triangle win-pane internal-storage window-pane f-circ junction filled-circle notch-pent loop-limit notched-pentagon flip-tri manual-file flipped-triangle sl-rect manual-input sloped-rectangle docs documents st-doc stacked-document st-rect procs processes stacked-rectangle bow-rect stored-data bow-tie-rectangle cross-circ crossed-circle tag-doc tagged-document tag-rect tagged-rectangle tag-proc tagged-process flag paper-tape odd rect_left_inv_arrow lin-doc lined-document`.split(/\s+/));
+
+// Internal ordinary arrays: retain the original length even when source and
+// target alias, without passing data-sized arrays as function arguments.
+function appendValues(target, values) {
+  const length = values.length;
+  for (let index = 0; index < length; index++) target.push(values[index]);
+}
 
 function textValue(value) {
   if (value === undefined || value === null) return '';
@@ -15,18 +23,26 @@ function labelType(value) {
 function parseShapeData(raw) {
   const metadata = {};
   if (!raw) return metadata;
-  const body = String(raw).trim();
-  // Shape data is indented relative to the node. YAML block scalars require
-  // that common indentation to be removed before parsing.
-  const lines = body.split('\n');
-  // The first key is trimmed to column zero. Subsequent keys retain the
-  // node's indentation, while block scalar content is further indented.
-  const indents = lines.slice(1).filter((line) => line.trim()).map((line) => line.match(/^\s*/)[0].length);
-  const indent = indents.length ? Math.min(...indents) : 0;
-  const normalized = lines.map((line, index) => index === 0 ? line : line.slice(Math.min(indent, line.length))).join('\n');
+  const source = String(raw);
+  const body = source.trim();
   try {
-    const parsed = yaml.load(normalized.includes('\n') ? normalized : `{${normalized}}`, { schema: yaml.JSON_SCHEMA });
-    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) Object.assign(metadata, parsed);
+    let parsed;
+    if (/[\r\n]/.test(body)) {
+      // YAML owns indentation and block-scalar chomping. Trimming/dedenting
+      // content can turn scalar text into keys or flatten nested mappings.
+      parsed = yaml.load(source, { schema: yaml.JSON_SCHEMA });
+    } else {
+      try {
+        // Preserve Mermaid's single-line comma-separated shape-data syntax.
+        parsed = yaml.load(`{${body}}`, { schema: yaml.JSON_SCHEMA });
+      } catch (error) {
+        // An empty block scalar may have a one-line trimmed body but still
+        // needs its original line ending to be interpreted as block YAML.
+        if (!/[\r\n]/.test(source)) throw error;
+        parsed = yaml.load(source, { schema: yaml.JSON_SCHEMA });
+      }
+    }
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) mergeMetadata(metadata, parsed);
   } catch (error) {
     throw new FlowInkError(error?.message ?? 'Invalid shape data.', { code: 'SHAPE_DATA_ERROR', cause: error });
   }
@@ -78,7 +94,7 @@ export class FlowSemanticDB {
     const shapeData = rawShapeData !== undefined ? parseShapeData(rawShapeData) : undefined;
     const subGraph = this.subGraphLookup.get(id);
     if (subGraph && shapeData) {
-      Object.assign(subGraph.metadata, shapeData);
+      mergeMetadata(subGraph.metadata, shapeData);
       return;
     }
     const edge = this.edges.find((item) => item.id === id.replace(/^@|@$/g, ''));
@@ -87,7 +103,7 @@ export class FlowSemanticDB {
       // upstream grammar. Do not expose its temporary vertex as a node.
       const placeholder = this.vertices.get(id);
       if (placeholder && placeholder.label === id && placeholder.shape === 'rect' && !placeholder.styles.length && !placeholder.classes.length) this.vertices.delete(id);
-      Object.assign(edge.metadata, shapeData);
+      mergeMetadata(edge.metadata, shapeData);
       const shape = edge.metadata;
       if (shape.animate !== undefined) edge.animate = Boolean(shape.animate);
       if (shape.animation !== undefined) edge.animation = String(shape.animation);
@@ -109,11 +125,11 @@ export class FlowSemanticDB {
       vertex.labelType = labelType(textObj);
     }
     if (type) vertex.shape = type;
-    if (Array.isArray(styles)) vertex.styles.push(...styles);
-    if (Array.isArray(classes)) vertex.classes.push(...classes);
+    if (Array.isArray(styles)) appendValues(vertex.styles, styles);
+    if (Array.isArray(classes)) appendValues(vertex.classes, classes);
     if (dir) vertex.direction = dir;
-    if (props && typeof props === 'object') Object.assign(vertex.metadata, props);
-    if (rawShapeData !== undefined) Object.assign(vertex.metadata, shapeData);
+    if (props && typeof props === 'object') mergeMetadata(vertex.metadata, props);
+    if (rawShapeData !== undefined) mergeMetadata(vertex.metadata, shapeData);
     if (rawShapeData !== undefined) {
       const shapeData = vertex.metadata;
       if (shapeData.shape !== undefined) {
@@ -279,15 +295,15 @@ export class FlowSemanticDB {
     for (const group of this.subGraphs) {
       const synthetic = this.vertices.get(group.id);
       if (synthetic) {
-        group.styles.push(...synthetic.styles);
-        group.classes.push(...synthetic.classes);
-        Object.assign(group.metadata, synthetic.metadata);
+        appendValues(group.styles, synthetic.styles);
+        appendValues(group.classes, synthetic.classes);
+        mergeMetadata(group.metadata, synthetic.metadata);
       }
       if (this.tooltips.has(group.id)) group.metadata.tooltip = this.tooltips.get(group.id);
       if (this.interactions.has(group.id)) group.metadata.interaction = this.interactions.get(group.id);
     }
     for (const node of this.vertices.values()) {
-      for (const className of node.classes) node.styles.push(...(this.classes.get(className) ?? []));
+      for (const className of node.classes) appendValues(node.styles, this.classes.get(className) ?? []);
       if (this.tooltips.has(node.id)) node.metadata.tooltip = this.tooltips.get(node.id);
       if (this.interactions.has(node.id)) node.metadata.interaction = this.interactions.get(node.id);
     }
@@ -297,7 +313,7 @@ export class FlowSemanticDB {
         edge.metadata.interpolate = this.defaultInterpolate;
       }
       edge.styles = [...this.defaultStyles, ...edge.styles];
-      for (const className of edge.classes) edge.styles.push(...(this.classes.get(className) ?? []));
+      for (const className of edge.classes) appendValues(edge.styles, this.classes.get(className) ?? []);
       if (this.interactions.has(edge.id)) edge.metadata.interaction = this.interactions.get(edge.id);
     }
     const metadata = {};
@@ -312,9 +328,10 @@ export class FlowSemanticDB {
   }
 }
 
-export function parserError(error, source) {
-  const line = error?.hash?.loc?.first_line ?? error?.lineNumber;
-  const firstColumn = error?.hash?.loc?.first_column;
+export function parserError(error, source, tokenLocation) {
+  const location = tokenLocation ?? error?.hash?.loc;
+  const line = location?.first_line ?? error?.lineNumber;
+  const firstColumn = location?.first_column;
   const column = firstColumn === undefined ? undefined : firstColumn + 1;
   return new FlowInkError(error?.message ?? 'Invalid Mermaid flowchart', { code: 'PARSE_ERROR', line, column, cause: error });
 }

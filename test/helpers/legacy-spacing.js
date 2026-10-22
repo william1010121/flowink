@@ -69,4 +69,3 @@ export function separateAdjacentRoutes(layoutGraph) {
   layoutGraph.width = map('x', layoutGraph.width);
   layoutGraph.height = map('y', layoutGraph.height);
 }
-

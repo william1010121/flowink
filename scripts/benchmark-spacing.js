@@ -38,6 +38,12 @@ for (const size of [20, 200, 2000]) {
   const input = { boxes: [], width: size * 3, height: size * 20 + 1, edges: Array.from({ length: size }, (_, i) => ({ id: `e${i}`, stroke: 'solid', arrowStart: 'none', arrowEnd: 'arrow', points: [{ x: i * 3, y: i * 20 }, { x: i * 3 + 2, y: i * 20 }, { x: i * 3 + 2, y: i * 20 + 18 }] })) };
   for (const operation of Object.keys(current)) await compare(`${operation}/${size} edges`, legacy[operation], current[operation], input);
 }
+const fractional = { boxes: [], width: 100, height: 5, edges: Array.from({ length: 20 }, (_, i) => ({
+  id: `fraction${i}`, stroke: 'solid', points: [{ x: i * 3 + 0.25, y: i % 2 + 0.25 }, { x: i * 3 + 2.25, y: i % 2 + 0.25 }],
+})) };
+await compare('compactVerticalChannels/fractional rows (legacy fallback)', legacy.compactVerticalChannels, current.compactVerticalChannels,
+  { boxes: [], edges: [{ id: 'fraction', arrowStart: 'none', arrowEnd: 'none', points: [{ x: 0, y: 0.3 }, { x: 0, y: 8.3 }] }], width: 1, height: 10.3 });
+await compare('separateAdjacentRoutes/20 fractional edges (legacy fallback)', legacy.separateAdjacentRoutes, current.separateAdjacentRoutes, fractional);
 const examples = {
   decision: 'flowchart TB\nA[Start] --> B{Ready?}\nB -->|yes| C[Ship]\nB -->|no| D[Wait]',
   transformer: await readFile('demo/transformer.mmd', 'utf8'),

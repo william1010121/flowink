@@ -17,6 +17,7 @@ function sourceLineAt(source, index) {
 
 export function preprocess(source) {
   const original = String(source);
+  const removedBOM = original.startsWith('\uFEFF');
   let text = cleanupText(original.replace(/^\uFEFF/, ''));
   let frontmatter;
   let lineOffset = 0;
@@ -55,5 +56,5 @@ export function preprocess(source) {
     if (frontmatter.displayMode !== undefined) metadata.displayMode = String(frontmatter.displayMode);
   }
   if (directives.length) metadata.directives = directives;
-  return { text, metadata, lineOffset };
+  return { text, metadata, lineOffset, removedBOM };
 }

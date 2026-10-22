@@ -40,6 +40,44 @@ for (const operation of ['compactVerticalChannels', 'separateAdjacentRoutes']) {
   });
 }
 
+test('optimized compaction matches legacy for 500 normalized graphs and repeated transforms', () => {
+  const assertDomain = graph => {
+    const row = value => assert.ok(Number.isSafeInteger(value) && value >= 0);
+    row(graph.height);
+    for (const box of graph.boxes) {
+      row(box.y); row(box.height); row(box.y + box.height); row(box.y + box.height - 1);
+      if (box.kind === 'subgraph') row(box.y + 1 + box.lines.length);
+    }
+    for (const edge of graph.edges) {
+      for (const point of edge.points) row(point.y);
+      if (edge.label) row(edge.label.y);
+    }
+  };
+  for (let seed = 1; seed <= 500; seed++) {
+    const actual = randomGraph(seed);
+    let minY = 0;
+    for (const box of actual.boxes) minY = Math.min(minY, box.y);
+    for (const edge of actual.edges) {
+      for (const point of edge.points) minY = Math.min(minY, point.y);
+      if (edge.label) minY = Math.min(minY, edge.label.y);
+    }
+    actual.height -= minY;
+    for (const box of actual.boxes) box.y -= minY;
+    for (const edge of actual.edges) {
+      for (const point of edge.points) point.y -= minY;
+      if (edge.label) edge.label.y -= minY;
+    }
+    const expected = structuredClone(actual);
+    for (let pass = 1; pass <= 2; pass++) {
+      // Match every production guard input, so this corpus cannot silently
+      // become only a legacy-fallback comparison as the mixed corpus can.
+      assertDomain(actual);
+      current.compactVerticalChannels(actual); legacy.compactVerticalChannels(expected);
+      assert.deepEqual(actual, expected, `normalized seed ${seed}, pass ${pass}`);
+    }
+  }
+});
+
 test('spacing transforms have no shared state after failure or empty inputs', () => {
   for (const operation of Object.keys(current)) {
     assert.throws(() => current[operation]({}));
@@ -78,10 +116,10 @@ test('neighbor sweep excludes own edge, zero-length, touching and invisible segm
   }
 });
 
-test('realistic, large, deep and degenerate renders preserve 0.1.1 output exactly', async () => {
+test('realistic, large, deep and degenerate renders preserve current main output exactly', async () => {
   const { readFile } = await import('node:fs/promises');
   const { render } = await import('../src/index.js');
-  const fixtures = JSON.parse(await readFile(new URL('./fixtures/spacing/render-0.1.1.json', import.meta.url), 'utf8'));
+  const fixtures = JSON.parse(await readFile(new URL('./fixtures/spacing/render-main-23fee6a.json', import.meta.url), 'utf8'));
   for (const fixture of fixtures) {
     if (fixture.errorCode) {
       await assert.rejects(render(fixture.source), { code: fixture.errorCode });
@@ -106,4 +144,73 @@ test('compaction preserves fractional-coordinate discrete counts', () => {
     current.compactVerticalChannels(actual); legacy.compactVerticalChannels(expected);
     assert.deepEqual(actual, expected);
   }
+});
+
+
+test('fractional coordinates and repeated edge IDs preserve both transforms twice', () => {
+  for (let seed = 1; seed <= 500; seed++) {
+    const graph = randomGraph(seed);
+    for (const box of graph.boxes) for (const key of ['x', 'y', 'width', 'height']) box[key] /= 4;
+    for (const [index, edge] of graph.edges.entries()) {
+      edge.id = `shared${index % 4}`;
+      for (const point of edge.points) { point.x /= 4; point.y /= 4; }
+      if (edge.label) { edge.label.x /= 4; edge.label.y /= 4; }
+    }
+    for (const operation of ['compactVerticalChannels', 'separateAdjacentRoutes']) {
+      const actual = structuredClone(graph); const expected = structuredClone(graph);
+      for (let pass = 0; pass < 2; pass++) {
+        current[operation](actual); legacy[operation](expected);
+        assert.deepEqual(actual, expected, `${operation}, seed ${seed}, pass ${pass}`);
+      }
+    }
+  }
+});
+
+
+test('separation preserves legacy floating-point and unsafe-integer predicates', () => {
+  const edge = (id, y, start = 0, end = 5) => ({ id, stroke: 'solid', points: [{ x: start, y }, { x: end, y }] });
+  const cases = [
+    [edge('a', 1.0000000000000002), edge('b', 2)],
+    [edge('a', -1.0000000000000002), edge('b', -1.5e-16)],
+    [edge('a', 0, 0, 2), edge('b', 1, 1.0000000000000002, 3)],
+    [edge('a', 2 ** 53), edge('b', 2 ** 53), edge('c', 2 ** 53 + 2)],
+    [edge('a', Number.MAX_SAFE_INTEGER - 1), edge('b', Number.MAX_SAFE_INTEGER)],
+    [edge('a', -Number.MAX_SAFE_INTEGER), edge('b', -Number.MAX_SAFE_INTEGER + 1)],
+    [edge('a', 0.25), edge('b', 1.25)],
+  ];
+  for (const [index, edges] of cases.entries()) {
+    const actual = { boxes: [], edges, width: 8, height: 8 };
+    const expected = structuredClone(actual);
+    current.separateAdjacentRoutes(actual); legacy.separateAdjacentRoutes(expected);
+    assert.deepEqual(actual, expected, `boundary case ${index}`);
+  }
+  const actual = randomGraph(19); const expected = structuredClone(actual);
+  current.separateAdjacentRoutes(actual); legacy.separateAdjacentRoutes(expected);
+  assert.deepEqual(actual, expected, 'ordinary integer input after fallback');
+});
+
+test('compaction preserves legacy arithmetic outside normalized integer rows', () => {
+  const edge = (start, end, label) => ({ id: 'e', stroke: 'solid', arrowStart: 'none', arrowEnd: 'none',
+    points: [{ x: 0, y: start }, { x: 0, y: end }], ...(label === undefined ? {} : { label: { x: 0, y: label } }) });
+  const cases = [
+    { boxes: [], edges: [edge(0.3, 8.3)], width: 1, height: 10.3 },
+    { boxes: [], edges: [edge(0, 8, 3.3)], width: 1, height: 10 },
+    { boxes: [], edges: [edge(0, 8)], width: 1, height: 10.3 },
+    ...[
+      { y: 0.3, height: 1, kind: 'node', lines: [] },
+      { y: 0, height: 1.3, kind: 'node', lines: [] },
+      { y: 0.3, height: 10, kind: 'subgraph', lines: ['header'] },
+    ].map(box => ({ boxes: [{ x: 0, width: 2, ...box }], edges: [edge(0, 12.3)], width: 2, height: 14 })),
+    { boxes: [], edges: [edge(-4, 8)], width: 1, height: 10 },
+    { boxes: [{ x: 0, y: Number.MAX_SAFE_INTEGER, width: 1, height: 1, kind: 'node', lines: [] }],
+      edges: [], width: 1, height: Number.MAX_SAFE_INTEGER },
+  ];
+  for (const [index, graph] of cases.entries()) {
+    const actual = structuredClone(graph); const expected = structuredClone(graph);
+    current.compactVerticalChannels(actual); legacy.compactVerticalChannels(expected);
+    assert.deepEqual(actual, expected, `case ${index}`);
+  }
+  const expected = structuredClone(cases[0]); legacy.compactVerticalChannels(expected);
+  assert.equal(expected.edges[0].points[1].y, 2.3000000000000007);
+  assert.equal(expected.height, 4.300000000000001);
 });

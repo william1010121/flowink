@@ -1,3 +1,4 @@
+import { maximum } from './extrema.js';
 import stringWidth from 'string-width';
 import { decodeHTML } from 'entities';
 import { marked } from 'marked';
@@ -15,7 +16,9 @@ import { marked } from 'marked';
 export function displayWidth(value) {
   if (value === null || value === undefined) return 0;
   const text = String(value).replace(/\r\n?/g, '\n');
-  return Math.max(0, ...text.split('\n').map((line) => stringWidth(line)));
+  let width = 0;
+  for (const line of text.split('\n')) width = Math.max(width, stringWidth(line));
+  return width;
 }
 
 const graphemeSegmenter = typeof Intl !== 'undefined' && Intl.Segmenter
@@ -24,6 +27,7 @@ const graphemeSegmenter = typeof Intl !== 'undefined' && Intl.Segmenter
 
 /** Expand tabs to four-column tab stops so terminal labels occupy known cells. */
 function expandTabs(value) {
+  if (!value.includes('\t')) return value;
   return value.split('\n').map((line) => {
     let column = 0;
     let result = '';
@@ -74,6 +78,7 @@ function decodeLabelEntities(value) {
 /** Remove markup from a raw HTML token without evaluating it. */
 function htmlTokenText(value) {
   const source = String(value);
+  const lastTagEnd = source.lastIndexOf('>');
   let result = '';
   let index = 0;
   while (index < source.length) {
@@ -82,8 +87,20 @@ function htmlTokenText(value) {
       index = end < 0 ? source.length : end + 3;
       continue;
     }
-    if (source[index] !== '<') {
+    // After the final literal terminator, no tag can close. Keep comments
+    // above this guard so an unterminated comment still consumes its suffix.
+    if (source[index] !== '<' || index > lastTagEnd) {
       result += source[index];
+      index += 1;
+      continue;
+    }
+
+    // Comments were handled above. A tag must begin with an ASCII letter,
+    // optionally after one slash; impossible openers stay literal without
+    // repeatedly scanning the rest of the label for a terminator.
+    const start = source.charCodeAt(index + (source[index + 1] === '/' ? 2 : 1));
+    if (!((start >= 65 && start <= 90) || (start >= 97 && start <= 122))) {
+      result += '<';
       index += 1;
       continue;
     }
@@ -292,7 +309,7 @@ export function prepareNode(node = {}) {
     lines = lines.length === 1 && lines[0] === '' ? prefixes : [...prefixes, ...lines];
   }
 
-  const widest = Math.max(0, ...lines.map(displayWidth));
+  const widest = maximum(lines.map(displayWidth), 0);
   // Two horizontal border cells plus one padding cell on each side.
   const padding = 1;
   const borderWidth = 2;

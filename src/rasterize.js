@@ -1,3 +1,4 @@
+import { maximum } from './extrema.js';
 import { FlowInkError } from './errors.js';
 import { displayWidth } from './text.js';
 
@@ -28,7 +29,7 @@ export function rasterize(layout, options = {}) {
   // Routes are drawn first.  A later box border can therefore cover the
   // endpoint cell while retaining the line up to the border.
   for (const edge of edges) drawEdge(grid, edge, interior, nodeBorders, boxBorders, endpointOwners, labels, charset);
-  for (const box of boxes) drawBox(grid, box, charset);
+  for (const box of boxes) drawBox(grid, box, charset, boxes, labels);
 
   // Edge labels are intentionally applied after routes and boxes.  A label
   // collision is an impossible layout and must be visible to the caller.
@@ -128,7 +129,7 @@ function normalizeLabel(label, owner) {
     fail(`Label for ${owner} is invalid.`, 'INVALID_LAYOUT');
   }
   if (label.lines.some((line) => typeof line !== 'string')) fail(`Label for ${owner} has a non-string line.`, 'INVALID_LAYOUT');
-  const measured = Math.max(0, ...label.lines.map((line) => displayWidth(line)));
+  const measured = maximum(label.lines.map((line) => displayWidth(line)), 0);
   const width = Number.isInteger(label.width) && label.width >= measured ? label.width : measured;
   const height = Number.isInteger(label.height) && label.height >= label.lines.length ? label.height : label.lines.length;
   return { ...label, width, height };
@@ -285,7 +286,7 @@ function compatibleCrossing(first, second) {
   return (firstHorizontal && secondVertical) || (firstVertical && secondHorizontal);
 }
 
-function drawBox(grid, box, charset) {
+function drawBox(grid, box, charset, boxes, labels) {
   const cells = boxBorderCells(box, charset);
   for (const { x, y, glyph } of cells) {
     const cell = grid[y]?.[x];
@@ -309,13 +310,73 @@ function drawBox(grid, box, charset) {
   const top = box.kind === 'subgraph'
     ? box.y + 1
     : box.y + 1 + Math.floor((innerHeight - lines.length) / 2);
+  const shift = box.kind === 'subgraph' ? groupTitleShift(grid, box, boxes, labels) : 0;
   for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i];
     const lineWidth = displayWidth(line);
     if (lineWidth > innerWidth) fail(`Box ${box.id} does not have enough width for its label.`, 'BOX_LABEL_COLLISION');
     const left = box.x + 1 + Math.floor((innerWidth - lineWidth) / 2);
-    putText(grid, left, top + i, line, 'box-label', `box ${box.id}`);
+    putText(grid, left + shift, top + i, line, 'box-label', `box ${box.id}`);
   }
+}
+
+
+// Route spacing can widen a group and recenter its title onto a wire. Keep
+// successful centered placement unchanged; otherwise move the complete title
+// block within its already-reserved header strip, never dropping text/routes.
+function groupTitleShift(grid, box, boxes, labels) {
+  const width = box.width - 2;
+  const widths = box.lines.map(displayWidth);
+  const titleWidth = maximum(widths, 0);
+  if (!titleWidth || titleWidth > width) return 0;
+  const left = box.x + 1, top = box.y + 1, height = box.lines.length;
+  const center = Math.floor((width - titleWidth) / 2);
+  const occupiedCell = (x, y) => grid[y]?.[x]?.kind !== 'empty';
+  const obstructed = widths.some((lineWidth, row) => {
+    const start = left + Math.floor((width - lineWidth) / 2);
+    for (let x = start; x < start + lineWidth; x++) if (occupiedCell(x, top + row)) return true;
+    return false;
+  });
+  if (!obstructed) return 0;
+
+  // Union occupied columns across all title rows. A free rectangle preserves
+  // every line's original horizontal offset, including odd/even width cases.
+  const blocked = new Uint8Array(width);
+  for (let row = 0; row < height; row++) {
+    for (let x = 0; x < width; x++) if (occupiedCell(left + x, top + row)) blocked[x] = 1;
+  }
+  const changes = new Int32Array(width + 1);
+  const reserve = (x, y, w, h) => {
+    if (w <= 0 || h <= 0 || y >= top + height || y + h <= top) return;
+    const start = Math.max(0, x - left), end = Math.min(width, x + w - left);
+    if (start < end) { changes[start]++; changes[end]--; }
+  };
+  // These objects may be drawn later. Do not steal their borders, node body,
+  // group header reservation, or edge-label rectangle while moving a title.
+  for (const other of boxes) {
+    if (other.id === box.id) continue;
+    if (other.kind !== 'subgraph') reserve(other.x, other.y, other.width, other.height);
+    else {
+      reserve(other.x, other.y, other.width, 1);
+      reserve(other.x, other.y + other.height - 1, other.width, 1);
+      reserve(other.x, other.y, 1, other.height);
+      reserve(other.x + other.width - 1, other.y, 1, other.height);
+      reserve(other.x + 1, other.y + 1, other.width - 2, other.lines.length);
+    }
+  }
+  for (const label of labels) reserve(label.x, label.y, label.width, label.height);
+  let count = 0, start = 0, best, distance = Infinity;
+  for (let x = 0; x < width; x++) {
+    count += changes[x];
+    if (count || blocked[x]) { start = x + 1; continue; }
+    if (x - start + 1 < titleWidth) continue;
+    const candidate = Math.max(start, Math.min(center, x - titleWidth + 1));
+    const delta = Math.abs(candidate - center);
+    // Scanning left-to-right and keeping equal distances gives a left tie-break.
+    if (delta < distance) { best = candidate; distance = delta; }
+  }
+  // No safe rectangle: retain the existing explicit collision failure.
+  return best === undefined ? 0 : best - center;
 }
 
 function boxBorderCells(box, charset) {
@@ -486,8 +547,26 @@ function stringifyGrid(grid) {
   return lines.join('\n');
 }
 
+let segmenterConstructor;
+let graphemeSegmenter;
+
 function segment(value) {
-  if (typeof Intl !== 'undefined' && Intl.Segmenter) return Array.from(new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(value), (item) => item.segment);
+  if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+    const Constructor = Intl.Segmenter;
+    let instance;
+    if (graphemeSegmenter && Constructor === segmenterConstructor) {
+      instance = graphemeSegmenter;
+    } else {
+      instance = new Constructor(undefined, { granularity: 'grapheme' });
+      // Reuse only the native implementation, not potentially stateful polyfills.
+      if (Function.prototype.toString.call(Constructor) === 'function Segmenter() { [native code] }') {
+        segmenterConstructor = Constructor;
+        graphemeSegmenter = instance;
+      }
+    }
+    // Each call gets its own Segments object and iterator.
+    return Array.from(instance.segment(value), (item) => item.segment);
+  }
   return Array.from(value);
 }
 
