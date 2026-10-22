@@ -1,4 +1,4 @@
-import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -13,7 +13,7 @@ const outdir = join(root, '.cache');
 await mkdir(outdir, { recursive: true });
 const preview = JSON.parse(run('npm', ['pack', '--ignore-scripts', '--dry-run', '--json'], root))[0];
 const paths = new Set(preview.files.map(file => file.path));
-for (const path of ['dist/index.js', 'dist/index.d.ts', 'dist/types.d.ts', 'vendor/mermaid/flow.jison', 'vendor/mermaid/LICENSE', 'LICENSE', 'NOTICE.md', 'README.md']) {
+for (const path of ['dist/index.js', 'dist/cli.js', 'dist/index.d.ts', 'dist/types.d.ts', 'vendor/mermaid/flow.jison', 'vendor/mermaid/LICENSE', 'LICENSE', 'NOTICE.md', 'README.md']) {
   if (!paths.has(path)) throw new Error(`Package is missing ${path}`);
 }
 if ([...paths].some(path => path.startsWith('test/') || path.startsWith('node_modules/'))) throw new Error('Package includes development files');
@@ -57,7 +57,17 @@ if (error.column !== undefined) error.column.toFixed();
 void [line, column, unsafeLine, unsafeColumn];
 `);
   run(process.execPath, [join(root, 'node_modules/typescript/bin/tsc'), '--strict', '--noEmit', '--skipLibCheck', '--module', 'NodeNext', '--moduleResolution', 'NodeNext', '--target', 'ES2022', 'error-types.mts'], consumer);
-  const report = { filename: pack.filename, size: pack.size, unpackedSize: pack.unpackedSize, fileCount: pack.files.length, cleanConsumer: 'passed' };
+  // Exercise npm's installed executable, not just a source checkout path.
+  const bin = join(consumer, 'node_modules', '.bin', 'flowink');
+  const cliVersion = run(bin, ['--version'], consumer);
+  if (cliVersion.trim() !== JSON.parse(await readFile(join(root, 'package.json'), 'utf8')).version) throw new Error('Installed CLI version mismatch');
+  const cliSource = 'flowchart LR\n A[你好] --> B[Done]';
+  const inputPath = join(consumer, 'diagram.mmd');
+  await writeFile(inputPath, cliSource);
+  await writeFile(join(consumer, 'expected.mjs'), `import {render} from 'flowink'; process.stdout.write(await render(${JSON.stringify(cliSource)},{charset:'unicode'})+'\\n');`);
+  const expected = run(process.execPath, ['expected.mjs'], consumer);
+  if (run(bin, ['--charset=unicode', inputPath], consumer) !== expected) throw new Error('Installed CLI/library mismatch');
+  const report = { filename: pack.filename, size: pack.size, unpackedSize: pack.unpackedSize, fileCount: pack.files.length, cleanConsumer: 'passed', installedBin: 'passed' };
   await writeFile(join(outdir, 'package-verification.json'), JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify(report));
 } finally {

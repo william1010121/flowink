@@ -32,7 +32,7 @@
   "scripts": {
     "generate": "node scripts/generate-parser.js",
     "build": "npm run generate && node scripts/build.js",
-    "test": "node --test test/*.test.js",
+    "test": "npm run build && node --test test/*.test.js",
     "prepack": "npm run build",
     "test:browser:build": "npm run build && node scripts/browser-smoke.js",
     "test:types": "tsc --noEmit --skipLibCheck --module NodeNext --moduleResolution NodeNext --target ES2022 test/types.mts",
@@ -70,5 +70,8 @@
     "unicode",
     "diagram",
     "text"
-  ]
+  ],
+  "bin": {
+    "flowink": "dist/cli.js"
+  }
 }

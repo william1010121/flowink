@@ -18,8 +18,8 @@ ASCII and Unicode diagrams for Node.js and the browser.
 
 **Documentation status:** This README tracks `main`, which can contain changes
 not yet published to npm. The published **0.1.1** package exports synchronous
-`parse`, Promise-based `render`, and `FlowInkError`; it does **not** export `renderGraph`. To use
-`renderGraph`, build the matching source checkout as described in
+`parse`, Promise-based `render`, and `FlowInkError`; it does **not** export `renderGraph` or include the CLI below. To use
+`renderGraph` or the CLI, build the matching source checkout as described in
 [Development](#development). The repository's `package.json` version alone
 does not establish that its current source has been published.
 
@@ -38,6 +38,39 @@ does not establish that its current source has been published.
 - **Keep the graph intact.** Branches, cycles, parallel edges, self-loops, and nested subgraphs.
 - **Keep the details.** Chinese text, multiline labels, and plain-text Markdown/HTML content; styles and interactions stay in the parsed data.
 - **Use JavaScript.** ESM API, JSDoc-derived TypeScript declarations, and no runtime DOM or external executable requirement.
+
+## Command line (source build)
+
+The published npm **0.1.1** package does not include this CLI. Build this
+matching checkout first using [Development](#development), then run from its root:
+
+```sh
+node ./dist/cli.js diagram.mmd
+cat diagram.mmd | node ./dist/cli.js --charset unicode
+node ./dist/cli.js --charset=unicode -- -diagram.mmd
+```
+
+Usage: `flowink [--charset ascii|unicode] [--] [FILE|-]`. Omit `FILE` or use
+`-` to read standard input. ASCII is the default. Options may appear before or
+after the file until `--`; duplicate charset flags and extra operands are errors.
+Use `--help` / `-h` or `--version` / `-v` alone.
+
+Input must be valid UTF-8. The CLI preserves a leading BOM and line endings when
+passing source to `render(source, { charset })`, and writes exactly that result
+plus one LF to stdout. It buffers the complete input and rendered diagram in
+memory, with no CLI input-size cap; it is not a streaming renderer. Diagnostics
+are escaped and written to stderr without stack traces. There is no network,
+configuration, telemetry, or output-file option.
+
+Exit status is 0 for success, help, version, or an intentionally closed stdout
+pipe; 2 for invalid arguments; and 1 for input, decoding, rendering, or other
+output failures. A closed stdout pipe does not erase an earlier failure. SIGINT
+uses Node's native handling (typically status 130 in POSIX shells).
+
+Large inputs can exhaust process memory or require substantial layout time; use
+external resource limits for untrusted workloads. Label-control normalization and
+escaped diagnostics are not a universal terminal-safety guarantee. Executable/package validation currently
+covers Linux on Node.js 22.12 and 24, not Windows.
 
 ## Quick start
 
@@ -301,7 +334,7 @@ Mermaid source → parser + graph model → ELK layout → character grid → te
 
 FlowInk uses its own text layout rather than Mermaid SVG coordinates. Nonjoining crossings use `#` in ASCII and `╳` in Unicode, distinct from corners and junctions. Alignment follows character display widths; fonts and terminals can differ in their Unicode width conventions.
 
-Compatibility covers this version's **flowcharts**, not other Mermaid diagram types or future releases. The first version supplies the package API; a CLI and editor UI are outside its current scope.
+Compatibility covers this version's **flowcharts**, not other Mermaid diagram types or future releases. The package supplies a JavaScript API and a minimal Node.js CLI; an editor UI remains outside its current scope.
 
 ## Development
 
